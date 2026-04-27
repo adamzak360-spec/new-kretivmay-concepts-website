@@ -5,12 +5,52 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
+import About from "./pages/About";
+import Services from "./pages/Services";
+import ServiceDetail from "./pages/ServiceDetail";
+import Portfolio from "./pages/Portfolio";
+import Photography from "./pages/Photography";
+import Contact from "./pages/Contact";
+import AdminDashboard from "./pages/admin/Dashboard";
+import AdminPortfolio from "./pages/admin/Portfolio";
+import AdminServices from "./pages/admin/Services";
+import AdminBlog from "./pages/admin/Blog";
+import AdminMessages from "./pages/admin/Messages";
+import AdminSettings from "./pages/admin/Settings";
+import Layout from "./components/Layout";
+import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
 
 function Router() {
-  // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
       <Route path={"/"} component={Home} />
+      <Route path={"/about"} component={About} />
+      <Route path={"/services"} component={Services} />
+      <Route path={"/services/:slug"} component={ServiceDetail} />
+      <Route path={"/portfolio"} component={Portfolio} />
+      <Route path={"/photography"} component={Photography} />
+      <Route path={"/contact"} component={Contact} />
+      
+      {/* Admin Routes */}
+      <Route path={"/admin/dashboard"}>
+        {() => <ProtectedAdminRoute><AdminDashboard /></ProtectedAdminRoute>}
+      </Route>
+      <Route path={"/admin/portfolio"}>
+        {() => <ProtectedAdminRoute><AdminPortfolio /></ProtectedAdminRoute>}
+      </Route>
+      <Route path={"/admin/services"}>
+        {() => <ProtectedAdminRoute><AdminServices /></ProtectedAdminRoute>}
+      </Route>
+      <Route path={"/admin/blog"}>
+        {() => <ProtectedAdminRoute><AdminBlog /></ProtectedAdminRoute>}
+      </Route>
+      <Route path={"/admin/messages"}>
+        {() => <ProtectedAdminRoute><AdminMessages /></ProtectedAdminRoute>}
+      </Route>
+      <Route path={"/admin/settings"}>
+        {() => <ProtectedAdminRoute><AdminSettings /></ProtectedAdminRoute>}
+      </Route>
+
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
@@ -18,21 +58,15 @@ function Router() {
   );
 }
 
-// NOTE: About Theme
-// - First choose a default theme according to your design style (dark or light bg), than change color palette in index.css
-//   to keep consistent foreground/background color across components
-// - If you want to make theme switchable, pass `switchable` ThemeProvider and use `useTheme` hook
-
 function App() {
   return (
     <ErrorBoundary>
-      <ThemeProvider
-        defaultTheme="light"
-        // switchable
-      >
+      <ThemeProvider defaultTheme="light">
         <TooltipProvider>
           <Toaster />
-          <Router />
+          <Layout>
+            <Router />
+          </Layout>
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>

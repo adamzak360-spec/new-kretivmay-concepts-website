@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { InsertUser, InsertContactSubmission, users, portfolioItems, services, blogPosts, testimonials, contactSubmissions, siteSettings } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -89,4 +89,104 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+// Portfolio queries
+export async function getPortfolioItems(category?: string) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  if (category) {
+    return db.select().from(portfolioItems).where(eq(portfolioItems.category, category as any)).orderBy(portfolioItems.order);
+  }
+  return db.select().from(portfolioItems).orderBy(portfolioItems.order);
+}
+
+export async function getFeaturedPortfolioItems() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(portfolioItems).where(eq(portfolioItems.featured, true)).orderBy(portfolioItems.order);
+}
+
+export async function getPortfolioItemById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(portfolioItems).where(eq(portfolioItems.id, id)).limit(1);
+  return result[0] || null;
+}
+
+// Services queries
+export async function getServices() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(services).orderBy(services.order);
+}
+
+export async function getServiceBySlug(slug: string) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(services).where(eq(services.slug, slug)).limit(1);
+  return result[0] || null;
+}
+
+export async function getServiceById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(services).where(eq(services.id, id)).limit(1);
+  return result[0] || null;
+}
+
+// Blog queries
+export async function getPublishedBlogPosts() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(blogPosts).where(eq(blogPosts.published, true)).orderBy(blogPosts.publishedAt);
+}
+
+export async function getBlogPostBySlug(slug: string) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(blogPosts).where(eq(blogPosts.slug, slug)).limit(1);
+  return result[0] || null;
+}
+
+// Testimonials queries
+export async function getFeaturedTestimonials() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(testimonials).where(eq(testimonials.featured, true)).orderBy(testimonials.order);
+}
+
+// Contact submissions
+export async function createContactSubmission(data: InsertContactSubmission) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.insert(contactSubmissions).values(data);
+  return result;
+}
+
+export async function getContactSubmissions() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(contactSubmissions).orderBy(contactSubmissions.createdAt);
+}
+
+export async function markContactSubmissionAsRead(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.update(contactSubmissions).set({ read: true }).where(eq(contactSubmissions.id, id));
+}
+
+// Site settings
+export async function getSiteSetting(key: string) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(siteSettings).where(eq(siteSettings.key, key)).limit(1);
+  return result[0]?.value || null;
+}
+
+export async function setSiteSetting(key: string, value: string) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.insert(siteSettings).values({ key, value }).onDuplicateKeyUpdate({ set: { value } });
+}
+
+
