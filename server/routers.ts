@@ -26,6 +26,40 @@ export const appRouter = router({
       .query(({ input }) => db.getPortfolioItems(input?.category)),
     featured: publicProcedure.query(() => db.getFeaturedPortfolioItems()),
     byId: publicProcedure.input(z.number()).query(({ input }) => db.getPortfolioItemById(input)),
+    create: protectedProcedure
+      .input(z.object({
+        title: z.string().min(1),
+        description: z.string().optional(),
+        category: z.string(),
+        featured: z.boolean().optional(),
+        imageUrl: z.string(),
+        imageKey: z.string(),
+      }))
+      .mutation(({ input, ctx }) => {
+        if (ctx.user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+        return db.createPortfolioItem(input);
+      }),
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        title: z.string().min(1),
+        description: z.string().optional(),
+        category: z.string(),
+        featured: z.boolean().optional(),
+        imageUrl: z.string(),
+        imageKey: z.string(),
+      }))
+      .mutation(({ input, ctx }) => {
+        if (ctx.user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+        const { id, ...data } = input;
+        return db.updatePortfolioItem(id, data);
+      }),
+    delete: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(({ input, ctx }) => {
+        if (ctx.user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+        return db.deletePortfolioItem(input.id);
+      }),
   }),
 
   // Services
@@ -33,17 +67,117 @@ export const appRouter = router({
     list: publicProcedure.query(() => db.getServices()),
     bySlug: publicProcedure.input(z.string()).query(({ input }) => db.getServiceBySlug(input)),
     byId: publicProcedure.input(z.number()).query(({ input }) => db.getServiceById(input)),
+    create: protectedProcedure
+      .input(z.object({
+        name: z.string().min(1),
+        slug: z.string().min(1),
+        description: z.string().optional(),
+        imageUrl: z.string().optional(),
+        imageKey: z.string().optional(),
+      }))
+      .mutation(({ input, ctx }) => {
+        if (ctx.user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+        return db.createService(input);
+      }),
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        name: z.string().min(1),
+        slug: z.string().min(1),
+        description: z.string().optional(),
+        imageUrl: z.string().optional(),
+        imageKey: z.string().optional(),
+      }))
+      .mutation(({ input, ctx }) => {
+        if (ctx.user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+        const { id, ...data } = input;
+        return db.updateService(id, data);
+      }),
+    delete: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(({ input, ctx }) => {
+        if (ctx.user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+        return db.deleteService(input.id);
+      }),
   }),
 
   // Blog
   blog: router({
     list: publicProcedure.query(() => db.getPublishedBlogPosts()),
     bySlug: publicProcedure.input(z.string()).query(({ input }) => db.getBlogPostBySlug(input)),
+    create: protectedProcedure
+      .input(z.object({
+        title: z.string().min(1),
+        slug: z.string().min(1),
+        content: z.string().optional(),
+        imageUrl: z.string().optional(),
+        imageKey: z.string().optional(),
+        published: z.boolean().optional(),
+      }))
+      .mutation(({ input, ctx }) => {
+        if (ctx.user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+        return db.createBlogPost(input);
+      }),
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        title: z.string().min(1),
+        slug: z.string().min(1),
+        content: z.string().optional(),
+        imageUrl: z.string().optional(),
+        imageKey: z.string().optional(),
+        published: z.boolean().optional(),
+      }))
+      .mutation(({ input, ctx }) => {
+        if (ctx.user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+        const { id, ...data } = input;
+        return db.updateBlogPost(id, data);
+      }),
+    delete: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(({ input, ctx }) => {
+        if (ctx.user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+        return db.deleteBlogPost(input.id);
+      }),
   }),
 
   // Testimonials
   testimonials: router({
     featured: publicProcedure.query(() => db.getFeaturedTestimonials()),
+    create: protectedProcedure
+      .input(z.object({
+        name: z.string().min(1),
+        content: z.string().min(1),
+        role: z.string().optional(),
+        imageUrl: z.string().optional(),
+        imageKey: z.string().optional(),
+        featured: z.boolean().optional(),
+      }))
+      .mutation(({ input, ctx }) => {
+        if (ctx.user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+        return db.createTestimonial(input);
+      }),
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        name: z.string().min(1),
+        content: z.string().min(1),
+        role: z.string().optional(),
+        imageUrl: z.string().optional(),
+        imageKey: z.string().optional(),
+        featured: z.boolean().optional(),
+      }))
+      .mutation(({ input, ctx }) => {
+        if (ctx.user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+        const { id, ...data } = input;
+        return db.updateTestimonial(id, data);
+      }),
+    delete: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(({ input, ctx }) => {
+        if (ctx.user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+        return db.deleteTestimonial(input.id);
+      }),
   }),
 
   // Contact

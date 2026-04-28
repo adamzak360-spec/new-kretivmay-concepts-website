@@ -113,6 +113,24 @@ export async function getPortfolioItemById(id: number) {
   return result[0] || null;
 }
 
+export async function createPortfolioItem(data: any) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.insert(portfolioItems).values(data);
+}
+
+export async function updatePortfolioItem(id: number, data: any) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.update(portfolioItems).set(data).where(eq(portfolioItems.id, id));
+}
+
+export async function deletePortfolioItem(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.delete(portfolioItems).where(eq(portfolioItems.id, id));
+}
+
 // Services queries
 export async function getServices() {
   const db = await getDb();
@@ -134,6 +152,24 @@ export async function getServiceById(id: number) {
   return result[0] || null;
 }
 
+export async function createService(data: any) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.insert(services).values(data);
+}
+
+export async function updateService(id: number, data: any) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.update(services).set(data).where(eq(services.id, id));
+}
+
+export async function deleteService(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.delete(services).where(eq(services.id, id));
+}
+
 // Blog queries
 export async function getPublishedBlogPosts() {
   const db = await getDb();
@@ -148,11 +184,47 @@ export async function getBlogPostBySlug(slug: string) {
   return result[0] || null;
 }
 
+export async function createBlogPost(data: any) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.insert(blogPosts).values(data);
+}
+
+export async function updateBlogPost(id: number, data: any) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.update(blogPosts).set(data).where(eq(blogPosts.id, id));
+}
+
+export async function deleteBlogPost(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.delete(blogPosts).where(eq(blogPosts.id, id));
+}
+
 // Testimonials queries
 export async function getFeaturedTestimonials() {
   const db = await getDb();
   if (!db) return [];
   return db.select().from(testimonials).where(eq(testimonials.featured, true)).orderBy(testimonials.order);
+}
+
+export async function createTestimonial(data: any) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.insert(testimonials).values(data);
+}
+
+export async function updateTestimonial(id: number, data: any) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.update(testimonials).set(data).where(eq(testimonials.id, id));
+}
+
+export async function deleteTestimonial(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.delete(testimonials).where(eq(testimonials.id, id));
 }
 
 // Contact submissions
@@ -188,5 +260,3 @@ export async function setSiteSetting(key: string, value: string) {
   if (!db) return null;
   return db.insert(siteSettings).values({ key, value }).onDuplicateKeyUpdate({ set: { value } });
 }
-
-
