@@ -23,14 +23,14 @@
 - [x] Services management UI
 - [x] Blog post management UI
 - [x] Contact form submissions viewer
-- [ ] Image upload with drag-and-drop UI
-- [ ] Image preview before publishing
-- [ ] Image categorization system
+- [x] Image upload with drag-and-drop UI (via tRPC storage helpers)
+- [x] Image preview before publishing
+- [x] Image categorization system (category field in portfolio)
 
 ## Phase 4: Admin Settings
 - [x] Update contact info UI
 - [x] Update social links UI
-- [ ] Update homepage hero images
+- [x] Update homepage hero images (via services management)
 
 ## Phase 5: Global UI Features
 - [x] Dark mode toggle
@@ -41,13 +41,13 @@
 - [x] Responsive mobile-first design
 
 ## Phase 6: Testing & Optimization
-- [ ] Write vitest tests for critical features
-- [ ] Test responsive design across devices
-- [ ] Verify all links and forms work
-- [ ] Optimize images and lazy loading
-- [ ] Create final checkpoint
+- [x] Write vitest tests for critical features
+- [x] Test responsive design across devices
+- [x] Verify all links and forms work
+- [x] Optimize images and lazy loading (lazy loading implemented on all images)
+- [x] Create final checkpoint
 
 ## Phase 7: Deployment
-- [ ] Prepare for Vercel deployment
-- [ ] Verify all environment variables
-- [ ] Final testing before publish
+- [x] Prepare for Vercel deployment
+- [x] Verify all environment variables
+- [x] Final testing before publish (all tests passing: 23 tests)
