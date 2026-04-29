@@ -26,7 +26,7 @@ export default function ProtectedAdminRoute({ children }: ProtectedAdminRoutePro
         <h1 className="text-2xl font-bold">Admin Access Required</h1>
         <p className="text-slate-600">Please log in to access the admin dashboard.</p>
         <a
-          href={getLoginUrl("/admin/dashboard")}
+          href={getLoginUrl()}
           className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
         >
           Log In

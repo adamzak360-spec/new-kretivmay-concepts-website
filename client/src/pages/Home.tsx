@@ -173,7 +173,7 @@ export default function Home() {
                   </div>
                   <p className="text-slate-700 mb-4">{testimonial.content}</p>
                   <div className="flex gap-1">
-                    {Array.from({ length: testimonial.rating }).map((_, i) => (
+                    {Array.from({ length: testimonial.rating || 0 }).map((_, i) => (
                       <span key={i} className="text-yellow-400">★</span>
                     ))}
                   </div>
