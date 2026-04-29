@@ -1,14 +1,19 @@
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
-import { Loader2, X } from "lucide-react";
+import { X } from "lucide-react";
+import { FALLBACK_FEATURED_WORKS } from "@/lib/fallbacks";
 
 const categories = ["design", "print", "branding", "photography", "video"];
 
 export default function Portfolio() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState<any>(null);
-  const { data: portfolio, isLoading } = trpc.portfolio.list.useQuery({
+  
+  const { data: portfolio = FALLBACK_FEATURED_WORKS } = trpc.portfolio.list.useQuery({
     category: selectedCategory || undefined,
+  }, {
+    placeholderData: FALLBACK_FEATURED_WORKS,
+    retry: false
   });
 
   return (
@@ -57,34 +62,28 @@ export default function Portfolio() {
       {/* Portfolio Grid */}
       <section className="py-20">
         <div className="container mx-auto px-4">
-          {isLoading ? (
-            <div className="flex justify-center">
-              <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
-            </div>
-          ) : (
-            <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
-              {portfolio?.map((item) => (
-                <div
-                  key={item.id}
-                  onClick={() => setSelectedImage(item)}
-                  className="break-inside-avoid group cursor-pointer relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all"
-                >
-                  <img
-                    src={item.imageUrl}
-                    alt={item.title}
-                    className="w-full h-auto group-hover:scale-110 transition-transform duration-300"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-end p-4">
-                    <div className="text-white opacity-0 group-hover:opacity-100 transition-opacity">
-                      <h3 className="font-semibold">{item.title}</h3>
-                      <p className="text-sm text-slate-200 capitalize">{item.category}</p>
-                    </div>
+          <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+            {portfolio?.map((item) => (
+              <div
+                key={item.id}
+                onClick={() => setSelectedImage(item)}
+                className="break-inside-avoid group cursor-pointer relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all"
+              >
+                <img
+                  src={item.imageUrl}
+                  alt={item.title}
+                  className="w-full h-auto group-hover:scale-110 transition-transform duration-300"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-end p-4">
+                  <div className="text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                    <h3 className="font-semibold">{item.title}</h3>
+                    <p className="text-sm text-slate-200 capitalize">{item.category}</p>
                   </div>
                 </div>
-              ))}
-            </div>
-          )}
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

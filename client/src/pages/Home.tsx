@@ -1,14 +1,27 @@
 import { useEffect, useState } from "react";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
-import { Loader2, ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
+import { FALLBACK_SERVICES, FALLBACK_FEATURED_WORKS, FALLBACK_TESTIMONIALS } from "@/lib/fallbacks";
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const { data: services } = trpc.services.list.useQuery();
-  const { data: featured } = trpc.portfolio.featured.useQuery();
-  const { data: testimonials } = trpc.testimonials.featured.useQuery();
+  
+  // Use placeholderData to show fallbacks immediately
+  const { data: services = FALLBACK_SERVICES } = trpc.services.list.useQuery(undefined, {
+    placeholderData: FALLBACK_SERVICES,
+    retry: false
+  });
+  
+  const { data: featured = FALLBACK_FEATURED_WORKS } = trpc.portfolio.featured.useQuery(undefined, {
+    placeholderData: FALLBACK_FEATURED_WORKS,
+    retry: false
+  });
+  
+  const { data: testimonials = FALLBACK_TESTIMONIALS } = trpc.testimonials.featured.useQuery(undefined, {
+    placeholderData: FALLBACK_TESTIMONIALS,
+    retry: false
+  });
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -112,33 +125,27 @@ export default function Home() {
       <section className="py-20">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-bold text-center mb-12">Featured Works</h2>
-          {!featured ? (
-            <div className="flex justify-center">
-              <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {featured.map((item) => (
-                <div
-                  key={item.id}
-                  className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow"
-                >
-                  <img
-                    src={item.imageUrl}
-                    alt={item.title}
-                    className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-end p-4">
-                    <div className="text-white opacity-0 group-hover:opacity-100 transition-opacity">
-                      <h3 className="font-semibold">{item.title}</h3>
-                      <p className="text-sm text-slate-200">{item.category}</p>
-                    </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {featured.map((item) => (
+              <div
+                key={item.id}
+                className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow"
+              >
+                <img
+                  src={item.imageUrl}
+                  alt={item.title}
+                  className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-end p-4">
+                  <div className="text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                    <h3 className="font-semibold">{item.title}</h3>
+                    <p className="text-sm text-slate-200">{item.category}</p>
                   </div>
                 </div>
-              ))}
-            </div>
-          )}
+              </div>
+            ))}
+          </div>
           <div className="text-center mt-12">
             <Link href="/portfolio">
               <a className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors inline-flex items-center gap-2">

@@ -1,9 +1,13 @@
 import { trpc } from "@/lib/trpc";
 import { Link } from "wouter";
-import { Loader2, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { FALLBACK_SERVICES } from "@/lib/fallbacks";
 
 export default function Services() {
-  const { data: services, isLoading } = trpc.services.list.useQuery();
+  const { data: services = FALLBACK_SERVICES } = trpc.services.list.useQuery(undefined, {
+    placeholderData: FALLBACK_SERVICES,
+    retry: false
+  });
 
   return (
     <div className="w-full">
@@ -20,38 +24,27 @@ export default function Services() {
       {/* Services Grid */}
       <section className="py-20">
         <div className="container mx-auto px-4">
-          {isLoading ? (
-            <div className="flex justify-center">
-              <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-              {services?.map((service) => (
-                <div key={service.id} className="flex gap-8 items-start">
-                  {service.bannerImageUrl && (
-                    <img
-                      src={service.bannerImageUrl}
-                      alt={service.title}
-                      className="w-48 h-48 object-cover rounded-lg flex-shrink-0"
-                      loading="lazy"
-                    />
-                  )}
-                  <div className="flex-1">
-                    <h3 className="text-2xl font-bold mb-3">{service.title}</h3>
-                    <p className="text-slate-600 mb-4 leading-relaxed">
-                      {service.fullDescription || service.description}
-                    </p>
-                    <Link href={`/services/${service.slug}`}>
-                      <a className="text-blue-600 font-semibold hover:text-blue-700 inline-flex items-center gap-2">
-                        Learn More
-                        <ArrowRight className="w-4 h-4" />
-                      </a>
-                    </Link>
-                  </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+            {services?.map((service) => (
+              <div key={service.id} className="flex gap-8 items-start">
+                <div className="text-4xl w-16 h-16 bg-blue-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                  {service.icon || "🎨"}
                 </div>
-              ))}
-            </div>
-          )}
+                <div className="flex-1">
+                  <h3 className="text-2xl font-bold mb-3">{service.title}</h3>
+                  <p className="text-slate-600 mb-4 leading-relaxed">
+                    {(service as any).fullDescription || service.description}
+                  </p>
+                  <Link href={`/services/${service.slug}`}>
+                    <a className="text-blue-600 font-semibold hover:text-blue-700 inline-flex items-center gap-2">
+                      Learn More
+                      <ArrowRight className="w-4 h-4" />
+                    </a>
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
