@@ -209,6 +209,12 @@ export async function getFeaturedTestimonials() {
   return db.select().from(testimonials).where(eq(testimonials.featured, true)).orderBy(testimonials.order);
 }
 
+export async function getAllTestimonials() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(testimonials).orderBy(testimonials.order);
+}
+
 export async function createTestimonial(data: any) {
   const db = await getDb();
   if (!db) return null;

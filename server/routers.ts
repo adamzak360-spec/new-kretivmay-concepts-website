@@ -69,11 +69,13 @@ export const appRouter = router({
     byId: publicProcedure.input(z.number()).query(({ input }) => db.getServiceById(input)),
     create: protectedProcedure
       .input(z.object({
-        name: z.string().min(1),
+        title: z.string().min(1),
         slug: z.string().min(1),
         description: z.string().optional(),
-        imageUrl: z.string().optional(),
-        imageKey: z.string().optional(),
+        fullDescription: z.string().optional(),
+        bannerImageUrl: z.string().optional(),
+        bannerImageKey: z.string().optional(),
+        icon: z.string().optional(),
       }))
       .mutation(({ input, ctx }) => {
         if (ctx.user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
@@ -82,11 +84,13 @@ export const appRouter = router({
     update: protectedProcedure
       .input(z.object({
         id: z.number(),
-        name: z.string().min(1),
+        title: z.string().min(1),
         slug: z.string().min(1),
         description: z.string().optional(),
-        imageUrl: z.string().optional(),
-        imageKey: z.string().optional(),
+        fullDescription: z.string().optional(),
+        bannerImageUrl: z.string().optional(),
+        bannerImageKey: z.string().optional(),
+        icon: z.string().optional(),
       }))
       .mutation(({ input, ctx }) => {
         if (ctx.user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
@@ -110,8 +114,9 @@ export const appRouter = router({
         title: z.string().min(1),
         slug: z.string().min(1),
         content: z.string().optional(),
-        imageUrl: z.string().optional(),
-        imageKey: z.string().optional(),
+        excerpt: z.string().optional(),
+        featuredImageUrl: z.string().optional(),
+        featuredImageKey: z.string().optional(),
         published: z.boolean().optional(),
       }))
       .mutation(({ input, ctx }) => {
@@ -124,8 +129,9 @@ export const appRouter = router({
         title: z.string().min(1),
         slug: z.string().min(1),
         content: z.string().optional(),
-        imageUrl: z.string().optional(),
-        imageKey: z.string().optional(),
+        excerpt: z.string().optional(),
+        featuredImageUrl: z.string().optional(),
+        featuredImageKey: z.string().optional(),
         published: z.boolean().optional(),
       }))
       .mutation(({ input, ctx }) => {
@@ -144,11 +150,16 @@ export const appRouter = router({
   // Testimonials
   testimonials: router({
     featured: publicProcedure.query(() => db.getFeaturedTestimonials()),
+    list: protectedProcedure.query(({ ctx }) => {
+      if (ctx.user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+      return db.getAllTestimonials();
+    }),
     create: protectedProcedure
       .input(z.object({
-        name: z.string().min(1),
+        clientName: z.string().min(1),
+        clientCompany: z.string().optional(),
         content: z.string().min(1),
-        role: z.string().optional(),
+        rating: z.number().optional(),
         imageUrl: z.string().optional(),
         imageKey: z.string().optional(),
         featured: z.boolean().optional(),
@@ -160,9 +171,10 @@ export const appRouter = router({
     update: protectedProcedure
       .input(z.object({
         id: z.number(),
-        name: z.string().min(1),
+        clientName: z.string().min(1),
+        clientCompany: z.string().optional(),
         content: z.string().min(1),
-        role: z.string().optional(),
+        rating: z.number().optional(),
         imageUrl: z.string().optional(),
         imageKey: z.string().optional(),
         featured: z.boolean().optional(),

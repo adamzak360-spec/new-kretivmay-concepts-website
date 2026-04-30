@@ -16,6 +16,7 @@ import AdminPortfolio from "./pages/admin/Portfolio";
 import AdminServices from "./pages/admin/Services";
 import AdminBlog from "./pages/admin/Blog";
 import AdminMessages from "./pages/admin/Messages";
+import AdminTestimonials from "./pages/admin/Testimonials";
 import AdminSettings from "./pages/admin/Settings";
 import Layout from "./components/Layout";
 import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
@@ -43,6 +44,9 @@ function Router() {
       </Route>
       <Route path={"/admin/blog"}>
         {() => <ProtectedAdminRoute><AdminBlog /></ProtectedAdminRoute>}
+      </Route>
+      <Route path={"/admin/testimonials"}>
+        {() => <ProtectedAdminRoute><AdminTestimonials /></ProtectedAdminRoute>}
       </Route>
       <Route path={"/admin/messages"}>
         {() => <ProtectedAdminRoute><AdminMessages /></ProtectedAdminRoute>}

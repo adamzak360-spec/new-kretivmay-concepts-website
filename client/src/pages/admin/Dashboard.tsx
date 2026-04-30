@@ -1,6 +1,6 @@
 import { useAuth } from "@/_core/hooks/useAuth";
 import { Link } from "wouter";
-import { BarChart3, FileText, Image, MessageSquare, Settings } from "lucide-react";
+import { BarChart3, FileText, Image, MessageSquare, Settings, Star } from "lucide-react";
 import DashboardLayout from "@/components/DashboardLayout";
 
 export default function AdminDashboard() {
@@ -10,13 +10,14 @@ export default function AdminDashboard() {
     { label: "Portfolio Items", value: "0", icon: Image },
     { label: "Services", value: "0", icon: BarChart3 },
     { label: "Blog Posts", value: "0", icon: FileText },
-    { label: "Messages", value: "0", icon: MessageSquare },
+    { label: "Testimonials", value: "0", icon: Star },
   ];
 
   const menuItems = [
     { label: "Portfolio", href: "/admin/portfolio", icon: Image },
     { label: "Services", href: "/admin/services", icon: BarChart3 },
     { label: "Blog Posts", href: "/admin/blog", icon: FileText },
+    { label: "Testimonials", href: "/admin/testimonials", icon: Star },
     { label: "Messages", href: "/admin/messages", icon: MessageSquare },
     { label: "Settings", href: "/admin/settings", icon: Settings },
   ];

@@ -10,11 +10,13 @@ export default function AdminServices() {
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [formData, setFormData] = useState({
-    name: "",
+    title: "",
     slug: "",
     description: "",
-    imageUrl: "",
-    imageKey: "",
+    fullDescription: "",
+    bannerImageUrl: "",
+    bannerImageKey: "",
+    icon: "",
   });
 
   // Fetch services
@@ -68,8 +70,8 @@ export default function AdminServices() {
       
       setFormData((prev) => ({
         ...prev,
-        imageUrl: data.url,
-        imageKey: data.key,
+        bannerImageUrl: data.url,
+        bannerImageKey: data.key,
       }));
 
       return { url: data.url, key: data.key };
@@ -82,38 +84,44 @@ export default function AdminServices() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!formData.name || !formData.slug) {
-      toast.error("Name and slug are required");
+    if (!formData.title || !formData.slug) {
+      toast.error("Title and slug are required");
       return;
     }
 
     if (editingId) {
       updateMutation.mutate({
         id: editingId,
-        name: formData.name,
+        title: formData.title,
         slug: formData.slug,
         description: formData.description,
-        imageUrl: formData.imageUrl,
-        imageKey: formData.imageKey,
+        fullDescription: formData.fullDescription,
+        bannerImageUrl: formData.bannerImageUrl,
+        bannerImageKey: formData.bannerImageKey,
+        icon: formData.icon,
       });
     } else {
       createMutation.mutate({
-        name: formData.name,
+        title: formData.title,
         slug: formData.slug,
         description: formData.description,
-        imageUrl: formData.imageUrl,
-        imageKey: formData.imageKey,
+        fullDescription: formData.fullDescription,
+        bannerImageUrl: formData.bannerImageUrl,
+        bannerImageKey: formData.bannerImageKey,
+        icon: formData.icon,
       });
     }
   };
 
   const resetForm = () => {
     setFormData({
-      name: "",
+      title: "",
       slug: "",
       description: "",
-      imageUrl: "",
-      imageKey: "",
+      fullDescription: "",
+      bannerImageUrl: "",
+      bannerImageKey: "",
+      icon: "",
     });
     setEditingId(null);
     setShowForm(false);
@@ -121,11 +129,13 @@ export default function AdminServices() {
 
   const handleEdit = (item: any) => {
     setFormData({
-      name: item.name,
+      title: item.title,
       slug: item.slug,
       description: item.description || "",
-      imageUrl: item.imageUrl || "",
-      imageKey: item.imageKey || "",
+      fullDescription: item.fullDescription || "",
+      bannerImageUrl: item.bannerImageUrl || "",
+      bannerImageKey: item.bannerImageKey || "",
+      icon: item.icon || "",
     });
     setEditingId(item.id);
     setShowForm(true);
@@ -174,21 +184,21 @@ export default function AdminServices() {
                   onSuccess={(result) => {
                     setFormData((prev) => ({
                       ...prev,
-                      imageUrl: result.url,
-                      imageKey: result.key,
+                      bannerImageUrl: result.url,
+                      bannerImageKey: result.key,
                     }));
                   }}
                   label="Upload Service Banner"
                   maxSize={20}
                   accept="image/*"
                 />
-                {formData.imageUrl && (
+                {formData.bannerImageUrl && (
                   <div className="mt-4">
                     <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
                       Preview:
                     </p>
                     <img
-                      src={formData.imageUrl}
+                      src={formData.bannerImageUrl}
                       alt="Preview"
                       className="max-h-48 rounded-lg object-cover"
                     />
@@ -198,13 +208,13 @@ export default function AdminServices() {
 
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  Service Name *
+                  Service Title *
                 </label>
                 <input
                   type="text"
-                  value={formData.name}
+                  value={formData.title}
                   onChange={(e) =>
-                    setFormData({ ...formData, name: e.target.value })
+                    setFormData({ ...formData, title: e.target.value })
                   }
                   className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 dark:bg-slate-800 dark:text-white"
                   placeholder="e.g., Graphic Design"
@@ -230,7 +240,7 @@ export default function AdminServices() {
 
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  Description
+                  Short Description
                 </label>
                 <textarea
                   value={formData.description}
@@ -238,8 +248,38 @@ export default function AdminServices() {
                     setFormData({ ...formData, description: e.target.value })
                   }
                   className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 resize-none dark:bg-slate-800 dark:text-white"
+                  rows={2}
+                  placeholder="Short service description"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2">
+                  Full Description
+                </label>
+                <textarea
+                  value={formData.fullDescription}
+                  onChange={(e) =>
+                    setFormData({ ...formData, fullDescription: e.target.value })
+                  }
+                  className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 resize-none dark:bg-slate-800 dark:text-white"
                   rows={4}
-                  placeholder="Service description"
+                  placeholder="Detailed service description"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2">
+                  Icon (emoji or text)
+                </label>
+                <input
+                  type="text"
+                  value={formData.icon}
+                  onChange={(e) =>
+                    setFormData({ ...formData, icon: e.target.value })
+                  }
+                  className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 dark:bg-slate-800 dark:text-white"
+                  placeholder="e.g., 🎨"
                 />
               </div>
 
@@ -283,15 +323,15 @@ export default function AdminServices() {
                   key={item.id}
                   className="bg-white dark:bg-slate-900 rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow"
                 >
-                  {item.imageUrl && (
+                  {item.bannerImageUrl && (
                     <img
-                      src={item.imageUrl}
-                      alt={item.name}
+                      src={item.bannerImageUrl}
+                      alt={item.title}
                       className="w-full h-48 object-cover"
                     />
                   )}
                   <div className="p-4">
-                    <h3 className="font-bold text-lg mb-2">{item.name}</h3>
+                    <h3 className="font-bold text-lg mb-2">{item.title}</h3>
                     <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
                       {item.description}
                     </p>
