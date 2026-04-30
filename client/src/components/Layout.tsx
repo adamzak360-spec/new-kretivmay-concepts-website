@@ -144,7 +144,7 @@ export default function Layout({ children }: LayoutProps) {
             <div>
               <h3 className="text-xl font-bold mb-4">KretivMay Concepts</h3>
               <p className="text-slate-300 text-sm">
-                Creative Design & Printing Solutions for your brand
+                Expert in Design, General Print, Branding & Social Media Marketing
               </p>
             </div>
 
@@ -180,23 +180,24 @@ export default function Layout({ children }: LayoutProps) {
               <h4 className="font-semibold mb-4">Services</h4>
               <ul className="space-y-2 text-sm text-slate-300">
                 <li>Graphic Design</li>
-                <li>Printing Services</li>
+                <li>Large Format Printing</li>
                 <li>Branding & Packaging</li>
                 <li>Social Media Marketing</li>
+                <li>Shirts & Caps Printing</li>
               </ul>
             </div>
 
             {/* Contact */}
             <div>
               <h4 className="font-semibold mb-4">Contact</h4>
-              <p className="text-sm text-slate-300 mb-2">Tamale, Ghana</p>
+              <p className="text-sm text-slate-300 mb-2">Shishegu Highways, Opp. EV Fuel Station, Tamale</p>
               <p className="text-sm text-slate-300 mb-4">
-                <a href="tel:+233XXXXXXXXX" className="hover:text-white">
-                  +233 XXX XXX XXX
+                <a href="tel:+233543380193" className="hover:text-white transition-colors">
+                  +233 543 380 193
                 </a>
               </p>
               <p className="text-sm text-slate-300">
-                <a href="mailto:info@kretivmay.com" className="hover:text-white">
+                <a href="mailto:info@kretivmay.com" className="hover:text-white transition-colors">
                   info@kretivmay.com
                 </a>
               </p>
@@ -205,17 +206,32 @@ export default function Layout({ children }: LayoutProps) {
 
           <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center">
             <p className="text-sm text-slate-400">
-              &copy; 2024 KretivMay Concepts. All rights reserved.
+              &copy; 2026 KretivMay Concepts. All rights reserved.
             </p>
             <div className="flex gap-4 mt-4 md:mt-0">
-              <a href="#" className="text-slate-400 hover:text-white transition-colors">
+              <a
+                href="https://www.facebook.com/KretivMayConcepts/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-slate-400 hover:text-white transition-colors"
+              >
                 Facebook
               </a>
-              <a href="#" className="text-slate-400 hover:text-white transition-colors">
+              <a
+                href="https://www.instagram.com/kretivmay_concepts/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-slate-400 hover:text-white transition-colors"
+              >
                 Instagram
               </a>
-              <a href="#" className="text-slate-400 hover:text-white transition-colors">
-                Twitter
+              <a
+                href="https://www.tiktok.com/@kretivmayphotography"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-slate-400 hover:text-white transition-colors"
+              >
+                TikTok
               </a>
             </div>
           </div>
@@ -224,7 +240,7 @@ export default function Layout({ children }: LayoutProps) {
 
       {/* Floating WhatsApp Button */}
       <a
-        href="https://wa.me/233XXXXXXXXX"
+        href="https://wa.me/233543380193"
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg transition-all hover:scale-110 z-30"

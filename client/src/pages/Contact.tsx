@@ -61,7 +61,7 @@ export default function Contact() {
                   <MapPin className="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" />
                   <div>
                     <h3 className="font-semibold text-lg mb-1">Location</h3>
-                    <p className="text-slate-600">Tamale, Ghana</p>
+                    <p className="text-slate-600">Shishegu Highways, Opp. EV Fuel Station, Tamale, Ghana</p>
                   </div>
                 </div>
 
@@ -69,12 +69,20 @@ export default function Contact() {
                   <Phone className="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" />
                   <div>
                     <h3 className="font-semibold text-lg mb-1">Phone</h3>
-                    <a
-                      href="tel:+233XXXXXXXXX"
-                      className="text-slate-600 hover:text-blue-600 transition-colors"
-                    >
-                      +233 XXX XXX XXX
-                    </a>
+                    <div className="space-y-2">
+                      <a
+                        href="tel:+233543380193"
+                        className="text-slate-600 hover:text-blue-600 transition-colors block"
+                      >
+                        +233 543 380 193
+                      </a>
+                      <a
+                        href="tel:+233557622085"
+                        className="text-slate-600 hover:text-blue-600 transition-colors block"
+                      >
+                        +233 557 622 085
+                      </a>
+                    </div>
                   </div>
                 </div>
 
@@ -96,7 +104,7 @@ export default function Contact() {
                   <div>
                     <h3 className="font-semibold text-lg mb-1">WhatsApp</h3>
                     <a
-                      href="https://wa.me/233XXXXXXXXX"
+                      href="https://wa.me/233543380193"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-slate-600 hover:text-green-600 transition-colors"
@@ -107,17 +115,40 @@ export default function Contact() {
                 </div>
               </div>
 
-              {/* Map Placeholder */}
-              <div className="mt-12 bg-slate-200 rounded-lg h-64 flex items-center justify-center">
-                <div className="text-center text-slate-600">
-                  <MapPin className="w-12 h-12 mx-auto mb-2 opacity-50" />
-                  <p>Google Maps - Tamale, Ghana</p>
+              {/* Social Links */}
+              <div className="mt-12 pt-8 border-t border-slate-200">
+                <h3 className="font-semibold text-lg mb-4">Follow Us</h3>
+                <div className="flex gap-4">
+                  <a
+                    href="https://www.facebook.com/KretivMayConcepts/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors"
+                  >
+                    Facebook
+                  </a>
+                  <a
+                    href="https://www.instagram.com/kretivmay_concepts/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-pink-600 hover:bg-pink-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors"
+                  >
+                    Instagram
+                  </a>
+                  <a
+                    href="https://www.tiktok.com/@kretivmayphotography"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-lg font-semibold transition-colors"
+                  >
+                    TikTok
+                  </a>
                 </div>
               </div>
             </div>
 
             {/* Contact Form */}
-            <div className="bg-slate-50 p-8 rounded-lg">
+            <div className="bg-slate-50 p-8 rounded-lg shadow-lg">
               <h2 className="text-3xl font-bold mb-8">Send us a Message</h2>
 
               <form onSubmit={handleSubmit} className="space-y-6">
@@ -195,7 +226,7 @@ export default function Contact() {
                   Prefer WhatsApp? Click below to chat with us directly:
                 </p>
                 <a
-                  href="https://wa.me/233XXXXXXXXX"
+                  href="https://wa.me/233543380193"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors"

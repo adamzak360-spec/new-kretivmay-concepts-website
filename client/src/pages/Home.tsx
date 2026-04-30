@@ -57,21 +57,21 @@ export default function Home() {
         ))}
 
         <div className="relative z-10 text-center text-white px-4">
-          <h1 className="text-5xl md:text-7xl font-bold mb-4 animate-fade-in">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in leading-tight">
             Creative Design & Printing Solutions
           </h1>
-          <p className="text-xl md:text-2xl mb-8 text-slate-200">
-            Elevate Your Brand with Professional Design Services
+          <p className="text-lg md:text-2xl mb-8 text-slate-200 max-w-2xl mx-auto">
+            Elevate Your Brand with Professional Design, Printing, and Marketing Services
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/portfolio">
-              <a className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors inline-flex items-center gap-2">
+              <a className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors inline-flex items-center justify-center gap-2">
                 View Portfolio
                 <ArrowRight className="w-5 h-5" />
               </a>
             </Link>
             <Link href="/contact">
-              <a className="bg-white text-blue-600 hover:bg-slate-100 px-8 py-3 rounded-lg font-semibold transition-colors">
+              <a className="bg-white text-blue-600 hover:bg-slate-100 px-8 py-3 rounded-lg font-semibold transition-colors inline-flex items-center justify-center gap-2">
                 Contact Us
               </a>
             </Link>
@@ -98,14 +98,23 @@ export default function Home() {
       {/* Services Preview */}
       <section className="py-20 bg-slate-50">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-12">Our Services</h2>
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">Our Services</h2>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+              Comprehensive creative solutions tailored to your business needs
+            </p>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services?.slice(0, 6).map((service) => (
               <Link key={service.id} href={`/services/${service.slug}`}>
-                <a className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow cursor-pointer">
-                  <div className="text-4xl mb-4">{service.icon || "🎨"}</div>
-                  <h3 className="text-xl font-semibold mb-2">{service.title}</h3>
-                  <p className="text-slate-600 text-sm">{service.description}</p>
+                <a className="group h-full">
+                  <div className="h-full bg-white p-6 rounded-lg shadow hover:shadow-lg transition-all duration-300 border border-slate-100 hover:border-blue-300">
+                    <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                      {service.icon || "🎨"}
+                    </div>
+                    <h3 className="text-xl font-semibold mb-2 text-slate-900">{service.title}</h3>
+                    <p className="text-slate-600 text-sm leading-relaxed">{service.description}</p>
+                  </div>
                 </a>
               </Link>
             ))}
@@ -124,7 +133,12 @@ export default function Home() {
       {/* Featured Works */}
       <section className="py-20">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-12">Featured Works</h2>
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">Featured Works</h2>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+              Explore our latest projects and creative solutions
+            </p>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {featured.map((item) => (
               <div
@@ -139,7 +153,7 @@ export default function Home() {
                 />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-end p-4">
                   <div className="text-white opacity-0 group-hover:opacity-100 transition-opacity">
-                    <h3 className="font-semibold">{item.title}</h3>
+                    <h3 className="font-semibold text-lg">{item.title}</h3>
                     <p className="text-sm text-slate-200">{item.category}</p>
                   </div>
                 </div>
@@ -161,10 +175,15 @@ export default function Home() {
       {testimonials && testimonials.length > 0 && (
         <section className="py-20 bg-slate-50">
           <div className="container mx-auto px-4">
-            <h2 className="text-4xl font-bold text-center mb-12">What Our Clients Say</h2>
+            <div className="text-center mb-12">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4">What Our Clients Say</h2>
+              <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+                Trusted by businesses across Ghana
+              </p>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {testimonials.map((testimonial) => (
-                <div key={testimonial.id} className="bg-white p-6 rounded-lg shadow">
+                <div key={testimonial.id} className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow">
                   <div className="flex items-center gap-4 mb-4">
                     {testimonial.imageUrl && (
                       <img
@@ -174,11 +193,11 @@ export default function Home() {
                       />
                     )}
                     <div>
-                      <h4 className="font-semibold">{testimonial.clientName}</h4>
+                      <h4 className="font-semibold text-slate-900">{testimonial.clientName}</h4>
                       <p className="text-sm text-slate-600">{testimonial.clientCompany}</p>
                     </div>
                   </div>
-                  <p className="text-slate-700 mb-4">{testimonial.content}</p>
+                  <p className="text-slate-700 mb-4 leading-relaxed">{testimonial.content}</p>
                   <div className="flex gap-1">
                     {Array.from({ length: testimonial.rating || 0 }).map((_, i) => (
                       <span key={i} className="text-yellow-400">★</span>
@@ -194,9 +213,9 @@ export default function Home() {
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-blue-600 to-blue-400 text-white">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold mb-4">Ready to Elevate Your Brand?</h2>
-          <p className="text-xl mb-8 text-blue-100">
-            Let's create something amazing together
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">Ready to Elevate Your Brand?</h2>
+          <p className="text-lg md:text-xl mb-8 text-blue-100 max-w-2xl mx-auto">
+            Let's create something amazing together. Contact us today for a free consultation.
           </p>
           <Link href="/contact">
             <a className="bg-white text-blue-600 hover:bg-slate-100 px-8 py-3 rounded-lg font-semibold transition-colors inline-flex items-center gap-2">

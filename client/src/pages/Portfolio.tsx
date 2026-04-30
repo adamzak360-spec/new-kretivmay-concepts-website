@@ -21,8 +21,8 @@ export default function Portfolio() {
       {/* Hero Section */}
       <section className="py-20 bg-gradient-to-r from-blue-600 to-blue-400 text-white">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-5xl font-bold mb-4">Our Portfolio</h1>
-          <p className="text-xl text-blue-100">
+          <h1 className="text-5xl md:text-6xl font-bold mb-4">Our Portfolio</h1>
+          <p className="text-lg md:text-xl text-blue-100 max-w-2xl mx-auto">
             Explore our latest creative works and projects
           </p>
         </div>
@@ -34,10 +34,10 @@ export default function Portfolio() {
           <div className="flex flex-wrap gap-3 justify-center">
             <button
               onClick={() => setSelectedCategory(null)}
-              className={`px-6 py-2 rounded-full font-semibold transition-colors ${
+              className={`px-6 py-2 rounded-full font-semibold transition-all ${
                 selectedCategory === null
-                  ? "bg-blue-600 text-white"
-                  : "bg-white text-slate-700 hover:bg-slate-100"
+                  ? "bg-blue-600 text-white shadow-lg"
+                  : "bg-white text-slate-700 hover:bg-slate-100 border border-slate-200"
               }`}
             >
               All Works
@@ -46,10 +46,10 @@ export default function Portfolio() {
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`px-6 py-2 rounded-full font-semibold transition-colors capitalize ${
+                className={`px-6 py-2 rounded-full font-semibold transition-all capitalize ${
                   selectedCategory === category
-                    ? "bg-blue-600 text-white"
-                    : "bg-white text-slate-700 hover:bg-slate-100"
+                    ? "bg-blue-600 text-white shadow-lg"
+                    : "bg-white text-slate-700 hover:bg-slate-100 border border-slate-200"
                 }`}
               >
                 {category}
@@ -62,28 +62,36 @@ export default function Portfolio() {
       {/* Portfolio Grid */}
       <section className="py-20">
         <div className="container mx-auto px-4">
-          <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
-            {portfolio?.map((item) => (
-              <div
-                key={item.id}
-                onClick={() => setSelectedImage(item)}
-                className="break-inside-avoid group cursor-pointer relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all"
-              >
-                <img
-                  src={item.imageUrl}
-                  alt={item.title}
-                  className="w-full h-auto group-hover:scale-110 transition-transform duration-300"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-end p-4">
-                  <div className="text-white opacity-0 group-hover:opacity-100 transition-opacity">
-                    <h3 className="font-semibold">{item.title}</h3>
-                    <p className="text-sm text-slate-200 capitalize">{item.category}</p>
+          {portfolio && portfolio.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {portfolio.map((item) => (
+                <div
+                  key={item.id}
+                  onClick={() => setSelectedImage(item)}
+                  className="group cursor-pointer relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
+                >
+                  <div className="aspect-square overflow-hidden bg-slate-100">
+                    <img
+                      src={item.imageUrl}
+                      alt={item.title}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-colors flex items-end p-4">
+                    <div className="text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                      <h3 className="font-semibold text-lg">{item.title}</h3>
+                      <p className="text-sm text-slate-200 capitalize">{item.category}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-slate-600 text-lg">No portfolio items found in this category.</p>
+            </div>
+          )}
         </div>
       </section>
 
@@ -99,21 +107,26 @@ export default function Portfolio() {
           >
             <button
               onClick={() => setSelectedImage(null)}
-              className="absolute -top-10 right-0 text-white hover:text-slate-300 transition-colors"
+              className="absolute -top-10 right-0 text-white hover:text-slate-300 transition-colors z-10"
+              aria-label="Close modal"
             >
               <X className="w-8 h-8" />
             </button>
-            <img
-              src={selectedImage.imageUrl}
-              alt={selectedImage.title}
-              className="w-full h-auto rounded-lg"
-            />
-            <div className="mt-4 text-white">
-              <h2 className="text-2xl font-bold">{selectedImage.title}</h2>
-              <p className="text-slate-300">{selectedImage.description}</p>
-              <p className="text-sm text-slate-400 capitalize mt-2">
-                Category: {selectedImage.category}
-              </p>
+            <div className="bg-white rounded-lg overflow-hidden shadow-2xl">
+              <img
+                src={selectedImage.imageUrl}
+                alt={selectedImage.title}
+                className="w-full h-auto"
+              />
+              <div className="p-6">
+                <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2">{selectedImage.title}</h2>
+                {selectedImage.description && (
+                  <p className="text-slate-700 mb-4 leading-relaxed">{selectedImage.description}</p>
+                )}
+                <p className="text-sm text-slate-600 capitalize">
+                  <span className="font-semibold">Category:</span> {selectedImage.category}
+                </p>
+              </div>
             </div>
           </div>
         </div>
