@@ -1,9 +1,9 @@
 import { ReactNode, useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, X, Moon, Sun, MessageCircle, ArrowUp } from "lucide-react";
+import { Menu, X, Moon, Sun, MessageCircle, ArrowUp, Facebook, Instagram, Twitter } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useAuth } from "@/_core/hooks/useAuth";
-import { Button } from "@/components/ui/button";
+import { trpc } from "@/lib/trpc";
 
 interface LayoutProps {
   children: ReactNode;
@@ -15,6 +15,20 @@ export default function Layout({ children }: LayoutProps) {
   const [location] = useLocation();
   const { theme, toggleTheme } = useTheme();
   const { user } = useAuth();
+
+  // Fetch Site Settings from CMS
+  const { data: dbSettings } = trpc.settings.get.useQuery("site_config");
+  const settings = dbSettings ? JSON.parse(dbSettings) : {
+    siteName: "KretivMay",
+    phone: "+233 543 380 193",
+    email: "info@kretivmay.com",
+    address: "Shishegu Highways, Opp. EV Fuel Station, Tamale",
+    facebook: "https://www.facebook.com/KretivMayConcepts/",
+    instagram: "https://www.instagram.com/kretivmay_concepts/",
+    twitter: "https://www.tiktok.com/@kretivmayphotography",
+    whatsapp: "233543380193",
+    footerTagline: "Expert in Design, General Print, Branding & Social Media Marketing"
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -52,7 +66,7 @@ export default function Layout({ children }: LayoutProps) {
           {/* Logo */}
           <Link href="/">
             <a className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
-              KretivMay
+              {settings.siteName}
             </a>
           </Link>
 
@@ -142,9 +156,9 @@ export default function Layout({ children }: LayoutProps) {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             {/* Brand */}
             <div>
-              <h3 className="text-xl font-bold mb-4">KretivMay Concepts</h3>
+              <h3 className="text-xl font-bold mb-4">{settings.siteName}</h3>
               <p className="text-slate-300 text-sm">
-                Expert in Design, General Print, Branding & Social Media Marketing
+                {settings.footerTagline}
               </p>
             </div>
 
@@ -152,26 +166,13 @@ export default function Layout({ children }: LayoutProps) {
             <div>
               <h4 className="font-semibold mb-4">Quick Links</h4>
               <ul className="space-y-2 text-sm text-slate-300">
-                <li>
-                  <Link href="/about">
-                    <a className="hover:text-white transition-colors">About</a>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/services">
-                    <a className="hover:text-white transition-colors">Services</a>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/portfolio">
-                    <a className="hover:text-white transition-colors">Portfolio</a>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/contact">
-                    <a className="hover:text-white transition-colors">Contact</a>
-                  </Link>
-                </li>
+                {navLinks.slice(1, 5).map((link) => (
+                  <li key={link.href}>
+                    <Link href={link.href}>
+                      <a className="hover:text-white transition-colors">{link.label}</a>
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </div>
 
@@ -190,15 +191,15 @@ export default function Layout({ children }: LayoutProps) {
             {/* Contact */}
             <div>
               <h4 className="font-semibold mb-4">Contact</h4>
-              <p className="text-sm text-slate-300 mb-2">Shishegu Highways, Opp. EV Fuel Station, Tamale</p>
+              <p className="text-sm text-slate-300 mb-2">{settings.address}</p>
               <p className="text-sm text-slate-300 mb-4">
-                <a href="tel:+233543380193" className="hover:text-white transition-colors">
-                  +233 543 380 193
+                <a href={`tel:${settings.phone}`} className="hover:text-white transition-colors">
+                  {settings.phone}
                 </a>
               </p>
               <p className="text-sm text-slate-300">
-                <a href="mailto:info@kretivmay.com" className="hover:text-white transition-colors">
-                  info@kretivmay.com
+                <a href={`mailto:${settings.email}`} className="hover:text-white transition-colors">
+                  {settings.email}
                 </a>
               </p>
             </div>
@@ -206,33 +207,24 @@ export default function Layout({ children }: LayoutProps) {
 
           <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center">
             <p className="text-sm text-slate-400">
-              &copy; 2026 KretivMay Concepts. All rights reserved.
+              &copy; {new Date().getFullYear()} {settings.siteName}. All rights reserved.
             </p>
             <div className="flex gap-4 mt-4 md:mt-0">
-              <a
-                href="https://www.facebook.com/KretivMayConcepts/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-slate-400 hover:text-white transition-colors"
-              >
-                Facebook
-              </a>
-              <a
-                href="https://www.instagram.com/kretivmay_concepts/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-slate-400 hover:text-white transition-colors"
-              >
-                Instagram
-              </a>
-              <a
-                href="https://www.tiktok.com/@kretivmayphotography"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-slate-400 hover:text-white transition-colors"
-              >
-                TikTok
-              </a>
+              {settings.facebook && (
+                <a href={settings.facebook} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors">
+                  Facebook
+                </a>
+              )}
+              {settings.instagram && (
+                <a href={settings.instagram} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors">
+                  Instagram
+                </a>
+              )}
+              {settings.twitter && (
+                <a href={settings.twitter} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors">
+                  Social
+                </a>
+              )}
             </div>
           </div>
         </div>
@@ -240,7 +232,7 @@ export default function Layout({ children }: LayoutProps) {
 
       {/* Floating WhatsApp Button */}
       <a
-        href="https://wa.me/233543380193"
+        href={`https://wa.me/${settings.whatsapp?.replace(/\D/g, '')}`}
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg transition-all hover:scale-110 z-30"

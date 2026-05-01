@@ -120,3 +120,15 @@ export const siteSettings = mysqlTable("site_settings", {
 
 export type SiteSetting = typeof siteSettings.$inferSelect;
 export type InsertSiteSetting = typeof siteSettings.$inferInsert;
+
+// Page Content for structured pages (Hero, About, etc.)
+export const pageContent = mysqlTable("page_content", {
+  id: int("id").autoincrement().primaryKey(),
+  page: varchar("page", { length: 100 }).notNull(), // 'home', 'about', 'services', 'contact'
+  section: varchar("section", { length: 100 }).notNull(), // 'hero', 'story', 'mission'
+  content: json("content").notNull(), // Flexible JSON for all section fields
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type PageContent = typeof pageContent.$inferSelect;
+export type InsertPageContent = typeof pageContent.$inferInsert;

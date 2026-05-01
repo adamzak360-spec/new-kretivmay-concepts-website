@@ -7,6 +7,22 @@ import { FALLBACK_SERVICES, FALLBACK_FEATURED_WORKS, FALLBACK_TESTIMONIALS } fro
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
   
+  // CMS Content
+  const { data: heroData } = trpc.pages.get.useQuery({ page: "home", section: "hero" });
+  const hero = heroData?.[0]?.content as any || {
+    title: "Creative Design & Printing Solutions",
+    subtitle: "Elevate Your Brand with Professional Design, Printing, and Marketing Services",
+    ctaText: "View Portfolio",
+    ctaLink: "/portfolio",
+    secondaryCtaText: "Contact Us",
+    secondaryCtaLink: "/contact",
+    images: [
+      { url: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1200&h=600&fit=crop" },
+      { url: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=600&fit=crop" },
+      { url: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1200&h=600&fit=crop" }
+    ]
+  };
+
   // Use placeholderData to show fallbacks immediately
   const { data: services = FALLBACK_SERVICES } = trpc.services.list.useQuery(undefined, {
     placeholderData: FALLBACK_SERVICES,
@@ -24,30 +40,25 @@ export default function Home() {
   });
 
   useEffect(() => {
+    if (!hero.images || hero.images.length <= 1) return;
     const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % 3);
+      setCurrentSlide((prev) => (prev + 1) % hero.images.length);
     }, 5000);
     return () => clearInterval(interval);
-  }, []);
-
-  const heroImages = [
-    "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1200&h=600&fit=crop",
-    "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=600&fit=crop",
-    "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1200&h=600&fit=crop",
-  ];
+  }, [hero.images]);
 
   return (
     <div className="w-full">
       {/* Hero Section with Slideshow */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        {heroImages.map((image, index) => (
+        {hero.images?.map((image: any, index: number) => (
           <div
             key={index}
             className={`absolute inset-0 transition-opacity duration-1000 ${
               index === currentSlide ? "opacity-100" : "opacity-0"
             }`}
             style={{
-              backgroundImage: `url(${image})`,
+              backgroundImage: `url(${image.url})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
@@ -58,41 +69,43 @@ export default function Home() {
 
         <div className="relative z-10 text-center text-white px-4">
           <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in leading-tight">
-            Creative Design & Printing Solutions
+            {hero.title}
           </h1>
           <p className="text-lg md:text-2xl mb-8 text-slate-200 max-w-2xl mx-auto">
-            Elevate Your Brand with Professional Design, Printing, and Marketing Services
+            {hero.subtitle}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/portfolio">
+            <Link href={hero.ctaLink}>
               <a className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors inline-flex items-center justify-center gap-2">
-                View Portfolio
+                {hero.ctaText}
                 <ArrowRight className="w-5 h-5" />
               </a>
             </Link>
-            <Link href="/contact">
+            <Link href={hero.secondaryCtaLink}>
               <a className="bg-white text-blue-600 hover:bg-slate-100 px-8 py-3 rounded-lg font-semibold transition-colors inline-flex items-center justify-center gap-2">
-                Contact Us
+                {hero.secondaryCtaText}
               </a>
             </Link>
           </div>
         </div>
 
         {/* Slide Indicators */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2 z-10">
-          {heroImages.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentSlide(index)}
-              className={`w-3 h-3 rounded-full transition-all ${
-                index === currentSlide
-                  ? "bg-white w-8"
-                  : "bg-white/50 hover:bg-white/75"
-              }`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
-        </div>
+        {hero.images?.length > 1 && (
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2 z-10">
+            {hero.images.map((_: any, index: number) => (
+              <button
+                key={index}
+                onClick={() => setCurrentSlide(index)}
+                className={`w-3 h-3 rounded-full transition-all ${
+                  index === currentSlide
+                    ? "bg-white w-8"
+                    : "bg-white/50 hover:bg-white/75"
+                }`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Services Preview */}

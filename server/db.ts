@@ -1,6 +1,6 @@
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, InsertContactSubmission, users, portfolioItems, services, blogPosts, testimonials, contactSubmissions, siteSettings } from "../drizzle/schema";
+import { InsertUser, InsertContactSubmission, users, portfolioItems, services, blogPosts, testimonials, contactSubmissions, siteSettings, pageContent, PageContent, InsertPageContent } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -265,4 +265,33 @@ export async function setSiteSetting(key: string, value: string) {
   const db = await getDb();
   if (!db) return null;
   return db.insert(siteSettings).values({ key, value }).onDuplicateKeyUpdate({ set: { value } });
+}
+
+// Page Content queries
+export async function getPageContent(page: string, section?: string) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  if (section) {
+    return db.select().from(pageContent).where(and(eq(pageContent.page, page), eq(pageContent.section, section)));
+  }
+  return db.select().from(pageContent).where(eq(pageContent.page, page));
+}
+
+export async function upsertPageContent(data: InsertPageContent) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  // Check if it exists
+  const existing = await db.select().from(pageContent)
+    .where(and(eq(pageContent.page, data.page), eq(pageContent.section, data.section)))
+    .limit(1);
+    
+  if (existing.length > 0) {
+    return db.update(pageContent)
+      .set({ content: data.content })
+      .where(eq(pageContent.id, existing[0].id));
+  } else {
+    return db.insert(pageContent).values(data);
+  }
 }

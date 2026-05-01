@@ -21,15 +21,35 @@ import {
 } from "@/components/ui/sidebar";
 import { getLoginUrl } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
-import { LayoutDashboard, LogOut, PanelLeft, Users } from "lucide-react";
+import { LogOut, PanelLeft } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
 import { Button } from "./ui/button";
 
+import { 
+  LayoutDashboard, 
+  Settings, 
+  Briefcase, 
+  Image as ImageIcon, 
+  MessageSquare, 
+  FileText, 
+  Star, 
+  Home as HomeIcon, 
+  Info, 
+  Users 
+} from "lucide-react";
+
 const menuItems = [
-  { icon: LayoutDashboard, label: "Page 1", path: "/" },
-  { icon: Users, label: "Page 2", path: "/some-path" },
+  { icon: LayoutDashboard, label: "Dashboard", path: "/admin/dashboard" },
+  { icon: HomeIcon, label: "Hero Section", path: "/admin/hero" },
+  { icon: Info, label: "About Page", path: "/admin/about" },
+  { icon: Briefcase, label: "Services", path: "/admin/services" },
+  { icon: ImageIcon, label: "Portfolio", path: "/admin/portfolio" },
+  { icon: Star, label: "Testimonials", path: "/admin/testimonials" },
+  { icon: FileText, label: "Blog", path: "/admin/blog" },
+  { icon: MessageSquare, label: "Messages", path: "/admin/messages" },
+  { icon: Settings, label: "Settings", path: "/admin/settings" },
 ];
 
 const SIDEBAR_WIDTH_KEY = "sidebar-width";

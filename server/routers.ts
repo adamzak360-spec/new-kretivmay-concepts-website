@@ -229,6 +229,23 @@ export const appRouter = router({
         return db.setSiteSetting(input.key, input.value);
       }),
   }),
+
+  // Page Content
+  pages: router({
+    get: publicProcedure
+      .input(z.object({ page: z.string(), section: z.string().optional() }))
+      .query(({ input }) => db.getPageContent(input.page, input.section)),
+    upsert: protectedProcedure
+      .input(z.object({
+        page: z.string(),
+        section: z.string(),
+        content: z.any(),
+      }))
+      .mutation(({ input, ctx }) => {
+        if (ctx.user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+        return db.upsertPageContent(input);
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

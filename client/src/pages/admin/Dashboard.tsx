@@ -1,78 +1,128 @@
-import { useAuth } from "@/_core/hooks/useAuth";
-import { Link } from "wouter";
-import { BarChart3, FileText, Image, MessageSquare, Settings, Star } from "lucide-react";
 import DashboardLayout from "@/components/DashboardLayout";
+import { useAuth } from "@/_core/hooks/useAuth";
+import { trpc } from "@/lib/trpc";
+import { 
+  Briefcase, 
+  Image as ImageIcon, 
+  MessageSquare, 
+  Star, 
+  FileText,
+  PlusCircle,
+  ExternalLink
+} from "lucide-react";
+import { Link } from "wouter";
 
 export default function AdminDashboard() {
   const { user } = useAuth();
+  
+  const { data: services } = trpc.services.list.useQuery();
+  const { data: portfolio } = trpc.portfolio.list.useQuery();
+  const { data: messages } = trpc.contact.list.useQuery();
+  const { data: testimonials } = trpc.testimonials.list.useQuery();
+  const { data: posts } = trpc.blog.list.useQuery();
 
   const stats = [
-    { label: "Portfolio Items", value: "0", icon: Image },
-    { label: "Services", value: "0", icon: BarChart3 },
-    { label: "Blog Posts", value: "0", icon: FileText },
-    { label: "Testimonials", value: "0", icon: Star },
+    { label: "Services", value: services?.length || 0, icon: Briefcase, color: "bg-blue-500", path: "/admin/services" },
+    { label: "Portfolio", value: portfolio?.length || 0, icon: ImageIcon, color: "bg-purple-500", path: "/admin/portfolio" },
+    { label: "Messages", value: messages?.filter(m => !m.read).length || 0, icon: MessageSquare, color: "bg-orange-500", path: "/admin/messages", suffix: " unread" },
+    { label: "Testimonials", value: testimonials?.length || 0, icon: Star, color: "bg-yellow-500", path: "/admin/testimonials" },
+    { label: "Blog Posts", value: posts?.length || 0, icon: FileText, color: "bg-green-500", path: "/admin/blog" },
   ];
 
-  const menuItems = [
-    { label: "Portfolio", href: "/admin/portfolio", icon: Image },
-    { label: "Services", href: "/admin/services", icon: BarChart3 },
-    { label: "Blog Posts", href: "/admin/blog", icon: FileText },
-    { label: "Testimonials", href: "/admin/testimonials", icon: Star },
-    { label: "Messages", href: "/admin/messages", icon: MessageSquare },
-    { label: "Settings", href: "/admin/settings", icon: Settings },
+  const quickActions = [
+    { label: "Edit Hero Section", icon: PlusCircle, path: "/admin/hero" },
+    { label: "Update About Page", icon: PlusCircle, path: "/admin/about" },
+    { label: "Add Portfolio Work", icon: PlusCircle, path: "/admin/portfolio" },
+    { label: "View Website", icon: ExternalLink, path: "/", external: true },
   ];
 
   return (
     <DashboardLayout>
       <div className="space-y-8">
         <div>
-          <h1 className="text-3xl font-bold">Welcome back, {user?.name}!</h1>
-          <p className="text-slate-600 mt-2">Here's what's happening with your website.</p>
+          <h1 className="text-3xl font-bold text-slate-900">Welcome back, {user?.name}</h1>
+          <p className="text-slate-500 mt-2">Manage your website content and track your business growth.</p>
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {stats.map((stat, index) => {
-            const Icon = stat.icon;
-            return (
-              <div key={index} className="bg-white p-6 rounded-lg shadow">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-slate-600 text-sm">{stat.label}</p>
-                    <p className="text-3xl font-bold mt-2">{stat.value}</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+          {stats.map((stat) => (
+            <Link key={stat.label} href={stat.path}>
+              <a className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow block">
+                <div className="flex items-center gap-4">
+                  <div className={`${stat.color} p-3 rounded-lg text-white`}>
+                    <stat.icon className="w-6 h-6" />
                   </div>
-                  <Icon className="w-12 h-12 text-blue-600 opacity-20" />
+                  <div>
+                    <p className="text-sm font-medium text-slate-500">{stat.label}</p>
+                    <p className="text-2xl font-bold text-slate-900">
+                      {stat.value}
+                      {stat.suffix && <span className="text-xs font-normal text-slate-400">{stat.suffix}</span>}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              </a>
+            </Link>
+          ))}
         </div>
 
-        {/* Quick Actions */}
-        <div>
-          <h2 className="text-2xl font-bold mb-4">Quick Actions</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {menuItems.map((item, index) => {
-              const Icon = item.icon;
-              return (
-                <Link key={index} href={item.href}>
-                  <a className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow flex items-center gap-4">
-                    <Icon className="w-8 h-8 text-blue-600" />
-                    <span className="font-semibold">{item.label}</span>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Quick Actions */}
+          <div className="lg:col-span-1 space-y-6">
+            <h2 className="text-xl font-bold text-slate-900">Quick Actions</h2>
+            <div className="grid grid-cols-1 gap-4">
+              {quickActions.map((action) => (
+                action.external ? (
+                  <a 
+                    key={action.label} 
+                    href={action.path} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 p-4 bg-white rounded-lg border border-slate-100 hover:bg-slate-50 transition-colors"
+                  >
+                    <action.icon className="w-5 h-5 text-blue-600" />
+                    <span className="font-medium">{action.label}</span>
                   </a>
-                </Link>
-              );
-            })}
+                ) : (
+                  <Link key={action.label} href={action.path}>
+                    <a className="flex items-center gap-3 p-4 bg-white rounded-lg border border-slate-100 hover:bg-slate-50 transition-colors">
+                      <action.icon className="w-5 h-5 text-blue-600" />
+                      <span className="font-medium">{action.label}</span>
+                    </a>
+                  </Link>
+                )
+              ))}
+            </div>
           </div>
-        </div>
 
-        {/* Recent Activity */}
-        <div>
-          <h2 className="text-2xl font-bold mb-4">Recent Activity</h2>
-          <div className="bg-white p-6 rounded-lg shadow">
-            <p className="text-slate-600 text-center py-8">
-              No recent activity yet. Start by adding portfolio items or services!
-            </p>
+          {/* Recent Messages Preview */}
+          <div className="lg:col-span-2 space-y-6">
+            <div className="flex justify-between items-center">
+              <h2 className="text-xl font-bold text-slate-900">Recent Messages</h2>
+              <Link href="/admin/messages">
+                <a className="text-sm text-blue-600 hover:underline">View all</a>
+              </Link>
+            </div>
+            <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+              {messages && messages.length > 0 ? (
+                <div className="divide-y divide-slate-100">
+                  {messages.slice(0, 5).map((msg) => (
+                    <div key={msg.id} className={`p-4 hover:bg-slate-50 transition-colors ${!msg.read ? 'bg-blue-50/30' : ''}`}>
+                      <div className="flex justify-between items-start mb-1">
+                        <p className="font-semibold text-slate-900">{msg.name}</p>
+                        <p className="text-xs text-slate-400">{new Date(msg.createdAt).toLocaleDateString()}</p>
+                      </div>
+                      <p className="text-sm text-slate-600 line-clamp-1">{msg.message}</p>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="p-12 text-center">
+                  <MessageSquare className="w-12 h-12 text-slate-200 mx-auto mb-4" />
+                  <p className="text-slate-500">No messages yet.</p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
