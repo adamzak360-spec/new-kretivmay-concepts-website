@@ -68,26 +68,16 @@ export default function DashboardLayout({
     return <DashboardLayoutSkeleton />
   }
 
-  if (!user) {
+  // Access is handled by ProtectedAdminRoute, so we don't need to check user here
+  // But we can show a simple message if somehow they get here without being an admin
+  if (!user && !localStorage.getItem("admin_auth")) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="flex flex-col items-center gap-8 p-8 max-w-md w-full">
-          <div className="flex flex-col items-center gap-6">
-            <h1 className="text-2xl font-semibold tracking-tight text-center">
-              Sign in to continue
-            </h1>
-            <p className="text-sm text-muted-foreground text-center max-w-sm">
-              Access to this dashboard requires authentication. Continue to launch the login flow.
-            </p>
-          </div>
-          <Button
-            onClick={() => {
-              window.location.href = getLoginUrl();
-            }}
-            size="lg"
-            className="w-full shadow-lg hover:shadow-xl transition-all"
-          >
-            Sign in
+        <div className="text-center">
+          <h1 className="text-2xl font-bold">Access Denied</h1>
+          <p className="mt-2">Please login to access the admin dashboard.</p>
+          <Button className="mt-4" onClick={() => window.location.href = "/admin/login"}>
+            Go to Login
           </Button>
         </div>
       </div>
