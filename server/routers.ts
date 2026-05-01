@@ -216,12 +216,9 @@ export const appRouter = router({
 
   // Site Settings
   settings: router({
-    get: protectedProcedure
+    get: publicProcedure
       .input(z.string())
-      .query(({ input, ctx }) => {
-        if (ctx.user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
-        return db.getSiteSetting(input);
-      }),
+      .query(({ input }) => db.getSiteSetting(input)),
     set: protectedProcedure
       .input(z.object({ key: z.string(), value: z.string() }))
       .mutation(({ input, ctx }) => {
