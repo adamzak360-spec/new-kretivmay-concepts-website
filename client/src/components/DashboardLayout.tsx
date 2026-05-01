@@ -70,7 +70,7 @@ export default function DashboardLayout({
 
   // Access is handled by ProtectedAdminRoute, so we don't need to check user here
   // But we can show a simple message if somehow they get here without being an admin
-  if (!user && !localStorage.getItem("admin_auth")) {
+  if (!user && !localStorage.getItem("adminAuth")) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
