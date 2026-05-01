@@ -23,7 +23,10 @@ export default function AdminLogin() {
       localStorage.setItem("adminAuth", "true");
       localStorage.setItem("adminLoginTime", new Date().toISOString());
       toast.success("Login successful!");
-      setLocation("/admin/dashboard");
+      // Force a small delay then redirect
+      setTimeout(() => {
+        window.location.href = "/admin/dashboard";
+      }, 100);
     } else {
       toast.error("Invalid password");
       setPassword("");
