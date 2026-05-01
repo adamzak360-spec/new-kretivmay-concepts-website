@@ -33,25 +33,25 @@ function Router() {
       <Route path={"/contact"} component={Contact} />
       
       {/* Admin Routes */}
-      <Route path={"\admin/login"}>
+      <Route path={"/admin/login"}>
         {() => <AdminLogin />}
       </Route>
-      <Route path={"\admin/dashboard"}>
+      <Route path={"/admin/dashboard"}>
         {() => <ProtectedAdminRoute><AdminDashboard /></ProtectedAdminRoute>}
       </Route>
-      <Route path={"\admin/portfolio"}>
+      <Route path={"/admin/portfolio"}>
         {() => <ProtectedAdminRoute><AdminPortfolio /></ProtectedAdminRoute>}
       </Route>
-      <Route path={"\admin/photography"}>
+      <Route path={"/admin/photography"}>
         {() => <ProtectedAdminRoute><AdminPhotography /></ProtectedAdminRoute>}
       </Route>
-      <Route path={"\admin/services"}>
+      <Route path={"/admin/services"}>
         {() => <ProtectedAdminRoute><AdminServices /></ProtectedAdminRoute>}
       </Route>
-      <Route path={"\admin/messages"}>
+      <Route path={"/admin/messages"}>
         {() => <ProtectedAdminRoute><AdminMessages /></ProtectedAdminRoute>}
       </Route>
-      <Route path={"\admin/settings"}>
+      <Route path={"/admin/settings"}>
         {() => <ProtectedAdminRoute><AdminSettings /></ProtectedAdminRoute>}
       </Route>
 
