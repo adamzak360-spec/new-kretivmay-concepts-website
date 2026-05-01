@@ -1,13 +1,17 @@
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
-import { X } from "lucide-react";
+import { X, Play } from "lucide-react";
 import { FALLBACK_FEATURED_WORKS } from "@/lib/fallbacks";
 
 const categories = ["design", "print", "branding", "photography", "video"];
 
+const isVideo = (url: string) => {
+  return url.includes(".mp4") || url.includes(".webm") || url.includes(".mov");
+};
+
 export default function Portfolio() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [selectedImage, setSelectedImage] = useState<any>(null);
+  const [selectedItem, setSelectedItem] = useState<any>(null);
   
   const { data: portfolio = FALLBACK_FEATURED_WORKS } = trpc.portfolio.list.useQuery({
     category: selectedCategory || undefined,
@@ -67,16 +71,30 @@ export default function Portfolio() {
               {portfolio.map((item) => (
                 <div
                   key={item.id}
-                  onClick={() => setSelectedImage(item)}
+                  onClick={() => setSelectedItem(item)}
                   className="group cursor-pointer relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
                 >
                   <div className="aspect-square overflow-hidden bg-slate-100">
-                    <img
-                      src={item.imageUrl}
-                      alt={item.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                      loading="lazy"
-                    />
+                    {isVideo(item.imageUrl) ? (
+                      <>
+                        <video
+                          src={item.imageUrl}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                          onMouseEnter={(e) => e.currentTarget.play()}
+                          onMouseLeave={(e) => e.currentTarget.pause()}
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/40 transition-colors">
+                          <Play className="w-16 h-16 text-white fill-white" />
+                        </div>
+                      </>
+                    ) : (
+                      <img
+                        src={item.imageUrl}
+                        alt={item.title}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                        loading="lazy"
+                      />
+                    )}
                   </div>
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-colors flex items-end p-4">
                     <div className="text-white opacity-0 group-hover:opacity-100 transition-opacity">
@@ -96,35 +114,44 @@ export default function Portfolio() {
       </section>
 
       {/* Lightbox Modal */}
-      {selectedImage && (
+      {selectedItem && (
         <div
           className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
-          onClick={() => setSelectedImage(null)}
+          onClick={() => setSelectedItem(null)}
         >
           <div
             className="relative max-w-4xl w-full"
             onClick={(e) => e.stopPropagation()}
           >
             <button
-              onClick={() => setSelectedImage(null)}
+              onClick={() => setSelectedItem(null)}
               className="absolute -top-10 right-0 text-white hover:text-slate-300 transition-colors z-10"
               aria-label="Close modal"
             >
               <X className="w-8 h-8" />
             </button>
             <div className="bg-white rounded-lg overflow-hidden shadow-2xl">
-              <img
-                src={selectedImage.imageUrl}
-                alt={selectedImage.title}
-                className="w-full h-auto"
-              />
+              {isVideo(selectedItem.imageUrl) ? (
+                <video
+                  src={selectedItem.imageUrl}
+                  className="w-full h-auto"
+                  controls
+                  autoPlay
+                />
+              ) : (
+                <img
+                  src={selectedItem.imageUrl}
+                  alt={selectedItem.title}
+                  className="w-full h-auto"
+                />
+              )}
               <div className="p-6">
-                <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2">{selectedImage.title}</h2>
-                {selectedImage.description && (
-                  <p className="text-slate-700 mb-4 leading-relaxed">{selectedImage.description}</p>
+                <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2">{selectedItem.title}</h2>
+                {selectedItem.description && (
+                  <p className="text-slate-700 mb-4 leading-relaxed">{selectedItem.description}</p>
                 )}
                 <p className="text-sm text-slate-600 capitalize">
-                  <span className="font-semibold">Category:</span> {selectedImage.category}
+                  <span className="font-semibold">Category:</span> {selectedItem.category}
                 </p>
               </div>
             </div>

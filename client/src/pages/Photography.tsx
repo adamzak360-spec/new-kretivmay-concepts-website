@@ -37,7 +37,7 @@ export default function Photography() {
             {eventTypes.map((event, index) => (
               <div
                 key={index}
-                className="bg-white p-8 rounded-lg shadow hover:shadow-lg transition-shadow text-center"
+                className="bg-white p-8 rounded-lg shadow hover:shadow-lg transition-shadow text-center border border-slate-100"
               >
                 <div className="text-5xl mb-4">{event.icon}</div>
                 <h3 className="text-xl font-semibold">{event.name}</h3>
@@ -55,9 +55,9 @@ export default function Photography() {
             <div className="flex justify-center">
               <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
             </div>
-          ) : (
+          ) : portfolio && portfolio.length > 0 ? (
             <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
-              {portfolio?.map((item) => (
+              {portfolio.map((item) => (
                 <div
                   key={item.id}
                   onClick={() => setSelectedImage(item)}
@@ -76,6 +76,10 @@ export default function Photography() {
                   </div>
                 </div>
               ))}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-slate-600 text-lg">No photography items yet.</p>
             </div>
           )}
         </div>
@@ -113,14 +117,18 @@ export default function Photography() {
             >
               <X className="w-8 h-8" />
             </button>
-            <img
-              src={selectedImage.imageUrl}
-              alt={selectedImage.title}
-              className="w-full h-auto rounded-lg"
-            />
-            <div className="mt-4 text-white">
-              <h2 className="text-2xl font-bold">{selectedImage.title}</h2>
-              <p className="text-slate-300">{selectedImage.description}</p>
+            <div className="bg-white rounded-lg overflow-hidden shadow-2xl">
+              <img
+                src={selectedImage.imageUrl}
+                alt={selectedImage.title}
+                className="w-full h-auto rounded-lg"
+              />
+              <div className="p-6">
+                <h2 className="text-2xl font-bold text-slate-900 mb-2">{selectedImage.title}</h2>
+                {selectedImage.description && (
+                  <p className="text-slate-600">{selectedImage.description}</p>
+                )}
+              </div>
             </div>
           </div>
         </div>

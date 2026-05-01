@@ -13,13 +13,10 @@ import Photography from "./pages/Photography";
 import Contact from "./pages/Contact";
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminPortfolio from "./pages/admin/Portfolio";
+import AdminPhotography from "./pages/admin/Photography";
 import AdminServices from "./pages/admin/Services";
-import AdminBlog from "./pages/admin/Blog";
 import AdminMessages from "./pages/admin/Messages";
-import AdminTestimonials from "./pages/admin/Testimonials";
 import AdminSettings from "./pages/admin/Settings";
-import AdminHero from "./pages/admin/Hero";
-import AdminAbout from "./pages/admin/About";
 import Layout from "./components/Layout";
 import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
 
@@ -35,32 +32,23 @@ function Router() {
       <Route path={"/contact"} component={Contact} />
       
       {/* Admin Routes */}
-      <Route path={"/admin/dashboard"}>
+      <Route path={"\admin/dashboard"}>
         {() => <ProtectedAdminRoute><AdminDashboard /></ProtectedAdminRoute>}
       </Route>
-      <Route path={"/admin/portfolio"}>
+      <Route path={"\admin/portfolio"}>
         {() => <ProtectedAdminRoute><AdminPortfolio /></ProtectedAdminRoute>}
       </Route>
-      <Route path={"/admin/services"}>
+      <Route path={"\admin/photography"}>
+        {() => <ProtectedAdminRoute><AdminPhotography /></ProtectedAdminRoute>}
+      </Route>
+      <Route path={"\admin/services"}>
         {() => <ProtectedAdminRoute><AdminServices /></ProtectedAdminRoute>}
       </Route>
-      <Route path={"/admin/blog"}>
-        {() => <ProtectedAdminRoute><AdminBlog /></ProtectedAdminRoute>}
-      </Route>
-      <Route path={"/admin/testimonials"}>
-        {() => <ProtectedAdminRoute><AdminTestimonials /></ProtectedAdminRoute>}
-      </Route>
-      <Route path={"/admin/messages"}>
+      <Route path={"\admin/messages"}>
         {() => <ProtectedAdminRoute><AdminMessages /></ProtectedAdminRoute>}
       </Route>
-      <Route path={"/admin/settings"}>
+      <Route path={"\admin/settings"}>
         {() => <ProtectedAdminRoute><AdminSettings /></ProtectedAdminRoute>}
-      </Route>
-      <Route path={"/admin/hero"}>
-        {() => <ProtectedAdminRoute><AdminHero /></ProtectedAdminRoute>}
-      </Route>
-      <Route path={"/admin/about"}>
-        {() => <ProtectedAdminRoute><AdminAbout /></ProtectedAdminRoute>}
       </Route>
 
       <Route path={"/404"} component={NotFound} />

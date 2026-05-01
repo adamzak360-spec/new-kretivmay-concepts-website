@@ -1,7 +1,7 @@
 import { useState } from "react";
 import DashboardLayout from "@/components/DashboardLayout";
 import { ImageUpload } from "@/components/ImageUpload";
-import { Plus, Trash2, Edit2 } from "lucide-react";
+import { Plus, Trash2, Edit2, Video, Image as ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
@@ -55,7 +55,6 @@ export default function AdminPortfolio() {
   });
 
   const handleImageUpload = async (file: File) => {
-    // Create FormData for file upload
     const formDataObj = new FormData();
     formDataObj.append("file", file);
 
@@ -90,7 +89,7 @@ export default function AdminPortfolio() {
     }
 
     if (!formData.imageUrl) {
-      toast.error("Please upload an image");
+      toast.error("Please upload an image or video");
       return;
     }
 
@@ -148,11 +147,22 @@ export default function AdminPortfolio() {
     }
   };
 
+  const isVideo = (url: string) => {
+    return url.includes(".mp4") || url.includes(".webm") || url.includes(".mov");
+  };
+
+  const isVideoPreview = (url: string) => {
+    return url.includes(".mp4") || url.includes(".webm") || url.includes(".mov");
+  };
+
   return (
     <DashboardLayout>
       <div className="space-y-8">
         <div className="flex justify-between items-center">
-          <h1 className="text-3xl font-bold">Portfolio Management</h1>
+          <div>
+            <h1 className="text-3xl font-bold">Portfolio Management</h1>
+            <p className="text-slate-600 mt-1">Manage your portfolio items including images and videos</p>
+          </div>
           <Button
             onClick={() => {
               if (showForm) {
@@ -170,15 +180,15 @@ export default function AdminPortfolio() {
 
         {/* Add/Edit Form */}
         {showForm && (
-          <div className="bg-white dark:bg-slate-900 p-6 rounded-lg shadow">
+          <div className="bg-white dark:bg-slate-900 p-8 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700">
             <h2 className="text-2xl font-bold mb-6">
               {editingId ? "Edit Portfolio Item" : "Add Portfolio Item"}
             </h2>
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Image Upload */}
+              {/* Media Upload */}
               <div>
                 <label className="block text-sm font-medium mb-3">
-                  Portfolio Image *
+                  Portfolio Image or Video *
                 </label>
                 <ImageUpload
                   onUpload={handleImageUpload}
@@ -189,20 +199,28 @@ export default function AdminPortfolio() {
                       imageKey: result.key,
                     }));
                   }}
-                  label="Upload Portfolio Image"
-                  maxSize={20}
-                  accept="image/*"
+                  label="Upload Image or Video (Images: JPG, PNG, GIF, WebP | Videos: MP4, WebM)"
+                  maxSize={100}
+                  accept="image/*,video/mp4,video/webm,video/quicktime"
                 />
                 {formData.imageUrl && (
                   <div className="mt-4">
                     <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
                       Preview:
                     </p>
-                    <img
-                      src={formData.imageUrl}
-                      alt="Preview"
-                      className="max-h-48 rounded-lg object-cover"
-                    />
+                    {isVideoPreview(formData.imageUrl) ? (
+                      <video
+                        src={formData.imageUrl}
+                        className="max-h-48 rounded-lg object-cover"
+                        controls
+                      />
+                    ) : (
+                      <img
+                        src={formData.imageUrl}
+                        alt="Preview"
+                        className="max-h-48 rounded-lg object-cover"
+                      />
+                    )}
                   </div>
                 )}
               </div>
@@ -299,33 +317,55 @@ export default function AdminPortfolio() {
         )}
 
         {/* Portfolio Items List */}
-        <div className="grid gap-4">
-          <h2 className="text-xl font-bold">Portfolio Items</h2>
+        <div className="grid gap-6">
+          <h2 className="text-xl font-bold">Portfolio Items ({portfolioItems.length})</h2>
           {portfolioItems.length === 0 ? (
-            <p className="text-gray-600 dark:text-gray-400">
-              No portfolio items yet. Add one to get started!
-            </p>
+            <div className="bg-slate-50 dark:bg-slate-900 p-12 rounded-lg text-center border border-slate-200 dark:border-slate-700">
+              <ImageIcon className="w-12 h-12 text-slate-300 mx-auto mb-4" />
+              <p className="text-gray-600 dark:text-gray-400 text-lg">
+                No portfolio items yet. Add one to get started!
+              </p>
+            </div>
           ) : (
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {portfolioItems.map((item: any) => (
                 <div
                   key={item.id}
-                  className="bg-white dark:bg-slate-900 rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow"
+                  className="bg-white dark:bg-slate-900 rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow border border-slate-200 dark:border-slate-700"
                 >
-                  {item.imageUrl && (
-                    <img
-                      src={item.imageUrl}
-                      alt={item.title}
-                      className="w-full h-48 object-cover"
-                    />
-                  )}
+                  <div className="relative aspect-square bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                    {isVideo(item.imageUrl) ? (
+                      <>
+                        <video
+                          src={item.imageUrl}
+                          className="w-full h-full object-cover"
+                          onMouseEnter={(e) => e.currentTarget.play()}
+                          onMouseLeave={(e) => e.currentTarget.pause()}
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                          <Video className="w-12 h-12 text-white" />
+                        </div>
+                      </>
+                    ) : (
+                      <img
+                        src={item.imageUrl}
+                        alt={item.title}
+                        className="w-full h-full object-cover"
+                      />
+                    )}
+                  </div>
                   <div className="p-4">
-                    <h3 className="font-bold text-lg mb-2">{item.title}</h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-                      {item.description}
+                    <div className="flex items-start justify-between mb-2">
+                      <h3 className="font-bold text-lg flex-1">{item.title}</h3>
+                      {isVideo(item.imageUrl) && (
+                        <Video className="w-4 h-4 text-blue-600 ml-2 flex-shrink-0" />
+                      )}
+                    </div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
+                      {item.description || "No description"}
                     </p>
-                    <div className="flex gap-2 mb-3">
-                      <span className="text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded">
+                    <div className="flex gap-2 mb-3 flex-wrap">
+                      <span className="text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded capitalize">
                         {item.category}
                       </span>
                       {item.featured && (

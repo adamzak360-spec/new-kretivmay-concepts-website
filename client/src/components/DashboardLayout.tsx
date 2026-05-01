@@ -32,22 +32,14 @@ import {
   Settings, 
   Briefcase, 
   Image as ImageIcon, 
-  MessageSquare, 
-  FileText, 
-  Star, 
-  Home as HomeIcon, 
-  Info, 
-  Users 
+  MessageSquare,
 } from "lucide-react";
 
 const menuItems = [
   { icon: LayoutDashboard, label: "Dashboard", path: "/admin/dashboard" },
-  { icon: HomeIcon, label: "Hero Section", path: "/admin/hero" },
-  { icon: Info, label: "About Page", path: "/admin/about" },
   { icon: Briefcase, label: "Services", path: "/admin/services" },
   { icon: ImageIcon, label: "Portfolio", path: "/admin/portfolio" },
-  { icon: Star, label: "Testimonials", path: "/admin/testimonials" },
-  { icon: FileText, label: "Blog", path: "/admin/blog" },
+  { icon: ImageIcon, label: "Photography", path: "/admin/photography" },
   { icon: MessageSquare, label: "Messages", path: "/admin/messages" },
   { icon: Settings, label: "Settings", path: "/admin/settings" },
 ];

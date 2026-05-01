@@ -8,7 +8,9 @@ import {
   Star, 
   FileText,
   PlusCircle,
-  ExternalLink
+  ExternalLink,
+  Upload,
+  Video
 } from "lucide-react";
 import { Link } from "wouter";
 
@@ -18,21 +20,18 @@ export default function AdminDashboard() {
   const { data: services } = trpc.services.list.useQuery();
   const { data: portfolio } = trpc.portfolio.list.useQuery();
   const { data: messages } = trpc.contact.list.useQuery();
-  const { data: testimonials } = trpc.testimonials.list.useQuery();
-  const { data: posts } = trpc.blog.list.useQuery();
 
   const stats = [
     { label: "Services", value: services?.length || 0, icon: Briefcase, color: "bg-blue-500", path: "/admin/services" },
     { label: "Portfolio", value: portfolio?.length || 0, icon: ImageIcon, color: "bg-purple-500", path: "/admin/portfolio" },
+    { label: "Photography", value: portfolio?.filter(p => p.category === 'photography').length || 0, icon: ImageIcon, color: "bg-pink-500", path: "/admin/photography" },
     { label: "Messages", value: messages?.filter(m => !m.read).length || 0, icon: MessageSquare, color: "bg-orange-500", path: "/admin/messages", suffix: " unread" },
-    { label: "Testimonials", value: testimonials?.length || 0, icon: Star, color: "bg-yellow-500", path: "/admin/testimonials" },
-    { label: "Blog Posts", value: posts?.length || 0, icon: FileText, color: "bg-green-500", path: "/admin/blog" },
   ];
 
   const quickActions = [
-    { label: "Edit Hero Section", icon: PlusCircle, path: "/admin/hero" },
-    { label: "Update About Page", icon: PlusCircle, path: "/admin/about" },
-    { label: "Add Portfolio Work", icon: PlusCircle, path: "/admin/portfolio" },
+    { label: "Add Portfolio Item", icon: PlusCircle, path: "/admin/portfolio" },
+    { label: "Add Service", icon: PlusCircle, path: "/admin/services" },
+    { label: "Add Photography", icon: PlusCircle, path: "/admin/photography" },
     { label: "View Website", icon: ExternalLink, path: "/", external: true },
   ];
 
@@ -41,11 +40,11 @@ export default function AdminDashboard() {
       <div className="space-y-8">
         <div>
           <h1 className="text-3xl font-bold text-slate-900">Welcome back, {user?.name}</h1>
-          <p className="text-slate-500 mt-2">Manage your website content and track your business growth.</p>
+          <p className="text-slate-500 mt-2">Manage your portfolio, services, and photography content.</p>
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {stats.map((stat) => (
             <Link key={stat.label} href={stat.path}>
               <a className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow block">
@@ -81,13 +80,13 @@ export default function AdminDashboard() {
                     className="flex items-center gap-3 p-4 bg-white rounded-lg border border-slate-100 hover:bg-slate-50 transition-colors"
                   >
                     <action.icon className="w-5 h-5 text-blue-600" />
-                    <span className="font-medium">{action.label}</span>
+                    <span className="font-medium text-sm">{action.label}</span>
                   </a>
                 ) : (
                   <Link key={action.label} href={action.path}>
                     <a className="flex items-center gap-3 p-4 bg-white rounded-lg border border-slate-100 hover:bg-slate-50 transition-colors">
                       <action.icon className="w-5 h-5 text-blue-600" />
-                      <span className="font-medium">{action.label}</span>
+                      <span className="font-medium text-sm">{action.label}</span>
                     </a>
                   </Link>
                 )
