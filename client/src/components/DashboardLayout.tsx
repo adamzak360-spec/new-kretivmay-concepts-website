@@ -64,9 +64,10 @@ export default function DashboardLayout({
     localStorage.setItem(SIDEBAR_WIDTH_KEY, sidebarWidth.toString());
   }, [sidebarWidth]);
 
-  if (loading) {
-    return <DashboardLayoutSkeleton />
-  }
+  // We don't need to wait for 'loading' from useAuth because we use our own simple auth
+  // if (loading) {
+  //   return <DashboardLayoutSkeleton />
+  // }
 
   // Access is handled by ProtectedAdminRoute, so we don't need to check user here
   // But we can show a simple message if somehow they get here without being an admin
