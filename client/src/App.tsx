@@ -19,7 +19,7 @@ import AdminServices from "./pages/admin/Services";
 import AdminMessages from "./pages/admin/Messages";
 import AdminSettings from "./pages/admin/Settings";
 import Layout from "./components/Layout";
-import SimpleAdminRoute from "./components/SimpleAdminRoute";
+import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
 
 function Router() {
   return (
@@ -37,22 +37,22 @@ function Router() {
         {() => <AdminLogin />}
       </Route>
       <Route path={"\admin/dashboard"}>
-        {() => <SimpleAdminRoute><AdminDashboard /></SimpleAdminRoute>}
+        {() => <ProtectedAdminRoute><AdminDashboard /></ProtectedAdminRoute>}
       </Route>
       <Route path={"\admin/portfolio"}>
-        {() => <SimpleAdminRoute><AdminPortfolio /></SimpleAdminRoute>}
+        {() => <ProtectedAdminRoute><AdminPortfolio /></ProtectedAdminRoute>}
       </Route>
       <Route path={"\admin/photography"}>
-        {() => <SimpleAdminRoute><AdminPhotography /></SimpleAdminRoute>}
+        {() => <ProtectedAdminRoute><AdminPhotography /></ProtectedAdminRoute>}
       </Route>
       <Route path={"\admin/services"}>
-        {() => <SimpleAdminRoute><AdminServices /></SimpleAdminRoute>}
+        {() => <ProtectedAdminRoute><AdminServices /></ProtectedAdminRoute>}
       </Route>
       <Route path={"\admin/messages"}>
-        {() => <SimpleAdminRoute><AdminMessages /></SimpleAdminRoute>}
+        {() => <ProtectedAdminRoute><AdminMessages /></ProtectedAdminRoute>}
       </Route>
       <Route path={"\admin/settings"}>
-        {() => <SimpleAdminRoute><AdminSettings /></SimpleAdminRoute>}
+        {() => <ProtectedAdminRoute><AdminSettings /></ProtectedAdminRoute>}
       </Route>
 
       <Route path={"/404"} component={NotFound} />

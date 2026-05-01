@@ -1,53 +1,34 @@
-import { ReactNode } from "react";
-import { useAuth } from "@/_core/hooks/useAuth";
-import { useLocation } from "wouter";
-import { Loader2 } from "lucide-react";
-import { getLoginUrl } from "@/const";
+import { ReactNode, useEffect, useState } from "react";
+import AdminLogin from "@/pages/AdminLogin";
 
 interface ProtectedAdminRouteProps {
   children: ReactNode;
 }
 
 export default function ProtectedAdminRoute({ children }: ProtectedAdminRouteProps) {
-  const { user, loading } = useAuth();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
+  useEffect(() => {
+    // Check if user is authenticated via our new simple system
+    const authToken = localStorage.getItem("adminAuth");
+    if (authToken === "true") {
+      setIsAuthenticated(true);
+    }
+    setIsLoading(false);
+  }, []);
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
       </div>
     );
   }
 
-  if (!user) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen gap-4">
-        <h1 className="text-2xl font-bold">Admin Access Required</h1>
-        <p className="text-slate-600">Please log in to access the admin dashboard.</p>
-        <a
-          href={getLoginUrl()}
-          className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-        >
-          Log In
-        </a>
-      </div>
-    );
-  }
-
-  if (user.role !== "admin") {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen gap-4">
-        <h1 className="text-2xl font-bold">Access Denied</h1>
-        <p className="text-slate-600">You do not have permission to access this page.</p>
-        <a
-          href="/"
-          className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-        >
-          Go Home
-        </a>
-      </div>
-    );
+  if (!isAuthenticated) {
+    // Show our new simple login page directly instead of redirecting to the broken auth
+    return <AdminLogin />;
   }
 
   return <>{children}</>;
