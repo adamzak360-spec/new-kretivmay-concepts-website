@@ -1,9 +1,10 @@
 import { ReactNode, useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, X, Moon, Sun, MessageCircle, ArrowUp, Facebook, Instagram, Twitter } from "lucide-react";
+import { Menu, X, Moon, Sun, MessageCircle, ArrowUp, Facebook, Instagram, Twitter, LogIn, LayoutDashboard } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
+import { getLoginUrl } from "@/const";
 
 interface LayoutProps {
   children: ReactNode;
@@ -101,13 +102,25 @@ export default function Layout({ children }: LayoutProps) {
               )}
             </button>
 
-            {user?.role === "admin" && (
-              <Link href="/admin/dashboard">
-                <a className="text-sm font-medium text-blue-600 hover:text-blue-700">
-                  Admin
+            {/* Admin/Login Link */}
+            <div className="hidden md:block">
+              {user?.role === "admin" ? (
+                <Link href="/admin/dashboard">
+                  <a className="flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700 bg-blue-50 dark:bg-blue-900/20 px-4 py-2 rounded-full transition-colors">
+                    <LayoutDashboard className="w-4 h-4" />
+                    Admin
+                  </a>
+                </Link>
+              ) : (
+                <a 
+                  href={getLoginUrl()}
+                  className="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-blue-600 px-4 py-2 rounded-full transition-colors"
+                >
+                  <LogIn className="w-4 h-4" />
+                  Login
                 </a>
-              </Link>
-            )}
+              )}
+            </div>
 
             {/* Mobile Menu Button */}
             <button
@@ -142,6 +155,30 @@ export default function Layout({ children }: LayoutProps) {
                   </a>
                 </Link>
               ))}
+              
+              {/* Mobile Admin/Login Link */}
+              <div className="pt-4 border-t border-border">
+                {user?.role === "admin" ? (
+                  <Link href="/admin/dashboard">
+                    <a 
+                      className="flex items-center gap-2 text-sm font-medium text-blue-600"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <LayoutDashboard className="w-4 h-4" />
+                      Admin Dashboard
+                    </a>
+                  </Link>
+                ) : (
+                  <a 
+                    href={getLoginUrl()}
+                    className="flex items-center gap-2 text-sm font-medium text-slate-600"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <LogIn className="w-4 h-4" />
+                    Admin Login
+                  </a>
+                )}
+              </div>
             </div>
           </nav>
         )}
