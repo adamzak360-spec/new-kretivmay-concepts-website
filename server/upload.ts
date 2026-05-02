@@ -23,20 +23,29 @@ export function registerUploadRoutes(app: Express) {
         req.on("end", async () => {
           try {
             const buffer = Buffer.concat(chunks);
-            const parts = buffer.toString("binary").split(`--${boundary}`);
+            // Use binary encoding to avoid corrupting binary data
+            const boundaryStr = `--${boundary}`;
+            const boundaryBuffer = Buffer.from(boundaryStr);
             
+            let start = 0;
             let fileBuffer: Buffer | null = null;
             let fileName = `upload-${Date.now()}`;
             let mimeType = "application/octet-stream";
 
-            // Parse multipart sections
-            for (const part of parts) {
-              if (part.includes("Content-Disposition: form-data")) {
-                const headerEnd = part.indexOf("\r\n\r\n");
-                if (headerEnd === -1) continue;
+            // Find parts by boundary
+            while (start < buffer.length) {
+              const boundaryIndex = buffer.indexOf(boundaryBuffer, start);
+              if (boundaryIndex === -1) break;
+              
+              const nextBoundaryIndex = buffer.indexOf(boundaryBuffer, boundaryIndex + boundaryBuffer.length);
+              if (nextBoundaryIndex === -1) break;
 
-                const headers = part.substring(0, headerEnd);
-                const body = part.substring(headerEnd + 4);
+              const part = buffer.slice(boundaryIndex + boundaryBuffer.length, nextBoundaryIndex);
+              const headerEnd = part.indexOf("\r\n\r\n");
+              
+              if (headerEnd !== -1) {
+                const headers = part.slice(0, headerEnd).toString();
+                const body = part.slice(headerEnd + 4);
                 
                 // Extract filename if present
                 const filenameMatch = headers.match(/filename="([^"]+)"/);
@@ -46,18 +55,15 @@ export function registerUploadRoutes(app: Express) {
                   // Extract content type
                   const contentTypeMatch = headers.match(/Content-Type: ([^\r\n]+)/);
                   if (contentTypeMatch) {
-                    mimeType = contentTypeMatch[1];
+                    mimeType = contentTypeMatch[1].trim();
                   }
 
-                  // Extract file body (remove trailing boundary markers)
-                  const fileBodyEnd = body.lastIndexOf("\r\n");
-                  fileBuffer = Buffer.from(
-                    body.substring(0, fileBodyEnd),
-                    "binary"
-                  );
+                  // Extract file body (remove trailing \r\n)
+                  fileBuffer = body.slice(0, body.length - 2);
                   break;
                 }
               }
+              start = nextBoundaryIndex;
             }
 
             if (!fileBuffer || fileBuffer.length === 0) {

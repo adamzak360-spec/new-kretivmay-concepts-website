@@ -2,10 +2,11 @@ import { Express } from "express";
 import { getFileData } from "./storage";
 
 export function registerFileRoutes(app: Express) {
-  // Serve uploaded files
-  app.get("/api/files/:key", async (req, res) => {
+  // Serve uploaded files - use wildcard to support multi-segment keys like 'uploads/...'
+  app.get("/api/files/*", async (req, res) => {
     try {
-      const { key } = req.params;
+      // Extract the full key from the wildcard parameter
+      const key = (req.params as any)[0];
 
       if (!key) {
         return res.status(400).json({ error: "File key is required" });
