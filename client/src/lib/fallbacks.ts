@@ -81,6 +81,18 @@ export const FALLBACK_SERVICES = [
 
 export const FALLBACK_FEATURED_WORKS = [
   {
+    id: 0,
+    title: "Elegant Traditional Photo Shoot",
+    description: "A professional photo shoot capturing the elegance of traditional attire.",
+    category: "photography" as const,
+    imageUrl: "/assets/portfolio/featured-photo-shoot.jpg",
+    imageKey: "featured-photo-shoot",
+    featured: true,
+    order: 0,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
     id: 1,
     title: "Corporate Rebranding",
     description: "Corporate Rebranding project",
