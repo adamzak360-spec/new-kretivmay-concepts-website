@@ -68,7 +68,13 @@ export default function Portfolio() {
         <div className="container mx-auto px-4">
           {portfolio && portfolio.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {portfolio.map((item) => (
+              {portfolio.flatMap((item: any) => {
+                const items = [{ id: `${item.id}-1`, title: item.title, imageUrl: item.imageUrl, category: item.category, description: item.description }];
+                if (item.imageUrl2) {
+                  items.push({ id: `${item.id}-2`, title: item.title, imageUrl: item.imageUrl2, category: item.category, description: item.description });
+                }
+                return items;
+              }).map((item) => (
                 <div
                   key={item.id}
                   onClick={() => setSelectedItem(item)}

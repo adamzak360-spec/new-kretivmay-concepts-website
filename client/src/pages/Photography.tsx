@@ -57,7 +57,13 @@ export default function Photography() {
             </div>
           ) : portfolio && portfolio.length > 0 ? (
             <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
-              {portfolio.map((item) => (
+              {portfolio.flatMap((item: any) => {
+                const items = [{ id: `${item.id}-1`, title: item.title, imageUrl: item.imageUrl, description: item.description }];
+                if (item.imageUrl2) {
+                  items.push({ id: `${item.id}-2`, title: item.title, imageUrl: item.imageUrl2, description: item.description });
+                }
+                return items;
+              }).map((item) => (
                 <div
                   key={item.id}
                   onClick={() => setSelectedImage(item)}

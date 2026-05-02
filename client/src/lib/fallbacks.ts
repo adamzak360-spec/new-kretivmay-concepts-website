@@ -81,6 +81,32 @@ export const FALLBACK_SERVICES = [
 
 export const FALLBACK_FEATURED_WORKS = [
   {
+    id: -10,
+    title: "New Featured Collection 1",
+    description: "New featured photography works.",
+    category: "photography" as const,
+    imageUrl: "/assets/portfolio/new-1.jpg",
+    imageUrl2: "/assets/portfolio/new-2.jpg",
+    imageKey: "new-1",
+    featured: true,
+    order: -10,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    id: -9,
+    title: "New Featured Collection 2",
+    description: "New featured photography works.",
+    category: "photography" as const,
+    imageUrl: "/assets/portfolio/new-3.jpg",
+    imageUrl2: "/assets/portfolio/new-4.jpg",
+    imageKey: "new-3",
+    featured: true,
+    order: -9,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
     id: -2,
     title: "Elegant Couple Photo Shoot",
     description: "A beautiful couple's photo shoot capturing special moments in traditional white attire.",

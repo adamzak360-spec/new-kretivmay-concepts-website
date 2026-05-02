@@ -153,17 +153,34 @@ export default function Home() {
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featured.map((item) => (
+            {featured.map((item: any) => (
               <div
                 key={item.id}
                 className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow bg-slate-100"
               >
-                <img
-                  src={item.imageUrl}
-                  alt={item.title}
-                  className="w-full h-64 object-contain group-hover:scale-105 transition-transform duration-300"
-                  loading="lazy"
-                />
+                {item.imageUrl2 ? (
+                  <div className="flex h-64">
+                    <img
+                      src={item.imageUrl}
+                      alt={`${item.title} - 1`}
+                      className="w-1/2 h-full object-cover group-hover:scale-105 transition-transform duration-300 border-r border-white"
+                      loading="lazy"
+                    />
+                    <img
+                      src={item.imageUrl2}
+                      alt={`${item.title} - 2`}
+                      className="w-1/2 h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      loading="lazy"
+                    />
+                  </div>
+                ) : (
+                  <img
+                    src={item.imageUrl}
+                    alt={item.title}
+                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                    loading="lazy"
+                  />
+                )}
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-end p-4">
                   <div className="text-white opacity-0 group-hover:opacity-100 transition-opacity">
                     <h3 className="font-semibold text-lg">{item.title}</h3>
