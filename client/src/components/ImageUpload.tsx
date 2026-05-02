@@ -102,7 +102,7 @@ export function ImageUpload({
           accept={accept}
           multiple={multiple}
           onChange={handleFileSelect}
-          className="hidden"
+          className="block"
           disabled={isUploading}
         />
 
