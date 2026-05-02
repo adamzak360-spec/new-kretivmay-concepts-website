@@ -81,6 +81,18 @@ export const FALLBACK_SERVICES = [
 
 export const FALLBACK_FEATURED_WORKS = [
   {
+    id: -1,
+    title: "Traditional Elegance - Green Attire",
+    description: "A stunning photo shoot featuring traditional green attire and elegant styling.",
+    category: "photography" as const,
+    imageUrl: "/assets/portfolio/featured-photo-shoot-2.jpg",
+    imageKey: "featured-photo-shoot-2",
+    featured: true,
+    order: -1,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
     id: 0,
     title: "Elegant Traditional Photo Shoot",
     description: "A professional photo shoot capturing the elegance of traditional attire.",
@@ -91,7 +103,7 @@ export const FALLBACK_FEATURED_WORKS = [
     order: 0,
     createdAt: new Date(),
     updatedAt: new Date()
-  },
+  ,
   {
     id: 1,
     title: "Corporate Rebranding",

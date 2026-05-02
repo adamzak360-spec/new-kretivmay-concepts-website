@@ -156,12 +156,12 @@ export default function Home() {
             {featured.map((item) => (
               <div
                 key={item.id}
-                className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow"
+                className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow bg-slate-100"
               >
                 <img
                   src={item.imageUrl}
                   alt={item.title}
-                  className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300"
+                  className="w-full h-64 object-contain group-hover:scale-105 transition-transform duration-300"
                   loading="lazy"
                 />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-end p-4">
