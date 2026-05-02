@@ -1,28 +1,30 @@
-import type { CookieOptions, Request } from "express";
+import type { CookieOptions } from "express";
 
 const LOCAL_HOSTS = new Set(["localhost", "127.0.0.1", "::1"]);
 
-function isIpAddress(host: string) {
+type AnyRequest = any;
+
+function isIpAddress(host: string): boolean {
   // Basic IPv4 check and IPv6 presence detection.
   if (/^\d{1,3}(\.\d{1,3}){3}$/.test(host)) return true;
   return host.includes(":");
 }
 
-function isSecureRequest(req: Request) {
-  if (req.protocol === "https") return true;
+function isSecureRequest(req: any): boolean {
+  if ((req as any).protocol === "https") return true;
 
-  const forwardedProto = req.headers["x-forwarded-proto"];
+  const forwardedProto = (req as any).headers["x-forwarded-proto"];
   if (!forwardedProto) return false;
 
   const protoList = Array.isArray(forwardedProto)
     ? forwardedProto
     : forwardedProto.split(",");
 
-  return protoList.some(proto => proto.trim().toLowerCase() === "https");
+  return protoList.some((proto: any) => proto.trim().toLowerCase() === "https");
 }
 
 export function getSessionCookieOptions(
-  req: Request
+  req: any
 ): Pick<CookieOptions, "domain" | "httpOnly" | "path" | "sameSite" | "secure"> {
   // const hostname = req.hostname;
   // const shouldSetDomain =
@@ -40,6 +42,7 @@ export function getSessionCookieOptions(
   //       : undefined;
 
   return {
+    domain: undefined as any,
     httpOnly: true,
     path: "/",
     sameSite: "none",

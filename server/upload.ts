@@ -1,11 +1,11 @@
-import { Express } from "express";
+import type { Express } from "express";
 import { storagePut } from "./storage";
 
 export function registerUploadRoutes(app: Express) {
   // Handle file uploads via FormData
-  app.post("/api/upload", async (req, res) => {
+  app.post("/api/upload", async (req: any, res: any) => {
     try {
-      const contentType = req.headers["content-type"];
+      const contentType = (req as any).headers["content-type"];
       
       // Handle FormData with multipart/form-data
       if (contentType && contentType.includes("multipart/form-data")) {
@@ -16,11 +16,11 @@ export function registerUploadRoutes(app: Express) {
         }
 
         const chunks: Buffer[] = [];
-        req.on("data", (chunk: Buffer) => {
+        (req as any).on("data", (chunk: Buffer) => {
           chunks.push(chunk);
         });
 
-        req.on("end", async () => {
+        (req as any).on("end", async () => {
           try {
             const buffer = Buffer.concat(chunks);
             // Use binary encoding to avoid corrupting binary data
@@ -111,7 +111,7 @@ export function registerUploadRoutes(app: Express) {
           }
         });
 
-        req.on("error", (error) => {
+        (req as any).on("error", (error: any) => {
           console.error("Upload stream error:", error);
           res.status(500).json({ error: "Upload failed" });
         });
@@ -119,11 +119,11 @@ export function registerUploadRoutes(app: Express) {
         // Handle raw binary upload
         const chunks: Buffer[] = [];
         
-        req.on("data", (chunk: Buffer) => {
+        (req as any).on("data", (chunk: Buffer) => {
           chunks.push(chunk);
         });
 
-        req.on("end", async () => {
+        (req as any).on("end", async () => {
           try {
             const fileBuffer = Buffer.concat(chunks);
             const maxSize = 20 * 1024 * 1024;
@@ -132,7 +132,7 @@ export function registerUploadRoutes(app: Express) {
               return res.status(413).json({ error: "File too large (max 20MB)" });
             }
 
-            const mimeType = req.headers["content-type"] || "application/octet-stream";
+            const mimeType = (req as any).headers["content-type"] || "application/octet-stream";
             const fileName = `upload-${Date.now()}`;
 
             const { url, key } = await storagePut(
@@ -155,7 +155,7 @@ export function registerUploadRoutes(app: Express) {
           }
         });
 
-        req.on("error", (error) => {
+        (req as any).on("error", (error: any) => {
           console.error("Upload stream error:", error);
           res.status(500).json({ error: "Upload failed" });
         });

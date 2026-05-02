@@ -11,8 +11,8 @@ export const appRouter = router({
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {
-      const cookieOptions = getSessionCookieOptions(ctx.req);
-      ctx.res.clearCookie(COOKIE_NAME, { ...cookieOptions, maxAge: -1 });
+      const cookieOptions = getSessionCookieOptions((ctx as any).req);
+      (ctx as any).res.clearCookie(COOKIE_NAME, { ...cookieOptions, maxAge: -1 });
       return {
         success: true,
       } as const;
@@ -36,7 +36,7 @@ export const appRouter = router({
         imageKey: z.string(),
       }))
       .mutation(({ input, ctx }) => {
-        if (ctx.user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+        if ((ctx as any).user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
         return db.createPortfolioItem(input);
       }),
     update: protectedProcedure
@@ -50,14 +50,14 @@ export const appRouter = router({
         imageKey: z.string(),
       }))
       .mutation(({ input, ctx }) => {
-        if (ctx.user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+        if ((ctx as any).user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
         const { id, ...data } = input;
         return db.updatePortfolioItem(id, data);
       }),
     delete: protectedProcedure
       .input(z.object({ id: z.number() }))
       .mutation(({ input, ctx }) => {
-        if (ctx.user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+        if ((ctx as any).user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
         return db.deletePortfolioItem(input.id);
       }),
   }),
@@ -78,7 +78,7 @@ export const appRouter = router({
         icon: z.string().optional(),
       }))
       .mutation(({ input, ctx }) => {
-        if (ctx.user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+        if ((ctx as any).user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
         return db.createService(input);
       }),
     update: protectedProcedure
@@ -93,14 +93,14 @@ export const appRouter = router({
         icon: z.string().optional(),
       }))
       .mutation(({ input, ctx }) => {
-        if (ctx.user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+        if ((ctx as any).user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
         const { id, ...data } = input;
         return db.updateService(id, data);
       }),
     delete: protectedProcedure
       .input(z.object({ id: z.number() }))
       .mutation(({ input, ctx }) => {
-        if (ctx.user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+        if ((ctx as any).user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
         return db.deleteService(input.id);
       }),
   }),
@@ -120,7 +120,7 @@ export const appRouter = router({
         published: z.boolean().optional(),
       }))
       .mutation(({ input, ctx }) => {
-        if (ctx.user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+        if ((ctx as any).user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
         return db.createBlogPost(input);
       }),
     update: protectedProcedure
@@ -135,14 +135,14 @@ export const appRouter = router({
         published: z.boolean().optional(),
       }))
       .mutation(({ input, ctx }) => {
-        if (ctx.user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+        if ((ctx as any).user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
         const { id, ...data } = input;
         return db.updateBlogPost(id, data);
       }),
     delete: protectedProcedure
       .input(z.object({ id: z.number() }))
       .mutation(({ input, ctx }) => {
-        if (ctx.user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+        if ((ctx as any).user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
         return db.deleteBlogPost(input.id);
       }),
   }),
@@ -151,7 +151,7 @@ export const appRouter = router({
   testimonials: router({
     featured: publicProcedure.query(() => db.getFeaturedTestimonials()),
     list: protectedProcedure.query(({ ctx }) => {
-      if (ctx.user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+      if ((ctx as any).user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
       return db.getAllTestimonials();
     }),
     create: protectedProcedure
@@ -165,7 +165,7 @@ export const appRouter = router({
         featured: z.boolean().optional(),
       }))
       .mutation(({ input, ctx }) => {
-        if (ctx.user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+        if ((ctx as any).user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
         return db.createTestimonial(input);
       }),
     update: protectedProcedure
@@ -180,14 +180,14 @@ export const appRouter = router({
         featured: z.boolean().optional(),
       }))
       .mutation(({ input, ctx }) => {
-        if (ctx.user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+        if ((ctx as any).user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
         const { id, ...data } = input;
         return db.updateTestimonial(id, data);
       }),
     delete: protectedProcedure
       .input(z.object({ id: z.number() }))
       .mutation(({ input, ctx }) => {
-        if (ctx.user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+        if ((ctx as any).user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
         return db.deleteTestimonial(input.id);
       }),
   }),
@@ -203,13 +203,13 @@ export const appRouter = router({
       }))
       .mutation(({ input }) => db.createContactSubmission(input)),
     list: protectedProcedure.query(({ ctx }) => {
-      if (ctx.user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+      if ((ctx as any).user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
       return db.getContactSubmissions();
     }),
     markAsRead: protectedProcedure
       .input(z.number())
       .mutation(({ input, ctx }) => {
-        if (ctx.user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+        if ((ctx as any).user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
         return db.markContactSubmissionAsRead(input);
       }),
   }),
@@ -222,7 +222,7 @@ export const appRouter = router({
     set: protectedProcedure
       .input(z.object({ key: z.string(), value: z.string() }))
       .mutation(({ input, ctx }) => {
-        if (ctx.user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+        if ((ctx as any).user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
         return db.setSiteSetting(input.key, input.value);
       }),
   }),
@@ -239,7 +239,7 @@ export const appRouter = router({
         content: z.any(),
       }))
       .mutation(({ input, ctx }) => {
-        if (ctx.user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+        if ((ctx as any).user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
         return db.upsertPageContent(input);
       }),
   }),
