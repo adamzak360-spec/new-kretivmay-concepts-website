@@ -163,13 +163,13 @@ export default function Home() {
                     <img
                       src={item.imageUrl}
                       alt={`${item.title} - 1`}
-                      className="w-1/2 h-full object-cover group-hover:scale-105 transition-transform duration-300 border-r border-white"
+                      className="w-1/2 h-full object-cover group-hover:scale-110 transition-transform duration-500 border-r-2 border-white"
                       loading="lazy"
                     />
                     <img
                       src={item.imageUrl2}
                       alt={`${item.title} - 2`}
-                      className="w-1/2 h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="w-1/2 h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       loading="lazy"
                     />
                   </div>
@@ -181,12 +181,12 @@ export default function Home() {
                     loading="lazy"
                   />
                 )}
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-all duration-300 flex flex-col justify-end p-6">
-                  <div className="text-white transform translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                    <h3 className="font-bold text-xl mb-1">{item.title}</h3>
-                    <p className="text-sm text-blue-200 uppercase tracking-wider mb-4">{item.category}</p>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8">
+                  <div className="text-white transform translate-y-6 group-hover:translate-y-0 transition-transform duration-500">
+                    <h3 className="font-bold text-2xl mb-1 drop-shadow-md">{item.title}</h3>
+                    <p className="text-sm text-blue-300 font-medium uppercase tracking-widest mb-6 drop-shadow-sm">{item.category}</p>
                     <Link href="/portfolio">
-                      <a className="inline-flex items-center gap-2 text-sm font-semibold bg-white text-blue-600 px-4 py-2 rounded-full hover:bg-blue-50 transition-colors">
+                      <a className="inline-flex items-center gap-3 text-sm font-bold bg-white text-blue-600 px-6 py-2.5 rounded-full hover:bg-blue-50 hover:scale-105 transition-all shadow-lg">
                         Learn More
                         <ArrowRight className="w-4 h-4" />
                       </a>

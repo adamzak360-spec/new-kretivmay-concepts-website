@@ -72,12 +72,12 @@ export default function Photography() {
                   <img
                     src={item.imageUrl}
                     alt={item.title}
-                    className="w-full h-auto group-hover:scale-110 transition-transform duration-300"
+                    className="w-full h-auto group-hover:scale-105 transition-transform duration-500"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-end p-4">
-                    <div className="text-white opacity-0 group-hover:opacity-100 transition-opacity">
-                      <h3 className="font-semibold">{item.title}</h3>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                    <div className="text-white transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                      <h3 className="font-bold text-lg drop-shadow-md">{item.title}</h3>
                     </div>
                   </div>
                 </div>

@@ -80,32 +80,32 @@ export default function Portfolio() {
                   onClick={() => setSelectedItem(item)}
                   className="group cursor-pointer relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
                 >
-                  <div className="aspect-square overflow-hidden bg-slate-100">
+                  <div className="aspect-[4/5] overflow-hidden bg-slate-100">
                     {isVideo(item.imageUrl) ? (
                       <>
                         <video
                           src={item.imageUrl}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                           onMouseEnter={(e) => e.currentTarget.play()}
                           onMouseLeave={(e) => e.currentTarget.pause()}
                         />
-                        <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/40 transition-colors">
-                          <Play className="w-16 h-16 text-white fill-white" />
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors">
+                          <Play className="w-16 h-16 text-white fill-white drop-shadow-lg" />
                         </div>
                       </>
                     ) : (
                       <img
                         src={item.imageUrl}
                         alt={item.title}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         loading="lazy"
                       />
                     )}
                   </div>
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-colors flex items-end p-4">
-                    <div className="text-white opacity-0 group-hover:opacity-100 transition-opacity">
-                      <h3 className="font-semibold text-lg">{item.title}</h3>
-                      <p className="text-sm text-slate-200 capitalize">{item.category}</p>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                    <div className="text-white transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                      <h3 className="font-bold text-xl drop-shadow-md">{item.title}</h3>
+                      <p className="text-sm text-blue-200 capitalize tracking-wide drop-shadow-sm">{item.category}</p>
                     </div>
                   </div>
                 </div>
