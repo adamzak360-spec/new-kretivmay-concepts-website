@@ -4,48 +4,78 @@ export const FALLBACK_SERVICES = [
     slug: "graphic-design",
     title: "Graphic Design",
     description: "Creative visual solutions for your brand identity and marketing materials.",
+    fullDescription: "Creative visual solutions for your brand identity and marketing materials.",
+    bannerImageUrl: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1200&q=80",
+    bannerImageKey: "fallback-service-1",
     icon: "🎨",
-    order: 1
+    order: 1,
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     id: 2,
     slug: "printing-solutions",
     title: "Printing Solutions",
     description: "High-quality digital and offset printing for all your business needs.",
+    fullDescription: "High-quality digital and offset printing for all your business needs.",
+    bannerImageUrl: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&q=80",
+    bannerImageKey: "fallback-service-2",
     icon: "🖨️",
-    order: 2
+    order: 2,
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     id: 3,
     slug: "brand-identity",
     title: "Brand Identity",
     description: "Comprehensive branding packages including logos, business cards, and more.",
+    fullDescription: "Comprehensive branding packages including logos, business cards, and more.",
+    bannerImageUrl: "https://images.unsplash.com/photo-1572044162444-ad60f128bde2?w=1200&q=80",
+    bannerImageKey: "fallback-service-3",
     icon: "✨",
-    order: 3
+    order: 3,
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     id: 4,
     slug: "large-format-printing",
     title: "Large Format Printing",
     description: "Professional large-scale printing for stickers, banners, and one-way vision graphics.",
+    fullDescription: "Professional large-scale printing for stickers, banners, and one-way vision graphics.",
+    bannerImageUrl: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=1200&q=80",
+    bannerImageKey: "fallback-service-4",
     icon: "📏",
-    order: 4
+    order: 4,
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     id: 5,
     slug: "social-media-marketing",
     title: "Social Media Marketing",
     description: "Boost your online presence with targeted marketing and product advertising.",
+    fullDescription: "Boost your online presence with targeted marketing and product advertising.",
+    bannerImageUrl: "https://images.unsplash.com/photo-1460925895917-adf4e565db18?w=1200&q=80",
+    bannerImageKey: "fallback-service-5",
     icon: "📱",
-    order: 5
+    order: 5,
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     id: 6,
     slug: "shirts-caps-printing",
     title: "Shirts & Caps Printing",
     description: "Custom apparel printing with DTF, screen printing, and embroidery services.",
+    fullDescription: "Custom apparel printing with DTF, screen printing, and embroidery services.",
+    bannerImageUrl: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=1200&q=80",
+    bannerImageKey: "fallback-service-6",
     icon: "👕",
-    order: 6
+    order: 6,
+    createdAt: new Date(),
+    updatedAt: new Date()
   }
 ];
 
@@ -53,44 +83,74 @@ export const FALLBACK_FEATURED_WORKS = [
   {
     id: 1,
     title: "Corporate Rebranding",
-    category: "Design",
+    description: "Corporate Rebranding project",
+    category: "design" as const,
     imageUrl: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&q=80",
-    order: 1
+    imageKey: "fallback-work-1",
+    featured: true,
+    order: 1,
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     id: 2,
     title: "Luxury Packaging",
-    category: "Print",
+    description: "Luxury Packaging project",
+    category: "print" as const,
     imageUrl: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80",
-    order: 2
+    imageKey: "fallback-work-2",
+    featured: true,
+    order: 2,
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     id: 3,
     title: "Modern Logo Set",
-    category: "Branding",
+    description: "Modern Logo Set project",
+    category: "branding" as const,
     imageUrl: "https://images.unsplash.com/photo-1572044162444-ad60f128bde2?w=800&q=80",
-    order: 3
+    imageKey: "fallback-work-3",
+    featured: true,
+    order: 3,
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     id: 4,
     title: "Event Photography",
-    category: "Photography",
+    description: "Event Photography project",
+    category: "photography" as const,
     imageUrl: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=800&q=80",
-    order: 4
+    imageKey: "fallback-work-4",
+    featured: true,
+    order: 4,
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     id: 5,
     title: "Social Media Campaign",
-    category: "Marketing",
+    description: "Social Media Campaign project",
+    category: "design" as const,
     imageUrl: "https://images.unsplash.com/photo-1460925895917-adf4e565db18?w=800&q=80",
-    order: 5
+    imageKey: "fallback-work-5",
+    featured: true,
+    order: 5,
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     id: 6,
     title: "Custom Apparel Design",
-    category: "Print",
+    description: "Custom Apparel Design project",
+    category: "print" as const,
     imageUrl: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&q=80",
-    order: 6
+    imageKey: "fallback-work-6",
+    featured: true,
+    order: 6,
+    createdAt: new Date(),
+    updatedAt: new Date()
   }
 ];
 
@@ -101,7 +161,12 @@ export const FALLBACK_TESTIMONIALS = [
     clientCompany: "Tech Innovators",
     content: "KretivMay transformed our brand identity. Their attention to detail is unmatched.",
     rating: 5,
-    imageUrl: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop"
+    imageUrl: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop",
+    imageKey: "fallback-testimonial-1",
+    featured: true,
+    order: 1,
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     id: 2,
@@ -109,7 +174,12 @@ export const FALLBACK_TESTIMONIALS = [
     clientCompany: "Creative Studio",
     content: "The printing quality was exceptional. Highly recommend for any professional work.",
     rating: 5,
-    imageUrl: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop"
+    imageUrl: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop",
+    imageKey: "fallback-testimonial-2",
+    featured: true,
+    order: 2,
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     id: 3,
@@ -117,6 +187,11 @@ export const FALLBACK_TESTIMONIALS = [
     clientCompany: "Event Management",
     content: "Their social media marketing strategy increased our engagement by 300%. Fantastic team!",
     rating: 5,
-    imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop"
+    imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
+    imageKey: "fallback-testimonial-3",
+    featured: true,
+    order: 3,
+    createdAt: new Date(),
+    updatedAt: new Date()
   }
 ];

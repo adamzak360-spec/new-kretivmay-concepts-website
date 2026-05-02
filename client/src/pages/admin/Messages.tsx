@@ -159,7 +159,7 @@ export default function AdminMessages() {
                     {selectedMsg.phone && (
                       <Button
                         onClick={() => {
-                          window.location.href = `https://wa.me/${selectedMsg.phone.replace(/\D/g, "")}`;
+                          window.location.href = `https://wa.me/${selectedMsg.phone?.replace(/\D/g, "")}`;
                         }}
                         className="bg-green-600 hover:bg-green-700 text-white"
                       >
