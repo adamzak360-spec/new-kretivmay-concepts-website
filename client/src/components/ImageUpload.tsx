@@ -102,7 +102,7 @@ export function ImageUpload({
           accept={accept}
           multiple={multiple}
           onChange={handleFileSelect}
-          className="block"
+          className="block w-full h-10 border border-red-500"
           disabled={isUploading}
         />
 
