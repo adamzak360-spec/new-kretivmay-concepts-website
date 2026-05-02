@@ -121,6 +121,20 @@ export const siteSettings = mysqlTable("site_settings", {
 export type SiteSetting = typeof siteSettings.$inferSelect;
 export type InsertSiteSetting = typeof siteSettings.$inferInsert;
 
+// File Uploads
+export const uploads = mysqlTable("uploads", {
+  id: int("id").autoincrement().primaryKey(),
+  key: varchar("key", { length: 255 }).notNull().unique(),
+  fileName: varchar("fileName", { length: 255 }).notNull(),
+  contentType: varchar("contentType", { length: 100 }).notNull(),
+  data: text("data", { mode: "json" }).notNull(), // Base64 encoded file data
+  size: int("size").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type Upload = typeof uploads.$inferSelect;
+export type InsertUpload = typeof uploads.$inferInsert;
+
 // Page Content for structured pages (Hero, About, etc.)
 export const pageContent = mysqlTable("page_content", {
   id: int("id").autoincrement().primaryKey(),

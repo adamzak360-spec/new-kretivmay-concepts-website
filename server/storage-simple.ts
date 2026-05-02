@@ -1,20 +1,9 @@
 // Simplified storage implementation using database
-// Files are stored as base64 in the database and served directly
+// This stores file metadata in the database and serves files directly
 
 import { db } from "./db";
 import { uploads } from "../drizzle/schema";
 import crypto from "crypto";
-
-function normalizeKey(relKey: string): string {
-  return relKey.replace(/^\/+/, "");
-}
-
-function appendHashSuffix(relKey: string): string {
-  const hash = crypto.randomUUID().replace(/-/g, "").slice(0, 8);
-  const lastDot = relKey.lastIndexOf(".");
-  if (lastDot === -1) return `${relKey}_${hash}`;
-  return `${relKey.slice(0, lastDot)}_${hash}${relKey.slice(lastDot)}`;
-}
 
 export async function storagePut(
   relKey: string,
@@ -22,7 +11,14 @@ export async function storagePut(
   contentType = "application/octet-stream",
 ): Promise<{ key: string; url: string }> {
   try {
-    const key = appendHashSuffix(normalizeKey(relKey));
+    // Generate a unique key
+    const hash = crypto.randomUUID().replace(/-/g, "").slice(0, 8);
+    const lastDot = relKey.lastIndexOf(".");
+    const key = lastDot === -1 
+      ? `${relKey}_${hash}` 
+      : `${relKey.slice(0, lastDot)}_${hash}${relKey.slice(lastDot)}`;
+
+    // Convert data to base64 for storage
     const buffer = typeof data === "string" ? Buffer.from(data) : Buffer.from(data);
     const base64Data = buffer.toString("base64");
 
@@ -51,15 +47,14 @@ export async function storagePut(
 }
 
 export async function storageGet(relKey: string): Promise<{ key: string; url: string }> {
-  const key = normalizeKey(relKey);
   return {
-    key,
-    url: `/api/files/${key}`,
+    key: relKey,
+    url: `/api/files/${relKey}`,
   };
 }
 
 export async function storageGetSignedUrl(relKey: string): Promise<string> {
-  return `/api/files/${normalizeKey(relKey)}`;
+  return `/api/files/${relKey}`;
 }
 
 export async function getFileData(key: string): Promise<{ data: Buffer; contentType: string } | null> {
@@ -72,7 +67,7 @@ export async function getFileData(key: string): Promise<{ data: Buffer; contentT
       return null;
     }
 
-    const buffer = Buffer.from(result.data as string, "base64");
+    const buffer = Buffer.from(result.data, "base64");
     return {
       data: buffer,
       contentType: result.contentType || "application/octet-stream",
