@@ -1,8 +1,9 @@
 // Simplified storage implementation using database
 // This stores file metadata in the database and serves files directly
 
-import { db } from "./db";
+import { getDb } from "./db";
 import { uploads } from "../drizzle/schema";
+import { drizzle } from "drizzle-orm/mysql2";
 import crypto from "crypto";
 
 export async function storagePut(
@@ -11,6 +12,11 @@ export async function storagePut(
   contentType = "application/octet-stream",
 ): Promise<{ key: string; url: string }> {
   try {
+    const db = await getDb();
+    if (!db) {
+      throw new Error("Database not available for storage");
+    }
+    
     // Generate a unique key
     const hash = crypto.randomUUID().replace(/-/g, "").slice(0, 8);
     const lastDot = relKey.lastIndexOf(".");
@@ -30,9 +36,9 @@ export async function storagePut(
       data: base64Data,
       size: buffer.length,
       createdAt: new Date(),
-    }).returning();
+    }).$returningId();
 
-    if (!result || result.length === 0) {
+    if (!result || !Array.isArray(result) || result.length === 0 || !result[0]?.id) {
       throw new Error("Failed to store file in database");
     }
 
@@ -59,18 +65,24 @@ export async function storageGetSignedUrl(relKey: string): Promise<string> {
 
 export async function getFileData(key: string): Promise<{ data: Buffer; contentType: string } | null> {
   try {
-    const result = await db.query.uploads.findFirst({
-      where: (uploads, { eq }) => eq(uploads.key, key),
+    const db = await getDb();
+    if (!db) {
+      return null;
+    }
+    
+    const result = await (db as any).query.uploads.findFirst({
+      where: (uploadsTable: any, { eq }: any) => eq(uploadsTable.key, key),
     });
 
-    if (!result || !result.data) {
+    if (!result || !(result as any).data) {
       return null;
     }
 
-    const buffer = Buffer.from(result.data, "base64");
+    const dataStr = typeof (result as any).data === 'string' ? (result as any).data : String((result as any).data);
+    const buffer = Buffer.from(dataStr, "base64");
     return {
       data: buffer,
-      contentType: result.contentType || "application/octet-stream",
+      contentType: ((result as any).contentType as string) || "application/octet-stream",
     };
   } catch (error) {
     console.error("Storage get error:", error);
