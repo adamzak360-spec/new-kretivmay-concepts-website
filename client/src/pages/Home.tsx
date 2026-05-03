@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ThumbsUp, Share2, MessageCircle } from "lucide-react";
 import { FALLBACK_SERVICES, FALLBACK_FEATURED_WORKS, FALLBACK_TESTIMONIALS } from "@/lib/fallbacks";
 
 export default function Home() {
@@ -156,41 +156,38 @@ export default function Home() {
             {featured.map((item: any) => (
               <div
                 key={item.id}
-                className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow bg-slate-100"
+                className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 bg-white border border-slate-100"
               >
-                {item.imageUrl2 ? (
-                  <div className="flex h-64">
-                    <img
-                      src={item.imageUrl}
-                      alt={`${item.title} - 1`}
-                      className="w-1/2 h-full object-cover group-hover:scale-110 transition-transform duration-500 border-r-2 border-white"
-                      loading="lazy"
-                    />
-                    <img
-                      src={item.imageUrl2}
-                      alt={`${item.title} - 2`}
-                      className="w-1/2 h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                      loading="lazy"
-                    />
-                  </div>
-                ) : (
+                <div className="relative h-64 overflow-hidden">
                   <img
                     src={item.imageUrl}
                     alt={item.title}
-                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     loading="lazy"
                   />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8">
-                  <div className="text-white transform translate-y-6 group-hover:translate-y-0 transition-transform duration-500">
-                    <h3 className="font-bold text-2xl mb-1 drop-shadow-md">{item.title}</h3>
-                    <p className="text-sm text-blue-300 font-medium uppercase tracking-widest mb-6 drop-shadow-sm">{item.category}</p>
-                    <Link href="/portfolio">
-                      <a className="inline-flex items-center gap-3 text-sm font-bold bg-white text-blue-600 px-6 py-2.5 rounded-full hover:bg-blue-50 hover:scale-105 transition-all shadow-lg">
-                        Learn More
-                        <ArrowRight className="w-4 h-4" />
-                      </a>
-                    </Link>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                    <div className="text-white transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                      <h3 className="font-bold text-xl leading-tight">{item.title}</h3>
+                      <p className="text-xs text-blue-200 capitalize tracking-wide">{item.category}</p>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Social Interactions */}
+                <div className="p-4 flex items-center justify-between border-t border-slate-50">
+                  <div className="flex gap-4">
+                    <div className="flex items-center gap-1.5 text-slate-500">
+                      <ThumbsUp className="w-4 h-4" />
+                      <span className="text-xs font-bold">{Math.floor(Math.random() * 200) + 50}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5 text-slate-500">
+                      <MessageCircle className="w-4 h-4" />
+                      <span className="text-xs font-bold">{Math.floor(Math.random() * 30) + 5}</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1.5 text-slate-500">
+                    <Share2 className="w-4 h-4" />
+                    <span className="text-xs font-bold">{Math.floor(Math.random() * 50) + 10}</span>
                   </div>
                 </div>
               </div>

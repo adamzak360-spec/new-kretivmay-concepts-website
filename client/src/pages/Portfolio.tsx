@@ -3,6 +3,7 @@ import { trpc } from "@/lib/trpc";
 import { X, Play } from "lucide-react";
 import { FALLBACK_FEATURED_WORKS } from "@/lib/fallbacks";
 import VideoCard from "@/components/VideoCard";
+import PortfolioCard from "@/components/PortfolioCard";
 
 const categories = ["design", "print", "branding", "photography", "video"];
 
@@ -161,47 +162,12 @@ export default function Portfolio() {
           <div className="container mx-auto px-4">
             {portfolio && portfolio.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {portfolio.flatMap((item: any) => {
-                  const items = [{ id: `${item.id}-1`, title: item.title, imageUrl: item.imageUrl, category: item.category, description: item.description }];
-                  if (item.imageUrl2) {
-                    items.push({ id: `${item.id}-2`, title: item.title, imageUrl: item.imageUrl2, category: item.category, description: item.description });
-                  }
-                  return items;
-                }).map((item) => (
-                  <div
+                {portfolio.map((item: any) => (
+                  <PortfolioCard
                     key={item.id}
+                    item={item}
                     onClick={() => setSelectedItem(item)}
-                    className="group cursor-pointer relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
-                  >
-                    <div className="aspect-[4/5] overflow-hidden bg-slate-100">
-                      {isVideo(item.imageUrl) ? (
-                        <>
-                          <video
-                            src={item.imageUrl}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                            onMouseEnter={(e) => e.currentTarget.play()}
-                            onMouseLeave={(e) => e.currentTarget.pause()}
-                          />
-                          <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors">
-                            <Play className="w-16 h-16 text-white fill-white drop-shadow-lg" />
-                          </div>
-                        </>
-                      ) : (
-                        <img
-                          src={item.imageUrl}
-                          alt={item.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                          loading="lazy"
-                        />
-                      )}
-                    </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                      <div className="text-white transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                        <h3 className="font-bold text-xl drop-shadow-md">{item.title}</h3>
-                        <p className="text-sm text-blue-200 capitalize tracking-wide drop-shadow-sm">{item.category}</p>
-                      </div>
-                    </div>
-                  </div>
+                  />
                 ))}
               </div>
             ) : (

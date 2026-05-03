@@ -14,7 +14,7 @@ export default function Layout({ children }: LayoutProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [location] = useLocation();
-  const { theme, toggleTheme } = useTheme();
+  // Theme toggle removed per user request
   const { user } = useAuth();
 
   // Fetch Site Settings from CMS
@@ -104,17 +104,6 @@ export default function Layout({ children }: LayoutProps) {
 
           {/* Right Actions */}
           <div className="flex items-center gap-4">
-            <button
-              onClick={toggleTheme}
-              className="p-2 hover:bg-accent rounded-full transition-colors border border-border"
-              aria-label="Toggle theme"
-            >
-              {theme === "dark" ? (
-                <Sun className="w-5 h-5" />
-              ) : (
-                <Moon className="w-5 h-5" />
-              )}
-            </button>
 
             {/* Admin/Login Link */}
             <div className="hidden md:block">
