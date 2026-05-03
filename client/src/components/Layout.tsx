@@ -1,6 +1,6 @@
 import { ReactNode, useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, X, Moon, Sun, MessageCircle, ArrowUp, Facebook, Instagram, Twitter, LogIn, LayoutDashboard } from "lucide-react";
+import { Menu, X, Moon, Sun, ArrowUp, Facebook, Instagram, Twitter, LogIn, LayoutDashboard } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
@@ -274,25 +274,75 @@ export default function Layout({ children }: LayoutProps) {
         </div>
       </footer>
 
-      {/* Floating WhatsApp Button */}
+      {/* Floating WhatsApp Button - Realistic Design */}
+      <style>{`
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-12px); }
+        }
+        @keyframes pulse-ring {
+          0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+          70% { box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
+          100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+        @keyframes bounce-in {
+          0% { opacity: 0; transform: scale(0.3) translateY(20px); }
+          50% { opacity: 1; }
+          100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .whatsapp-button {
+          animation: float 3s ease-in-out infinite;
+        }
+        .whatsapp-button:hover {
+          animation: none;
+        }
+        .whatsapp-pulse {
+          animation: pulse-ring 2s infinite;
+        }
+        .whatsapp-tooltip {
+          animation: bounce-in 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+      `}</style>
+      
       <a
         href={`https://wa.me/${settings.whatsapp?.replace(/\D/g, '')}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-2xl transition-all hover:scale-110 z-30 group"
+        className="fixed bottom-6 right-6 z-30 group"
         aria-label="Contact via WhatsApp"
       >
-        <MessageCircle className="w-6 h-6" />
-        <span className="absolute right-full mr-3 bg-white text-slate-900 text-xs font-bold px-3 py-1.5 rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-          Chat with us!
-        </span>
+        {/* Pulse Ring Background */}
+        <div className="absolute inset-0 rounded-full whatsapp-pulse"></div>
+        
+        {/* Main Button */}
+        <div className="whatsapp-button relative w-16 h-16 bg-gradient-to-br from-green-400 to-green-600 rounded-full shadow-2xl flex items-center justify-center cursor-pointer transition-all duration-300 hover:shadow-2xl hover:from-green-500 hover:to-green-700 hover:scale-110 border-4 border-white">
+          {/* WhatsApp Icon SVG */}
+          <svg
+            className="w-8 h-8 text-white"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-4.255.949c-1.238.503-2.335 1.236-3.356 2.259-1.022 1.022-1.756 2.119-2.259 3.357-.573 1.42-.926 2.948-.949 4.255v.004c.024 1.307.376 2.834.949 4.255.503 1.238 1.236 2.335 2.259 3.356 1.022 1.022 2.119 1.756 3.357 2.259 1.42.573 2.948.926 4.255.949h.004c1.307-.024 2.834-.376 4.255-.949 1.238-.503 2.335-1.236 3.356-2.259 1.022-1.022 1.756-2.119 2.259-3.357.573-1.42.926-2.948.949-4.255v-.004c-.024-1.307-.376-2.834-.949-4.255-.503-1.238-1.236-2.335-2.259-3.356-1.022-1.022-2.119-1.756-3.357-2.259-1.42-.573-2.948-.926-4.255-.949zm0 0" />
+          </svg>
+        </div>
+        
+        {/* Tooltip */}
+        <div className="absolute right-full mr-4 bottom-1/2 translate-y-1/2 bg-white text-slate-900 text-sm font-bold px-4 py-2 rounded-lg shadow-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none whatsapp-tooltip border border-gray-200">
+          <div className="flex items-center gap-2">
+            <span>💬</span>
+            <span>Chat with us on WhatsApp!</span>
+          </div>
+          {/* Tooltip Arrow */}
+          <div className="absolute left-full top-1/2 -translate-y-1/2 w-0 h-0 border-l-8 border-l-white border-t-4 border-t-transparent border-b-4 border-b-transparent"></div>
+        </div>
       </a>
 
       {/* Back to Top Button */}
       {showBackToTop && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-24 right-6 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-2xl transition-all hover:scale-110 z-30"
+          className="fixed bottom-28 right-6 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-2xl transition-all hover:scale-110 z-30"
           aria-label="Back to top"
         >
           <ArrowUp className="w-5 h-5" />
