@@ -142,8 +142,18 @@ export default function Home() {
               <Link key={service.id} href={`/services/${service.slug}`}>
                 <a className="group h-full">
                   <div className="h-full bg-white p-6 rounded-lg shadow hover:shadow-lg transition-all duration-300 border border-slate-100 hover:border-blue-300">
-                    <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">
-                      {service.icon || "🎨"}
+                    <div className="mb-4 overflow-hidden rounded-lg aspect-video bg-slate-100">
+                      {service.bannerImageUrl ? (
+                        <img 
+                          src={service.bannerImageUrl} 
+                          alt={service.title}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-4xl">
+                          {service.icon || "🎨"}
+                        </div>
+                      )}
                     </div>
                     <h3 className="text-xl font-semibold mb-2 text-slate-900">{service.title}</h3>
                     <p className="text-slate-600 text-sm leading-relaxed">{service.description}</p>
