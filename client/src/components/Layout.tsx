@@ -67,9 +67,9 @@ export default function Layout({ children }: LayoutProps) {
           {/* Logo */}
           <Link href="/">
             <a className="flex items-center gap-3 group">
-              <div className="relative w-12 h-12 overflow-hidden rounded-xl bg-white p-1 transition-transform group-hover:scale-105">
+              <div className="relative w-12 h-12 overflow-hidden rounded-lg transition-transform group-hover:scale-105">
                 <img 
-                  src="/assets/kretivmay_logo_raw.webp" 
+                  src="/assets/logo_transparent.png" 
                   alt="KretivMay Logo" 
                   className="w-full h-full object-contain"
                 />
@@ -187,9 +187,9 @@ export default function Layout({ children }: LayoutProps) {
             {/* Brand */}
             <div className="flex flex-col gap-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 overflow-hidden rounded-lg bg-white p-1">
+                <div className="w-10 h-10 overflow-hidden rounded-lg">
                   <img 
-                    src="/assets/kretivmay_logo_raw.webp" 
+                    src="/assets/logo_transparent.png" 
                     alt="KretivMay Logo" 
                     className="w-full h-full object-contain"
                   />
