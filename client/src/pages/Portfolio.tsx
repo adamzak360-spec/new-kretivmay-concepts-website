@@ -61,8 +61,9 @@ export default function Portfolio() {
   });
 
   // Client-side filtering to ensure strict categorization for fallback data
+  // Also filter out any items that might be categorized as 'video' from the main grid
   const portfolio = portfolioRaw.filter(item => 
-    !selectedCategory || item.category === selectedCategory
+    (!selectedCategory || item.category === selectedCategory) && item.category !== 'video'
   );
 
   return (
@@ -109,7 +110,7 @@ export default function Portfolio() {
       </section>
 
       {/* Videos Section - Only visible when 'video' category is selected */}
-      {selectedCategory === "video" && (
+      {selectedCategory === "video" ? (
         <section className="py-20 bg-gradient-to-b from-slate-50 to-white animate-fade-in">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
@@ -154,10 +155,8 @@ export default function Portfolio() {
             </div>
           </div>
         </section>
-      )}
-
-      {/* Portfolio Grid - Hidden when 'video' category is selected to avoid duplication or as per user request */}
-      {selectedCategory !== "video" && (
+      ) : (
+        /* Portfolio Grid - Hidden when 'video' category is selected */
         <section className="py-20">
           <div className="container mx-auto px-4">
             {portfolio && portfolio.length > 0 ? (
