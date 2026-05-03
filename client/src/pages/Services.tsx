@@ -29,18 +29,8 @@ export default function Services() {
               <Link key={service.id} href={`/services/${service.slug}`}>
                 <a className="group h-full">
                   <div className="h-full bg-white p-8 rounded-lg shadow hover:shadow-xl transition-all duration-300 border border-slate-100 hover:border-blue-300">
-                    <div className="mb-6 overflow-hidden rounded-lg aspect-video bg-slate-100">
-                      {service.bannerImageUrl ? (
-                        <img 
-                          src={service.bannerImageUrl} 
-                          alt={service.title}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-5xl">
-                          {service.icon || "🎨"}
-                        </div>
-                      )}
+                    <div className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                      {service.icon || "🎨"}
                     </div>
                     <h3 className="text-2xl font-bold mb-3 text-slate-900">{service.title}</h3>
                     <p className="text-slate-600 mb-6 leading-relaxed line-clamp-3">
@@ -88,7 +78,7 @@ export default function Services() {
                   </ul>
                 </div>
                 <div className="rounded-lg h-64 overflow-hidden shadow-inner">
-                  <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663605785483/MqfYcpXXaHuTqVwK.jpg" alt="Graphic Design" className="w-full h-full object-cover" />
+                  <img src="/assets/portfolio/flyer_1.webp" alt="Graphic Design" className="w-full h-full object-cover" />
                 </div>
               </div>
             </div>
@@ -97,7 +87,7 @@ export default function Services() {
             <div className="bg-white p-8 rounded-lg shadow">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                 <div className="rounded-lg h-64 overflow-hidden shadow-inner order-2 md:order-1">
-                  <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663605785483/bLbPLcmmMOyAFMLH.jpg" alt="Printing Solutions" className="w-full h-full object-cover" />
+                  <img src="/assets/portfolio/flyer_2.webp" alt="Printing Solutions" className="w-full h-full object-cover" />
                 </div>
                 <div className="order-1 md:order-2">
                   <h3 className="text-3xl font-bold mb-4 text-slate-900">Printing Solutions</h3>
@@ -146,7 +136,7 @@ export default function Services() {
                   </ul>
                 </div>
                 <div className="rounded-lg h-64 overflow-hidden shadow-inner">
-                  <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663605785483/TnkAojVNCvMeTtGB.jpg" alt="Brand Identity" className="w-full h-full object-cover" />
+                  <img src="/assets/portfolio/flyer_3.webp" alt="Brand Identity" className="w-full h-full object-cover" />
                 </div>
               </div>
             </div>
@@ -155,7 +145,7 @@ export default function Services() {
             <div className="bg-white p-8 rounded-lg shadow">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                 <div className="rounded-lg h-64 overflow-hidden shadow-inner order-2 md:order-1">
-                  <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663605785483/FylktQhyMgVBpohH.jpg" alt="Large Format Printing" className="w-full h-full object-cover" />
+                  <img src="/assets/portfolio/flyer_4.webp" alt="Large Format Printing" className="w-full h-full object-cover" />
                 </div>
                 <div className="order-1 md:order-2">
                   <h3 className="text-3xl font-bold mb-4 text-slate-900">Large Format Printing</h3>
@@ -204,7 +194,7 @@ export default function Services() {
                   </ul>
                 </div>
                 <div className="rounded-lg h-64 overflow-hidden shadow-inner">
-                  <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663605785483/hySmeSMDrHcRBJkb.jpg" alt="Social Media Marketing" className="w-full h-full object-cover" />
+                  <img src="/assets/portfolio/flyer_5.webp" alt="Social Media Marketing" className="w-full h-full object-cover" />
                 </div>
               </div>
             </div>
@@ -213,7 +203,7 @@ export default function Services() {
             <div className="bg-white p-8 rounded-lg shadow">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                 <div className="rounded-lg h-64 overflow-hidden shadow-inner order-2 md:order-1">
-                  <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663605785483/KAHuPFtXTquZsZHL.jpg" alt="Shirts & Caps Printing" className="w-full h-full object-cover" />
+                  <img src="/assets/services/shirts-caps.webp" alt="Shirts & Caps Printing" className="w-full h-full object-cover" />
                 </div>
                 <div className="order-1 md:order-2">
                   <h3 className="text-3xl font-bold mb-4 text-slate-900">Shirts & Caps Printing</h3>
@@ -227,11 +217,11 @@ export default function Services() {
                     </li>
                     <li className="flex items-start gap-3">
                       <span className="text-blue-600 font-bold mt-1">✓</span>
-                      <span className="text-slate-700"><strong>Screen Printing:</strong> Durable and cost-effective for bulk</span>
+                      <span className="text-slate-700"><strong>Screen Printing:</strong> Classic technique for bulk orders</span>
                     </li>
                     <li className="flex items-start gap-3">
                       <span className="text-blue-600 font-bold mt-1">✓</span>
-                      <span className="text-slate-700"><strong>Embroidery:</strong> Premium stitched logos and designs</span>
+                      <span className="text-slate-700"><strong>Embroidery:</strong> Premium embroidered logos</span>
                     </li>
                   </ul>
                 </div>
@@ -241,16 +231,37 @@ export default function Services() {
         </div>
       </section>
 
+      {/* Process Section */}
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <h2 className="text-4xl font-bold text-center mb-12">Our Process</h2>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            {[
+              { step: "01", title: "Discovery", description: "We learn about your brand, goals, and audience" },
+              { step: "02", title: "Strategy", description: "We develop a comprehensive creative strategy" },
+              { step: "03", title: "Creation", description: "Our team brings your vision to life" },
+              { step: "04", title: "Delivery", description: "We deliver exceptional results on time" },
+            ].map((item, index) => (
+              <div key={index} className="text-center">
+                <div className="text-5xl font-bold text-blue-600 mb-4">{item.step}</div>
+                <h3 className="text-xl font-semibold mb-2 text-slate-900">{item.title}</h3>
+                <p className="text-slate-600">{item.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
-      <section className="py-20 bg-blue-600 text-white">
+      <section className="py-20 bg-gradient-to-r from-blue-600 to-blue-400 text-white">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold mb-4">Ready to Start Your Project?</h2>
-          <p className="text-xl mb-8 text-blue-100">
-            Contact us today for a free quote and consultation.
+          <h2 className="text-4xl font-bold mb-4">Ready to Get Started?</h2>
+          <p className="text-xl mb-8 text-blue-100 max-w-2xl mx-auto">
+            Let's discuss how we can help your business grow with our creative solutions
           </p>
           <Link href="/contact">
             <a className="bg-white text-blue-600 hover:bg-slate-100 px-8 py-3 rounded-lg font-semibold transition-colors inline-flex items-center gap-2">
-              Get in Touch
+              Contact Us
               <ArrowRight className="w-5 h-5" />
             </a>
           </Link>
