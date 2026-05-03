@@ -81,6 +81,66 @@ export const FALLBACK_SERVICES = [
 
 export const FALLBACK_FEATURED_WORKS = [
   {
+    id: -15,
+    title: "Professional Branding Design",
+    description: "Creative branding and advertisement design from our Facebook collection.",
+    category: "design" as const,
+    imageUrl: "/assets/portfolio/facebook_design_1.webp",
+    imageKey: "facebook-design-1",
+    featured: true,
+    order: -15,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    id: -14,
+    title: "Social Media Advertisement",
+    description: "High-impact social media marketing design.",
+    category: "design" as const,
+    imageUrl: "/assets/portfolio/facebook_design_2.webp",
+    imageKey: "facebook-design-2",
+    featured: true,
+    order: -14,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    id: -13,
+    title: "Elegant Wedding Photography",
+    description: "Capturing special moments with professional excellence.",
+    category: "photography" as const,
+    imageUrl: "/assets/portfolio/facebook_photo_1.webp",
+    imageKey: "facebook-photo-1",
+    featured: true,
+    order: -13,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    id: -12,
+    title: "Traditional Ceremony Coverage",
+    description: "Professional coverage of traditional ceremonies and events.",
+    category: "photography" as const,
+    imageUrl: "/assets/portfolio/facebook_photo_2.webp",
+    imageKey: "facebook-photo-2",
+    featured: true,
+    order: -12,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    id: -11,
+    title: "Studio Portrait Session",
+    description: "High-quality studio portraits and professional lighting.",
+    category: "photography" as const,
+    imageUrl: "/assets/portfolio/facebook_photo_3.webp",
+    imageKey: "facebook-photo-3",
+    featured: true,
+    order: -11,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
     id: -10,
     title: "New Featured Collection 1",
     description: "New featured photography works.",
