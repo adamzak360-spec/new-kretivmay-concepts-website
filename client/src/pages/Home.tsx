@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { ArrowRight, ThumbsUp, Share2, MessageCircle } from "lucide-react";
@@ -6,6 +6,7 @@ import { FALLBACK_SERVICES, FALLBACK_FEATURED_WORKS, FALLBACK_TESTIMONIALS } fro
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
   
   // CMS Content
   const { data: heroData } = trpc.pages.get.useQuery({ page: "home", section: "hero" });
@@ -22,6 +23,12 @@ export default function Home() {
       { url: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1200&h=600&fit=crop" }
     ]
   };
+
+  // Combine video and images for the slideshow
+  const slideshowItems = [
+    { type: 'video', url: '/assets/videos/hero-video.mp4' },
+    ...hero.images.map((img: any) => ({ type: 'image', url: img.url }))
+  ];
 
   // Use placeholderData to show fallbacks immediately
   const { data: services = FALLBACK_SERVICES } = trpc.services.list.useQuery(undefined, {
@@ -60,29 +67,55 @@ export default function Home() {
   });
 
   useEffect(() => {
-    if (!hero.images || hero.images.length <= 1) return;
+    const currentItem = slideshowItems[currentSlide];
+    
+    if (currentItem.type === 'video') {
+      // If it's a video, we wait for it to end
+      return;
+    }
+
     const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % hero.images.length);
+      setCurrentSlide((prev) => (prev + 1) % slideshowItems.length);
     }, 5000);
+    
     return () => clearInterval(interval);
-  }, [hero.images]);
+  }, [currentSlide, slideshowItems.length]);
+
+  const handleVideoEnd = () => {
+    setCurrentSlide((prev) => (prev + 1) % slideshowItems.length);
+  };
 
   return (
     <div className="w-full">
       {/* Hero Section with Slideshow */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        {hero.images?.map((image: any, index: number) => (
+        {slideshowItems.map((item, index) => (
           <div
             key={index}
             className={`absolute inset-0 transition-opacity duration-1000 ${
               index === currentSlide ? "opacity-100" : "opacity-0"
             }`}
-            style={{
-              backgroundImage: `url(${image.url})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
           >
+            {item.type === 'video' ? (
+              <video
+                ref={videoRef}
+                src={item.url}
+                autoPlay
+                muted
+                playsInline
+                onEnded={handleVideoEnd}
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+            ) : (
+              <div
+                className="absolute inset-0"
+                style={{
+                  backgroundImage: `url(${item.url})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              />
+            )}
             <div className="absolute inset-0 bg-black/40" />
           </div>
         ))}
@@ -110,9 +143,9 @@ export default function Home() {
         </div>
 
         {/* Slide Indicators */}
-        {hero.images?.length > 1 && (
+        {slideshowItems.length > 1 && (
           <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2 z-10">
-            {hero.images.map((_: any, index: number) => (
+            {slideshowItems.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentSlide(index)}
@@ -259,22 +292,20 @@ export default function Home() {
               {testimonials.map((testimonial) => (
                 <div key={testimonial.id} className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow">
                   <div className="flex items-center gap-4 mb-4">
-                    {testimonial.imageUrl && (
-                      <img
-                        src={testimonial.imageUrl}
-                        alt={testimonial.clientName}
-                        className="w-12 h-12 rounded-full object-cover"
-                      />
-                    )}
+                    <img
+                      src={testimonial.imageUrl}
+                      alt={testimonial.clientName}
+                      className="w-12 h-12 rounded-full object-cover"
+                    />
                     <div>
-                      <h4 className="font-semibold text-slate-900">{testimonial.clientName}</h4>
-                      <p className="text-sm text-slate-600">{testimonial.clientCompany}</p>
+                      <h4 className="font-bold text-slate-900">{testimonial.clientName}</h4>
+                      <p className="text-sm text-slate-500">{testimonial.clientCompany}</p>
                     </div>
                   </div>
-                  <p className="text-slate-700 mb-4 leading-relaxed">{testimonial.content}</p>
-                  <div className="flex gap-1">
-                    {Array.from({ length: testimonial.rating || 0 }).map((_, i) => (
-                      <span key={i} className="text-yellow-400">★</span>
+                  <p className="text-slate-600 italic">"{testimonial.content}"</p>
+                  <div className="mt-4 flex text-yellow-400">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <span key={i}>★</span>
                     ))}
                   </div>
                 </div>
@@ -283,22 +314,6 @@ export default function Home() {
           </div>
         </section>
       )}
-
-      {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-blue-400 text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">Ready to Elevate Your Brand?</h2>
-          <p className="text-lg md:text-xl mb-8 text-blue-100 max-w-2xl mx-auto">
-            Let's create something amazing together. Contact us today for a free consultation.
-          </p>
-          <Link href="/contact">
-            <a className="bg-white text-blue-600 hover:bg-slate-100 px-8 py-3 rounded-lg font-semibold transition-colors inline-flex items-center gap-2">
-              Get Started
-              <ArrowRight className="w-5 h-5" />
-            </a>
-          </Link>
-        </div>
-      </section>
     </div>
   );
 }
