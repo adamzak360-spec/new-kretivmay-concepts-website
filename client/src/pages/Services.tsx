@@ -117,33 +117,91 @@ export default function Services() {
             </div>
 
             {/* Shirts & Caps Printing */}
-            <div className="bg-white p-8 rounded-lg shadow">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                <div>
-                  <h3 className="text-3xl font-bold mb-4 text-slate-900">Shirts & Caps Printing</h3>
-                  <p className="text-slate-600 mb-6 leading-relaxed">
-                    Custom apparel printing with multiple techniques for high-quality, durable results.
-                  </p>
-                  <ul className="space-y-3 mb-6">
-                    <li className="flex items-start gap-3">
-                      <span className="text-blue-600 font-bold mt-1">✓</span>
-                      <span className="text-slate-700"><strong>DTF Printing:</strong> Direct-to-Film for vibrant, detailed prints</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <span className="text-blue-600 font-bold mt-1">✓</span>
-                      <span className="text-slate-700"><strong>Screen Printing:</strong> Classic technique for bulk orders</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <span className="text-blue-600 font-bold mt-1">✓</span>
-                      <span className="text-slate-700"><strong>Embroidery:</strong> Premium embroidered logos and designs</span>
-                    </li>
-                  </ul>
-                </div>
-                <div className="rounded-lg h-64 overflow-hidden shadow-inner">
-	                  <img src="/assets/services/shirts-caps.webp" alt="Shirts & Caps Printing" className="w-full h-full object-cover" />
+	            <div className="bg-white p-8 rounded-lg shadow">
+	              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+	                <div>
+	                  <h3 className="text-3xl font-bold mb-4 text-slate-900">Shirts & Caps Printing</h3>
+	                  <p className="text-slate-600 mb-6 leading-relaxed">
+	                    Custom apparel printing with multiple techniques for high-quality, durable results.
+	                  </p>
+	                  <ul className="space-y-3 mb-6">
+	                    <li className="flex items-start gap-3">
+	                      <span className="text-blue-600 font-bold mt-1">✓</span>
+	                      <span className="text-slate-700"><strong>DTF Printing:</strong> Direct-to-Film for vibrant, detailed prints</span>
+	                    </li>
+	                    <li className="flex items-start gap-3">
+	                      <span className="text-blue-600 font-bold mt-1">✓</span>
+	                      <span className="text-slate-700"><strong>Screen Printing:</strong> Classic technique for bulk orders</span>
+	                    </li>
+	                    <li className="flex items-start gap-3">
+	                      <span className="text-blue-600 font-bold mt-1">✓</span>
+	                      <span className="text-slate-700"><strong>Embroidery:</strong> Premium embroidered logos and designs</span>
+	                    </li>
+	                  </ul>
 	                </div>
-              </div>
-            </div>
+	                <div className="rounded-lg h-64 overflow-hidden shadow-inner">
+			                  <img src="/assets/services/shirts-caps.webp" alt="Shirts & Caps Printing" className="w-full h-full object-cover" />
+			                </div>
+	              </div>
+	            </div>
+
+	            {/* Social Media Design */}
+	            <div className="bg-white p-8 rounded-lg shadow">
+	              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+	                <div className="rounded-lg h-64 overflow-hidden shadow-inner order-2 md:order-1">
+	                  <img src="/assets/portfolio/flyer_5.webp" alt="Social Media Design" className="w-full h-full object-cover" />
+	                </div>
+	                <div className="order-1 md:order-2">
+	                  <h3 className="text-3xl font-bold mb-4 text-slate-900">Social Media Design</h3>
+	                  <p className="text-slate-600 mb-6 leading-relaxed">
+	                    Eye-catching social media creatives that boost engagement, increase visibility, and grow your brand.
+	                  </p>
+	                  <ul className="space-y-3 mb-6">
+	                    <li className="flex items-start gap-3">
+	                      <span className="text-blue-600 font-bold mt-1">✓</span>
+	                      <span className="text-slate-700"><strong>Brand Identity:</strong> Consistent and professional online presence</span>
+	                    </li>
+	                    <li className="flex items-start gap-3">
+	                      <span className="text-blue-600 font-bold mt-1">✓</span>
+	                      <span className="text-slate-700"><strong>Engagement:</strong> Boosts audience interaction and reach</span>
+	                    </li>
+	                    <li className="flex items-start gap-3">
+	                      <span className="text-blue-600 font-bold mt-1">✓</span>
+	                      <span className="text-slate-700"><strong>Credibility:</strong> Improves brand trust and professional image</span>
+	                    </li>
+	                  </ul>
+	                </div>
+	              </div>
+	            </div>
+
+	            {/* General Design & Print */}
+	            <div className="bg-white p-8 rounded-lg shadow">
+	              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+	                <div>
+	                  <h3 className="text-3xl font-bold mb-4 text-slate-900">General Design & Print</h3>
+	                  <p className="text-slate-600 mb-6 leading-relaxed">
+	                    High-quality, fast, and reliable printing services for all your business and personal needs.
+	                  </p>
+	                  <ul className="space-y-3 mb-6">
+	                    <li className="flex items-start gap-3">
+	                      <span className="text-blue-600 font-bold mt-1">✓</span>
+	                      <span className="text-slate-700"><strong>Marketing Materials:</strong> Flyers, posters, and brochures</span>
+	                    </li>
+	                    <li className="flex items-start gap-3">
+	                      <span className="text-blue-600 font-bold mt-1">✓</span>
+	                      <span className="text-slate-700"><strong>Stationery:</strong> Business cards, letterheads, and envelopes</span>
+	                    </li>
+	                    <li className="flex items-start gap-3">
+	                      <span className="text-blue-600 font-bold mt-1">✓</span>
+	                      <span className="text-slate-700"><strong>Event Branding:</strong> Signages, billboards, and invitation cards</span>
+	                    </li>
+	                  </ul>
+	                </div>
+	                <div className="rounded-lg h-64 overflow-hidden shadow-inner">
+	                  <img src="/assets/portfolio/flyer_3.webp" alt="General Design & Print" className="w-full h-full object-cover" />
+	                </div>
+	              </div>
+	            </div>
           </div>
         </div>
       </section>

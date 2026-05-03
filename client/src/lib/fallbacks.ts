@@ -5,7 +5,7 @@ export const FALLBACK_SERVICES = [
     title: "Graphic Design",
     description: "Creative visual solutions for your brand identity and marketing materials.",
     fullDescription: "Creative visual solutions for your brand identity and marketing materials.",
-    bannerImageUrl: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1200&q=80",
+    bannerImageUrl: "/assets/portfolio/flyer_5.webp",
     bannerImageKey: "fallback-service-1",
     icon: "🎨",
     order: 1,
@@ -18,7 +18,7 @@ export const FALLBACK_SERVICES = [
     title: "Printing Solutions",
     description: "High-quality digital and offset printing for all your business needs.",
     fullDescription: "High-quality digital and offset printing for all your business needs.",
-    bannerImageUrl: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&q=80",
+    bannerImageUrl: "/assets/portfolio/flyer_3.webp",
     bannerImageKey: "fallback-service-2",
     icon: "🖨️",
     order: 2,
@@ -80,66 +80,7 @@ export const FALLBACK_SERVICES = [
 ];
 
 export const FALLBACK_FEATURED_WORKS = [
-  {
-    id: -20,
-    title: "Large Format Printing",
-    description: "Professional large-scale printing for stickers, banners, and one-way vision graphics.",
-    category: "print" as const,
-    imageUrl: "/assets/portfolio/flyer_1.webp",
-    imageKey: "flyer-1",
-    featured: true,
-    order: -20,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  {
-    id: -19,
-    title: "Shirts & Caps Printing",
-    description: "Custom apparel printing with DTF, screen printing, and embroidery services.",
-    category: "print" as const,
-    imageUrl: "/assets/portfolio/flyer_2.webp",
-    imageKey: "flyer-2",
-    featured: true,
-    order: -19,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  {
-    id: -18,
-    title: "General Printing Services",
-    description: "High-quality printing solutions for all your business needs.",
-    category: "print" as const,
-    imageUrl: "/assets/portfolio/flyer_3.webp",
-    imageKey: "flyer-3",
-    featured: true,
-    order: -18,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  {
-    id: -17,
-    title: "Social Media Marketing",
-    description: "Boost your online presence with targeted marketing and product advertising.",
-    category: "branding" as const,
-    imageUrl: "/assets/portfolio/flyer_4.webp",
-    imageKey: "flyer-4",
-    featured: true,
-    order: -17,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  {
-    id: -16,
-    title: "Social Media Design",
-    description: "Eye-catching social media creatives that boost engagement and increase visibility.",
-    category: "design" as const,
-    imageUrl: "/assets/portfolio/flyer_5.webp",
-    imageKey: "flyer-5",
-    featured: true,
-    order: -16,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
+
   {
     id: -15,
     title: "Professional Branding Design",
