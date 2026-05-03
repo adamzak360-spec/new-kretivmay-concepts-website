@@ -56,28 +56,28 @@ export default function PortfolioCard({ item, onClick }: PortfolioCardProps) {
     <div className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 bg-white border border-slate-100">
       {/* Image/Video Container */}
       <div 
-        className="relative aspect-[4/5] overflow-hidden bg-slate-100 cursor-pointer"
+        className="relative aspect-[4/5] overflow-hidden bg-slate-50 cursor-pointer flex items-center justify-center p-2"
         onClick={onClick}
       >
         {isVideo(item.imageUrl) ? (
           <>
             <video
               src={item.imageUrl}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500"
               onMouseEnter={(e) => e.currentTarget.play()}
               onMouseLeave={(e) => e.currentTarget.pause()}
               muted
               loop
             />
-            <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors">
-              <Play className="w-12 h-12 text-white fill-white drop-shadow-lg" />
+            <div className="absolute inset-0 flex items-center justify-center bg-black/10 group-hover:bg-black/20 transition-colors">
+              <Play className="w-10 h-10 text-white fill-white drop-shadow-lg" />
             </div>
           </>
         ) : (
           <img
             src={item.imageUrl}
             alt={item.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500"
             loading="lazy"
           />
         )}

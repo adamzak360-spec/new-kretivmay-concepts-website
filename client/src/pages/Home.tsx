@@ -33,6 +33,26 @@ export default function Home() {
     placeholderData: FALLBACK_FEATURED_WORKS,
     retry: false
   });
+
+  const [likes, setLikes] = useState<Record<string, number>>({});
+  const [isLiked, setIsLiked] = useState<Record<string, boolean>>({});
+
+  const handleLike = (id: string) => {
+    setIsLiked(prev => ({ ...prev, [id]: !prev[id] }));
+    setLikes(prev => ({
+      ...prev,
+      [id]: (prev[id] || Math.floor(Math.random() * 200) + 50) + (isLiked[id] ? -1 : 1)
+    }));
+  };
+
+  const handleShare = (title: string) => {
+    if (navigator.share) {
+      navigator.share({ title, url: window.location.href });
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+      alert("Link copied to clipboard!");
+    }
+  };
   
   const { data: testimonials = FALLBACK_TESTIMONIALS } = trpc.testimonials.featured.useQuery(undefined, {
     placeholderData: FALLBACK_TESTIMONIALS,
@@ -152,42 +172,53 @@ export default function Home() {
               Explore our latest projects and creative solutions
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {featured.map((item: any) => (
               <div
                 key={item.id}
-                className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 bg-white border border-slate-100"
+                className="group relative overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 bg-white border border-slate-100 flex flex-col"
               >
-                <div className="relative h-64 overflow-hidden">
+                {/* Image Container - Using object-contain to show full image */}
+                <div className="relative bg-slate-50 overflow-hidden aspect-video flex items-center justify-center p-2">
                   <img
                     src={item.imageUrl}
                     alt={item.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                    <div className="text-white transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                      <h3 className="font-bold text-xl leading-tight">{item.title}</h3>
-                      <p className="text-xs text-blue-200 capitalize tracking-wide">{item.category}</p>
-                    </div>
+                  <div className="absolute top-4 right-4 bg-blue-600 text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">
+                    {item.category}
                   </div>
                 </div>
                 
-                {/* Social Interactions */}
-                <div className="p-4 flex items-center justify-between border-t border-slate-50">
-                  <div className="flex gap-4">
-                    <div className="flex items-center gap-1.5 text-slate-500">
-                      <ThumbsUp className="w-4 h-4" />
-                      <span className="text-xs font-bold">{Math.floor(Math.random() * 200) + 50}</span>
+                <div className="p-6 flex flex-col flex-1">
+                  <h3 className="font-bold text-2xl text-slate-900 mb-2">{item.title}</h3>
+                  <p className="text-slate-600 text-sm line-clamp-2 mb-6 flex-1">{item.description}</p>
+                  
+                  {/* Social Interactions */}
+                  <div className="pt-4 flex items-center justify-between border-t border-slate-100">
+                    <div className="flex gap-6">
+                      <button 
+                        onClick={() => handleLike(item.id.toString())}
+                        className={`flex items-center gap-2 transition-all hover:scale-110 ${isLiked[item.id.toString()] ? "text-red-500" : "text-slate-500 hover:text-red-500"}`}
+                      >
+                        <ThumbsUp className={`w-5 h-5 ${isLiked[item.id.toString()] ? "fill-current" : ""}`} />
+                        <span className="text-sm font-bold">{likes[item.id.toString()] || Math.floor(Math.random() * 200) + 50}</span>
+                      </button>
+                      <Link href="/portfolio">
+                        <button className="flex items-center gap-2 text-slate-500 hover:text-blue-500 transition-all hover:scale-110">
+                          <MessageCircle className="w-5 h-5" />
+                          <span className="text-sm font-bold">{Math.floor(Math.random() * 30) + 5}</span>
+                        </button>
+                      </Link>
                     </div>
-                    <div className="flex items-center gap-1.5 text-slate-500">
-                      <MessageCircle className="w-4 h-4" />
-                      <span className="text-xs font-bold">{Math.floor(Math.random() * 30) + 5}</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-1.5 text-slate-500">
-                    <Share2 className="w-4 h-4" />
-                    <span className="text-xs font-bold">{Math.floor(Math.random() * 50) + 10}</span>
+                    <button 
+                      onClick={() => handleShare(item.title)}
+                      className="flex items-center gap-2 text-slate-500 hover:text-green-500 transition-all hover:scale-110"
+                    >
+                      <Share2 className="w-5 h-5" />
+                      <span className="text-sm font-bold">Share</span>
+                    </button>
                   </div>
                 </div>
               </div>
