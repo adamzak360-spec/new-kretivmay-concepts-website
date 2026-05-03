@@ -72,6 +72,14 @@ export default function Home() {
     
     if (currentItem.type === 'video') {
       setIsVideoPlaying(true);
+      // Reset and play the video when we return to it
+      if (videoRef.current) {
+        videoRef.current.currentTime = 0;
+        videoRef.current.play().catch(() => {
+          // Handle autoplay restrictions
+          console.log('Video autoplay was prevented');
+        });
+      }
       return;
     }
 
@@ -100,15 +108,22 @@ export default function Home() {
           >
             {item.type === 'video' ? (
               <>
-                <video
-                  ref={videoRef}
-                  src={item.url}
-                  autoPlay
-                  muted
-                  playsInline
-                  onEnded={handleVideoEnd}
-                  className="absolute inset-0 w-full h-full object-cover"
-                />
+              <video
+                ref={videoRef}
+                src={item.url}
+                autoPlay
+                muted
+                playsInline
+                onEnded={handleVideoEnd}
+                onLoadedMetadata={() => {
+                  if (videoRef.current && index === currentSlide) {
+                    videoRef.current.play().catch(() => {
+                      console.log('Video autoplay was prevented');
+                    });
+                  }
+                }}
+                className="absolute inset-0 w-full h-full object-cover"
+              />
               </>
             ) : (
               <div
