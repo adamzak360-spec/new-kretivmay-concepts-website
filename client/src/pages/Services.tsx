@@ -77,18 +77,18 @@ export default function Services() {
                     </li>
                   </ul>
                 </div>
-                <div className="bg-gradient-to-br from-blue-100 to-blue-50 rounded-lg h-64 flex items-center justify-center">
-                  <div className="text-6xl">📏</div>
-                </div>
+                <div className="rounded-lg h-64 overflow-hidden shadow-inner">
+	                  <img src="/assets/services/large-format.webp" alt="Large Format Printing" className="w-full h-full object-cover" />
+	                </div>
               </div>
             </div>
 
             {/* Social Media Marketing */}
             <div className="bg-white p-8 rounded-lg shadow">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                <div className="bg-gradient-to-br from-pink-100 to-pink-50 rounded-lg h-64 flex items-center justify-center order-2 md:order-1">
-                  <div className="text-6xl">📱</div>
-                </div>
+                <div className="rounded-lg h-64 overflow-hidden shadow-inner order-2 md:order-1">
+	                  <img src="/assets/services/social-media.webp" alt="Social Media Marketing" className="w-full h-full object-cover" />
+	                </div>
                 <div className="order-1 md:order-2">
                   <h3 className="text-3xl font-bold mb-4 text-slate-900">Social Media Marketing</h3>
                   <p className="text-slate-600 mb-6 leading-relaxed">
@@ -139,9 +139,9 @@ export default function Services() {
                     </li>
                   </ul>
                 </div>
-                <div className="bg-gradient-to-br from-purple-100 to-purple-50 rounded-lg h-64 flex items-center justify-center">
-                  <div className="text-6xl">👕</div>
-                </div>
+                <div className="rounded-lg h-64 overflow-hidden shadow-inner">
+	                  <img src="/assets/services/shirts-caps.webp" alt="Shirts & Caps Printing" className="w-full h-full object-cover" />
+	                </div>
               </div>
             </div>
           </div>

@@ -44,7 +44,7 @@ export const FALLBACK_SERVICES = [
     title: "Large Format Printing",
     description: "Professional large-scale printing for stickers, banners, and one-way vision graphics.",
     fullDescription: "Professional large-scale printing for stickers, banners, and one-way vision graphics.",
-    bannerImageUrl: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=1200&q=80",
+    bannerImageUrl: "/assets/services/large-format.webp",
     bannerImageKey: "fallback-service-4",
     icon: "📏",
     order: 4,
@@ -57,7 +57,7 @@ export const FALLBACK_SERVICES = [
     title: "Social Media Marketing",
     description: "Boost your online presence with targeted marketing and product advertising.",
     fullDescription: "Boost your online presence with targeted marketing and product advertising.",
-    bannerImageUrl: "https://images.unsplash.com/photo-1460925895917-adf4e565db18?w=1200&q=80",
+    bannerImageUrl: "/assets/services/social-media.webp",
     bannerImageKey: "fallback-service-5",
     icon: "📱",
     order: 5,
@@ -70,7 +70,7 @@ export const FALLBACK_SERVICES = [
     title: "Shirts & Caps Printing",
     description: "Custom apparel printing with DTF, screen printing, and embroidery services.",
     fullDescription: "Custom apparel printing with DTF, screen printing, and embroidery services.",
-    bannerImageUrl: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=1200&q=80",
+    bannerImageUrl: "/assets/services/shirts-caps.webp",
     bannerImageKey: "fallback-service-6",
     icon: "👕",
     order: 6,
@@ -80,6 +80,66 @@ export const FALLBACK_SERVICES = [
 ];
 
 export const FALLBACK_FEATURED_WORKS = [
+  {
+    id: -20,
+    title: "Large Format Printing",
+    description: "Professional large-scale printing for stickers, banners, and one-way vision graphics.",
+    category: "print" as const,
+    imageUrl: "/assets/portfolio/flyer_1.webp",
+    imageKey: "flyer-1",
+    featured: true,
+    order: -20,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    id: -19,
+    title: "Shirts & Caps Printing",
+    description: "Custom apparel printing with DTF, screen printing, and embroidery services.",
+    category: "print" as const,
+    imageUrl: "/assets/portfolio/flyer_2.webp",
+    imageKey: "flyer-2",
+    featured: true,
+    order: -19,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    id: -18,
+    title: "General Printing Services",
+    description: "High-quality printing solutions for all your business needs.",
+    category: "print" as const,
+    imageUrl: "/assets/portfolio/flyer_3.webp",
+    imageKey: "flyer-3",
+    featured: true,
+    order: -18,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    id: -17,
+    title: "Social Media Marketing",
+    description: "Boost your online presence with targeted marketing and product advertising.",
+    category: "branding" as const,
+    imageUrl: "/assets/portfolio/flyer_4.webp",
+    imageKey: "flyer-4",
+    featured: true,
+    order: -17,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    id: -16,
+    title: "Social Media Design",
+    description: "Eye-catching social media creatives that boost engagement and increase visibility.",
+    category: "design" as const,
+    imageUrl: "/assets/portfolio/flyer_5.webp",
+    imageKey: "flyer-5",
+    featured: true,
+    order: -16,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
   {
     id: -15,
     title: "Professional Branding Design",
