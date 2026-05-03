@@ -6,9 +6,12 @@ import { ArrowRight } from "lucide-react";
 
 export default function Photography() {
   const [selectedImage, setSelectedImage] = useState<any>(null);
-  const { data: portfolio, isLoading } = trpc.portfolio.list.useQuery({
+  const { data: portfolioRaw, isLoading } = trpc.portfolio.list.useQuery({
     category: "photography",
   });
+
+  // Client-side filtering to ensure strict categorization for fallback data
+  const portfolio = portfolioRaw?.filter(item => item.category === "photography") || [];
 
   const eventTypes = [
     { name: "Weddings", icon: "💍" },

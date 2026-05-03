@@ -13,12 +13,17 @@ export default function Portfolio() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedItem, setSelectedItem] = useState<any>(null);
   
-  const { data: portfolio = FALLBACK_FEATURED_WORKS } = trpc.portfolio.list.useQuery({
+  const { data: portfolioRaw = FALLBACK_FEATURED_WORKS } = trpc.portfolio.list.useQuery({
     category: selectedCategory || undefined,
   }, {
     placeholderData: FALLBACK_FEATURED_WORKS,
     retry: false
   });
+
+  // Client-side filtering to ensure strict categorization for fallback data
+  const portfolio = portfolioRaw.filter(item => 
+    !selectedCategory || item.category === selectedCategory
+  );
 
   return (
     <div className="w-full">
