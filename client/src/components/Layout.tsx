@@ -69,7 +69,7 @@ export default function Layout({ children }: LayoutProps) {
             <a className="flex items-center gap-3 group">
               <div className="relative w-12 h-12 overflow-hidden rounded-lg transition-transform group-hover:scale-105">
                 <img 
-                  src="/assets/logo_transparent.png" 
+                  src="/assets/logo_blue.png" 
                   alt="KretivMay Logo" 
                   className="w-full h-full object-contain"
                 />
@@ -189,7 +189,7 @@ export default function Layout({ children }: LayoutProps) {
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 overflow-hidden rounded-lg">
                   <img 
-                    src="/assets/logo_transparent.png" 
+                    src="/assets/logo_white.png" 
                     alt="KretivMay Logo" 
                     className="w-full h-full object-contain"
                   />
