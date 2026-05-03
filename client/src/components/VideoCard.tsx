@@ -52,24 +52,20 @@ export default function VideoCard({
     window.open(reelUrl, "_blank", "noopener,noreferrer");
   };
 
+  const videoPath = `/assets/videos/${id}.mp4`;
+
   return (
     <div className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 bg-white">
       {/* Video Container */}
       <div className="relative w-full aspect-[9/16] bg-black overflow-hidden">
-        {/* Facebook Reel Embed */}
-        <iframe
-          src={`https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(reelUrl)}&show_text=false&appId=1234567890`}
-          width="100%"
-          height="100%"
-          style={{
-            border: "none",
-            overflow: "hidden",
-            borderRadius: "0.75rem",
-          }}
-          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-          allowFullScreen={true}
-          className="w-full h-full"
-        />
+        {/* Local Video Player */}
+        <video
+          src={videoPath}
+          controls
+          className="w-full h-full object-cover"
+        >
+          Your browser does not support the video tag.
+        </video>
       </div>
 
       {/* Content Section */}
