@@ -38,8 +38,8 @@ export default function About() {
                 {about.storyContent}
               </div>
             </div>
-            <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg h-96 flex items-center justify-center text-white text-6xl font-bold opacity-20">
-              KM
+            <div className="rounded-lg overflow-hidden shadow-lg h-96">
+              <img src="/assets/about-image.jpg" alt="KretivMay Concepts" className="w-full h-full object-cover" />
             </div>
           </div>
         </div>
