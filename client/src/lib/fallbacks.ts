@@ -5,7 +5,7 @@ export const FALLBACK_SERVICES = [
     title: "Graphic Design",
     description: "Creative visual solutions for your brand identity and marketing materials.",
     fullDescription: "Creative visual solutions for your brand identity and marketing materials.",
-    bannerImageUrl: "/assets/portfolio/flyer_5.webp",
+    bannerImageUrl: "/assets/portfolio/flyer_1.webp",
     bannerImageKey: "fallback-service-1",
     icon: "🎨",
     order: 1,
@@ -18,7 +18,7 @@ export const FALLBACK_SERVICES = [
     title: "Printing Solutions",
     description: "High-quality digital and offset printing for all your business needs.",
     fullDescription: "High-quality digital and offset printing for all your business needs.",
-    bannerImageUrl: "/assets/portfolio/flyer_3.webp",
+    bannerImageUrl: "/assets/portfolio/flyer_2.webp",
     bannerImageKey: "fallback-service-2",
     icon: "🖨️",
     order: 2,
@@ -31,7 +31,7 @@ export const FALLBACK_SERVICES = [
     title: "Brand Identity",
     description: "Comprehensive branding packages including logos, business cards, and more.",
     fullDescription: "Comprehensive branding packages including logos, business cards, and more.",
-    bannerImageUrl: "https://images.unsplash.com/photo-1572044162444-ad60f128bde2?w=1200&q=80",
+    bannerImageUrl: "/assets/portfolio/flyer_3.webp",
     bannerImageKey: "fallback-service-3",
     icon: "✨",
     order: 3,
@@ -44,7 +44,7 @@ export const FALLBACK_SERVICES = [
     title: "Large Format Printing",
     description: "Professional large-scale printing for stickers, banners, and one-way vision graphics.",
     fullDescription: "Professional large-scale printing for stickers, banners, and one-way vision graphics.",
-    bannerImageUrl: "/assets/services/large-format.webp",
+    bannerImageUrl: "/assets/portfolio/flyer_4.webp",
     bannerImageKey: "fallback-service-4",
     icon: "📏",
     order: 4,
@@ -57,7 +57,7 @@ export const FALLBACK_SERVICES = [
     title: "Social Media Marketing",
     description: "Boost your online presence with targeted marketing and product advertising.",
     fullDescription: "Boost your online presence with targeted marketing and product advertising.",
-    bannerImageUrl: "/assets/services/social-media.webp",
+    bannerImageUrl: "/assets/portfolio/flyer_5.webp",
     bannerImageKey: "fallback-service-5",
     icon: "📱",
     order: 5,
@@ -80,31 +80,6 @@ export const FALLBACK_SERVICES = [
 ];
 
 export const FALLBACK_FEATURED_WORKS = [
-
-  {
-    id: -15,
-    title: "Professional Branding Design",
-    description: "Creative branding and advertisement design from our Facebook collection.",
-    category: "design" as const,
-    imageUrl: "/assets/portfolio/facebook_design_1.webp",
-    imageKey: "facebook-design-1",
-    featured: true,
-    order: -15,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  {
-    id: -14,
-    title: "Social Media Advertisement",
-    description: "High-impact social media marketing design.",
-    category: "design" as const,
-    imageUrl: "/assets/portfolio/facebook_design_2.webp",
-    imageKey: "facebook-design-2",
-    featured: true,
-    order: -14,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
   {
     id: -13,
     title: "Elegant Wedding Photography",
@@ -204,42 +179,6 @@ export const FALLBACK_FEATURED_WORKS = [
     updatedAt: new Date()
   },
   {
-    id: 1,
-    title: "Corporate Rebranding",
-    description: "Corporate Rebranding project",
-    category: "design" as const,
-    imageUrl: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&q=80",
-    imageKey: "fallback-work-1",
-    featured: true,
-    order: 1,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  {
-    id: 2,
-    title: "Luxury Packaging",
-    description: "Luxury Packaging project",
-    category: "print" as const,
-    imageUrl: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80",
-    imageKey: "fallback-work-2",
-    featured: true,
-    order: 2,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  {
-    id: 3,
-    title: "Modern Logo Set",
-    description: "Modern Logo Set project",
-    category: "branding" as const,
-    imageUrl: "https://images.unsplash.com/photo-1572044162444-ad60f128bde2?w=800&q=80",
-    imageKey: "fallback-work-3",
-    featured: true,
-    order: 3,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  {
     id: 4,
     title: "Event Photography",
     description: "Event Photography project",
@@ -248,30 +187,6 @@ export const FALLBACK_FEATURED_WORKS = [
     imageKey: "fallback-work-4",
     featured: true,
     order: 4,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  {
-    id: 5,
-    title: "Social Media Campaign",
-    description: "Social Media Campaign project",
-    category: "design" as const,
-    imageUrl: "https://images.unsplash.com/photo-1460925895917-adf4e565db18?w=800&q=80",
-    imageKey: "fallback-work-5",
-    featured: true,
-    order: 5,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  {
-    id: 6,
-    title: "Custom Apparel Design",
-    description: "Custom Apparel Design project",
-    category: "print" as const,
-    imageUrl: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&q=80",
-    imageKey: "fallback-work-6",
-    featured: true,
-    order: 6,
     createdAt: new Date(),
     updatedAt: new Date()
   }

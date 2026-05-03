@@ -54,45 +54,129 @@ export default function Services() {
           <h2 className="text-4xl font-bold text-center mb-12">Detailed Service Offerings</h2>
           
           <div className="space-y-12">
-            {/* Large Format Printing */}
+            {/* Graphic Design */}
             <div className="bg-white p-8 rounded-lg shadow">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                 <div>
-                  <h3 className="text-3xl font-bold mb-4 text-slate-900">Large Format Printing</h3>
+                  <h3 className="text-3xl font-bold mb-4 text-slate-900">Graphic Design</h3>
                   <p className="text-slate-600 mb-6 leading-relaxed">
-                    Professional large-scale printing services for all your promotional and branding needs.
+                    Creative visual solutions for your brand identity and marketing materials.
                   </p>
                   <ul className="space-y-3 mb-6">
                     <li className="flex items-start gap-3">
                       <span className="text-blue-600 font-bold mt-1">✓</span>
-                      <span className="text-slate-700"><strong>Stickers:</strong> Custom vinyl stickers for branding and promotion</span>
+                      <span className="text-slate-700"><strong>Logo Design:</strong> Unique and memorable brand marks</span>
                     </li>
                     <li className="flex items-start gap-3">
                       <span className="text-blue-600 font-bold mt-1">✓</span>
-                      <span className="text-slate-700"><strong>Banners:</strong> Eye-catching banners for events and campaigns</span>
+                      <span className="text-slate-700"><strong>Marketing Materials:</strong> Professional flyers and posters</span>
                     </li>
                     <li className="flex items-start gap-3">
                       <span className="text-blue-600 font-bold mt-1">✓</span>
-                      <span className="text-slate-700"><strong>One-Way Vision:</strong> See-through graphics for windows and glass</span>
+                      <span className="text-slate-700"><strong>Social Media Content:</strong> Engaging graphics for all platforms</span>
                     </li>
                   </ul>
                 </div>
                 <div className="rounded-lg h-64 overflow-hidden shadow-inner">
-	                  <img src="/assets/services/large-format.webp" alt="Large Format Printing" className="w-full h-full object-cover" />
-	                </div>
+                  <img src="/assets/portfolio/flyer_1.webp" alt="Graphic Design" className="w-full h-full object-cover" />
+                </div>
+              </div>
+            </div>
+
+            {/* Printing Solutions */}
+            <div className="bg-white p-8 rounded-lg shadow">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div className="rounded-lg h-64 overflow-hidden shadow-inner order-2 md:order-1">
+                  <img src="/assets/portfolio/flyer_2.webp" alt="Printing Solutions" className="w-full h-full object-cover" />
+                </div>
+                <div className="order-1 md:order-2">
+                  <h3 className="text-3xl font-bold mb-4 text-slate-900">Printing Solutions</h3>
+                  <p className="text-slate-600 mb-6 leading-relaxed">
+                    High-quality digital and offset printing for all your business needs.
+                  </p>
+                  <ul className="space-y-3 mb-6">
+                    <li className="flex items-start gap-3">
+                      <span className="text-blue-600 font-bold mt-1">✓</span>
+                      <span className="text-slate-700"><strong>Business Cards:</strong> Premium quality networking tools</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="text-blue-600 font-bold mt-1">✓</span>
+                      <span className="text-slate-700"><strong>Brochures:</strong> Informative and well-designed layouts</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="text-blue-600 font-bold mt-1">✓</span>
+                      <span className="text-slate-700"><strong>Stationery:</strong> Letterheads, envelopes, and more</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {/* Brand Identity */}
+            <div className="bg-white p-8 rounded-lg shadow">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                  <h3 className="text-3xl font-bold mb-4 text-slate-900">Brand Identity</h3>
+                  <p className="text-slate-600 mb-6 leading-relaxed">
+                    Comprehensive branding packages including logos, business cards, and more.
+                  </p>
+                  <ul className="space-y-3 mb-6">
+                    <li className="flex items-start gap-3">
+                      <span className="text-blue-600 font-bold mt-1">✓</span>
+                      <span className="text-slate-700"><strong>Brand Strategy:</strong> Defining your brand's voice and mission</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="text-blue-600 font-bold mt-1">✓</span>
+                      <span className="text-slate-700"><strong>Visual Identity:</strong> Consistent look across all touchpoints</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="text-blue-600 font-bold mt-1">✓</span>
+                      <span className="text-slate-700"><strong>Brand Guidelines:</strong> Ensuring brand consistency</span>
+                    </li>
+                  </ul>
+                </div>
+                <div className="rounded-lg h-64 overflow-hidden shadow-inner">
+                  <img src="/assets/portfolio/flyer_3.webp" alt="Brand Identity" className="w-full h-full object-cover" />
+                </div>
+              </div>
+            </div>
+
+            {/* Large Format Printing */}
+            <div className="bg-white p-8 rounded-lg shadow">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div className="rounded-lg h-64 overflow-hidden shadow-inner order-2 md:order-1">
+                  <img src="/assets/portfolio/flyer_4.webp" alt="Large Format Printing" className="w-full h-full object-cover" />
+                </div>
+                <div className="order-1 md:order-2">
+                  <h3 className="text-3xl font-bold mb-4 text-slate-900">Large Format Printing</h3>
+                  <p className="text-slate-600 mb-6 leading-relaxed">
+                    Professional large-scale printing for stickers, banners, and one-way vision graphics.
+                  </p>
+                  <ul className="space-y-3 mb-6">
+                    <li className="flex items-start gap-3">
+                      <span className="text-blue-600 font-bold mt-1">✓</span>
+                      <span className="text-slate-700"><strong>Stickers:</strong> Custom vinyl stickers for branding</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="text-blue-600 font-bold mt-1">✓</span>
+                      <span className="text-slate-700"><strong>Banners:</strong> Eye-catching banners for events</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="text-blue-600 font-bold mt-1">✓</span>
+                      <span className="text-slate-700"><strong>One-Way Vision:</strong> See-through graphics for windows</span>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
 
             {/* Social Media Marketing */}
             <div className="bg-white p-8 rounded-lg shadow">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                <div className="rounded-lg h-64 overflow-hidden shadow-inner order-2 md:order-1">
-	                  <img src="/assets/services/social-media.webp" alt="Social Media Marketing" className="w-full h-full object-cover" />
-	                </div>
-                <div className="order-1 md:order-2">
+                <div>
                   <h3 className="text-3xl font-bold mb-4 text-slate-900">Social Media Marketing</h3>
                   <p className="text-slate-600 mb-6 leading-relaxed">
-                    Boost your online presence and reach your target audience with our comprehensive social media strategies.
+                    Boost your online presence with targeted marketing and product advertising.
                   </p>
                   <ul className="space-y-3 mb-6">
                     <li className="flex items-start gap-3">
@@ -101,107 +185,48 @@ export default function Services() {
                     </li>
                     <li className="flex items-start gap-3">
                       <span className="text-blue-600 font-bold mt-1">✓</span>
-                      <span className="text-slate-700"><strong>Online Presence:</strong> Build and maintain your brand image</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <span className="text-blue-600 font-bold mt-1">✓</span>
                       <span className="text-slate-700"><strong>Targeted Marketing:</strong> Reach the right audience</span>
                     </li>
                     <li className="flex items-start gap-3">
                       <span className="text-blue-600 font-bold mt-1">✓</span>
-                      <span className="text-slate-700"><strong>Client Attraction:</strong> Convert followers to customers</span>
+                      <span className="text-slate-700"><strong>Engagement:</strong> Build and maintain your brand image</span>
                     </li>
                   </ul>
+                </div>
+                <div className="rounded-lg h-64 overflow-hidden shadow-inner">
+                  <img src="/assets/portfolio/flyer_5.webp" alt="Social Media Marketing" className="w-full h-full object-cover" />
                 </div>
               </div>
             </div>
 
             {/* Shirts & Caps Printing */}
-	            <div className="bg-white p-8 rounded-lg shadow">
-	              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-	                <div>
-	                  <h3 className="text-3xl font-bold mb-4 text-slate-900">Shirts & Caps Printing</h3>
-	                  <p className="text-slate-600 mb-6 leading-relaxed">
-	                    Custom apparel printing with multiple techniques for high-quality, durable results.
-	                  </p>
-	                  <ul className="space-y-3 mb-6">
-	                    <li className="flex items-start gap-3">
-	                      <span className="text-blue-600 font-bold mt-1">✓</span>
-	                      <span className="text-slate-700"><strong>DTF Printing:</strong> Direct-to-Film for vibrant, detailed prints</span>
-	                    </li>
-	                    <li className="flex items-start gap-3">
-	                      <span className="text-blue-600 font-bold mt-1">✓</span>
-	                      <span className="text-slate-700"><strong>Screen Printing:</strong> Classic technique for bulk orders</span>
-	                    </li>
-	                    <li className="flex items-start gap-3">
-	                      <span className="text-blue-600 font-bold mt-1">✓</span>
-	                      <span className="text-slate-700"><strong>Embroidery:</strong> Premium embroidered logos and designs</span>
-	                    </li>
-	                  </ul>
-	                </div>
-	                <div className="rounded-lg h-64 overflow-hidden shadow-inner">
-			                  <img src="/assets/services/shirts-caps.webp" alt="Shirts & Caps Printing" className="w-full h-full object-cover" />
-			                </div>
-	              </div>
-	            </div>
-
-	            {/* Social Media Design */}
-	            <div className="bg-white p-8 rounded-lg shadow">
-	              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-	                <div className="rounded-lg h-64 overflow-hidden shadow-inner order-2 md:order-1">
-	                  <img src="/assets/portfolio/flyer_5.webp" alt="Social Media Design" className="w-full h-full object-cover" />
-	                </div>
-	                <div className="order-1 md:order-2">
-	                  <h3 className="text-3xl font-bold mb-4 text-slate-900">Social Media Design</h3>
-	                  <p className="text-slate-600 mb-6 leading-relaxed">
-	                    Eye-catching social media creatives that boost engagement, increase visibility, and grow your brand.
-	                  </p>
-	                  <ul className="space-y-3 mb-6">
-	                    <li className="flex items-start gap-3">
-	                      <span className="text-blue-600 font-bold mt-1">✓</span>
-	                      <span className="text-slate-700"><strong>Brand Identity:</strong> Consistent and professional online presence</span>
-	                    </li>
-	                    <li className="flex items-start gap-3">
-	                      <span className="text-blue-600 font-bold mt-1">✓</span>
-	                      <span className="text-slate-700"><strong>Engagement:</strong> Boosts audience interaction and reach</span>
-	                    </li>
-	                    <li className="flex items-start gap-3">
-	                      <span className="text-blue-600 font-bold mt-1">✓</span>
-	                      <span className="text-slate-700"><strong>Credibility:</strong> Improves brand trust and professional image</span>
-	                    </li>
-	                  </ul>
-	                </div>
-	              </div>
-	            </div>
-
-	            {/* General Design & Print */}
-	            <div className="bg-white p-8 rounded-lg shadow">
-	              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-	                <div>
-	                  <h3 className="text-3xl font-bold mb-4 text-slate-900">General Design & Print</h3>
-	                  <p className="text-slate-600 mb-6 leading-relaxed">
-	                    High-quality, fast, and reliable printing services for all your business and personal needs.
-	                  </p>
-	                  <ul className="space-y-3 mb-6">
-	                    <li className="flex items-start gap-3">
-	                      <span className="text-blue-600 font-bold mt-1">✓</span>
-	                      <span className="text-slate-700"><strong>Marketing Materials:</strong> Flyers, posters, and brochures</span>
-	                    </li>
-	                    <li className="flex items-start gap-3">
-	                      <span className="text-blue-600 font-bold mt-1">✓</span>
-	                      <span className="text-slate-700"><strong>Stationery:</strong> Business cards, letterheads, and envelopes</span>
-	                    </li>
-	                    <li className="flex items-start gap-3">
-	                      <span className="text-blue-600 font-bold mt-1">✓</span>
-	                      <span className="text-slate-700"><strong>Event Branding:</strong> Signages, billboards, and invitation cards</span>
-	                    </li>
-	                  </ul>
-	                </div>
-	                <div className="rounded-lg h-64 overflow-hidden shadow-inner">
-	                  <img src="/assets/portfolio/flyer_3.webp" alt="General Design & Print" className="w-full h-full object-cover" />
-	                </div>
-	              </div>
-	            </div>
+            <div className="bg-white p-8 rounded-lg shadow">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div className="rounded-lg h-64 overflow-hidden shadow-inner order-2 md:order-1">
+                  <img src="/assets/services/shirts-caps.webp" alt="Shirts & Caps Printing" className="w-full h-full object-cover" />
+                </div>
+                <div className="order-1 md:order-2">
+                  <h3 className="text-3xl font-bold mb-4 text-slate-900">Shirts & Caps Printing</h3>
+                  <p className="text-slate-600 mb-6 leading-relaxed">
+                    Custom apparel printing with DTF, screen printing, and embroidery services.
+                  </p>
+                  <ul className="space-y-3 mb-6">
+                    <li className="flex items-start gap-3">
+                      <span className="text-blue-600 font-bold mt-1">✓</span>
+                      <span className="text-slate-700"><strong>DTF Printing:</strong> Vibrant, detailed prints</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="text-blue-600 font-bold mt-1">✓</span>
+                      <span className="text-slate-700"><strong>Screen Printing:</strong> Classic technique for bulk orders</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="text-blue-600 font-bold mt-1">✓</span>
+                      <span className="text-slate-700"><strong>Embroidery:</strong> Premium embroidered logos</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
