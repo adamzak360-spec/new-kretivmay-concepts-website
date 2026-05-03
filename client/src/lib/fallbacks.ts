@@ -81,18 +81,6 @@ export const FALLBACK_SERVICES = [
 
 export const FALLBACK_FEATURED_WORKS = [
   {
-    id: -13,
-    title: "Elegant Wedding Photography",
-    description: "Capturing special moments with professional excellence.",
-    category: "photography" as const,
-    imageUrl: "/assets/portfolio/facebook_photo_1.webp",
-    imageKey: "facebook-photo-1",
-    featured: true,
-    order: -13,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  {
     id: -12,
     title: "Traditional Ceremony Coverage",
     description: "Professional coverage of traditional ceremonies and events.",
