@@ -81,6 +81,18 @@ export const FALLBACK_SERVICES = [
 
 export const FALLBACK_FEATURED_WORKS = [
   {
+    id: -106,
+    title: "Radiant Bridal Portrait",
+    description: "Capturing the pure joy and elegance of a bride in her stunning white gown.",
+    category: "photography" as const,
+    imageUrl: "/assets/portfolio/featured-portrait-3.jpg",
+    imageKey: "featured-portrait-3",
+    featured: true,
+    order: -106,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
     id: -105,
     title: "Stunning Studio Portrait",
     description: "Professional studio session capturing beauty and elegance with high-end lighting.",
