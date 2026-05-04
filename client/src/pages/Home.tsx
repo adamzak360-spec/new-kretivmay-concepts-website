@@ -28,6 +28,8 @@ export default function Home() {
   // Combine video and images for the slideshow
   const slideshowItems = [
     { type: 'video', url: '/assets/videos/hero-video.mp4' },
+    { type: 'image', url: '/assets/hero/hero-image-new.jpg' },
+    { type: 'video', url: '/assets/hero/hero-video-2.mp4' },
     ...hero.images.map((img: any) => ({ type: 'image', url: img.url }))
   ];
 
