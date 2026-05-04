@@ -7,7 +7,7 @@ export const FALLBACK_SERVICES = [
     fullDescription: "Creative visual solutions for your brand identity and marketing materials.",
     bannerImageUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663605785483/MqfYcpXXaHuTqVwK.jpg",
     bannerImageKey: "fallback-service-1",
-    icon: "🎨",
+    icon: "",
     order: 1,
     createdAt: new Date(),
     updatedAt: new Date()
@@ -20,7 +20,7 @@ export const FALLBACK_SERVICES = [
     fullDescription: "High-quality digital and offset printing for all your business needs.",
     bannerImageUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663605785483/bLbPLcmmMOyAFMLH.jpg",
     bannerImageKey: "fallback-service-2",
-    icon: "🖨️",
+    icon: "",
     order: 2,
     createdAt: new Date(),
     updatedAt: new Date()
@@ -33,7 +33,7 @@ export const FALLBACK_SERVICES = [
     fullDescription: "Comprehensive branding packages including logos, business cards, and more.",
     bannerImageUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663605785483/TnkAojVNCvMeTtGB.jpg",
     bannerImageKey: "fallback-service-3",
-    icon: "✨",
+    icon: "",
     order: 3,
     createdAt: new Date(),
     updatedAt: new Date()
@@ -46,7 +46,7 @@ export const FALLBACK_SERVICES = [
     fullDescription: "Professional large-scale printing for stickers, banners, and one-way vision graphics.",
     bannerImageUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663605785483/FylktQhyMgVBpohH.jpg",
     bannerImageKey: "fallback-service-4",
-    icon: "📏",
+    icon: "",
     order: 4,
     createdAt: new Date(),
     updatedAt: new Date()
@@ -59,7 +59,7 @@ export const FALLBACK_SERVICES = [
     fullDescription: "Boost your online presence with targeted marketing and product advertising.",
     bannerImageUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663605785483/hySmeSMDrHcRBJkb.jpg",
     bannerImageKey: "fallback-service-5",
-    icon: "📱",
+    icon: "",
     order: 5,
     createdAt: new Date(),
     updatedAt: new Date()
@@ -72,7 +72,7 @@ export const FALLBACK_SERVICES = [
     fullDescription: "Custom apparel printing with DTF, screen printing, and embroidery services.",
     bannerImageUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663605785483/KAHuPFtXTquZsZHL.jpg",
     bannerImageKey: "fallback-service-6",
-    icon: "👕",
+    icon: "",
     order: 6,
     createdAt: new Date(),
     updatedAt: new Date()
