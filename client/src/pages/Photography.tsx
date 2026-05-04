@@ -3,14 +3,18 @@ import { trpc } from "@/lib/trpc";
 import { Loader2, X, Play, ArrowRight, Heart, MessageCircle, Share2 } from "lucide-react";
 import { Link } from "wouter";
 
+const isVideo = (url: string) => {
+  return url.includes(".mp4") || url.includes(".webm") || url.includes(".mov") || url.includes("facebook.com/reel");
+};
+
 export default function Photography() {
   const [selectedItem, setSelectedItem] = useState<any>(null);
   const { data: portfolioRaw, isLoading } = trpc.portfolio.list.useQuery({
-    category: "photography",
+    category: undefined, // Fetch all to include photography and video
   });
 
   // Client-side filtering to ensure strict categorization
-  const dbPortfolio = portfolioRaw?.filter(item => item.category === "photography") || [];
+  const dbPortfolio = portfolioRaw?.filter(item => item.category === "photography" || item.category === "video") || [];
 
   // New Gallery Items from User Facebook Links
   const newGalleryItems = [
@@ -165,7 +169,7 @@ export default function Photography() {
     ...newGalleryItems,
     ...dbPortfolio.map(item => ({
       id: item.id.toString(),
-      type: "image",
+      type: isVideo(item.imageUrl) ? "video" : "image",
       title: item.title,
       category: "Photography",
       imageUrl: item.imageUrl,
@@ -251,68 +255,71 @@ export default function Photography() {
                   >
                     {item.isExternal ? (
                       <div className="aspect-[4/5] w-full bg-slate-900 flex items-center justify-center text-white p-4 text-center">
-                        <div>
-                          {item.type === 'video' ? <Play className="w-12 h-12 mx-auto mb-2 opacity-50" /> : <X className="w-12 h-12 mx-auto mb-2 opacity-50 rotate-45" />}
-                          <p className="text-xs opacity-70">View on Facebook</p>
+                        <div className="relative z-10">
+                          {item.type === 'video' ? <Play className="w-16 h-16 mx-auto mb-4 text-blue-400 fill-blue-400" /> : <ArrowRight className="w-16 h-16 mx-auto mb-4 text-blue-400" />}
+                          <h4 className="font-bold text-lg mb-2">{item.title}</h4>
+                          <p className="text-xs opacity-70 uppercase tracking-widest">View on Facebook</p>
                         </div>
+                        <div className="absolute inset-0 bg-blue-600 opacity-0 group-hover:opacity-20 transition-opacity"></div>
                       </div>
                     ) : (
-                      <img
-                        src={item.imageUrl}
-                        alt={item.title}
-                        className="w-full h-auto group-hover:scale-110 transition-transform duration-700 ease-out"
-                        loading="lazy"
-                      />
+                      <div className="aspect-[4/5] overflow-hidden bg-slate-100">
+                        {item.type === 'video' ? (
+                          <>
+                            <video
+                              src={item.imageUrl}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                              onMouseEnter={(e) => e.currentTarget.play()}
+                              onMouseLeave={(e) => e.currentTarget.pause()}
+                              muted
+                              loop
+                            />
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors">
+                              <Play className="w-16 h-16 text-white fill-white drop-shadow-lg" />
+                            </div>
+                          </>
+                        ) : (
+                          <img
+                            src={item.imageUrl}
+                            alt={item.title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            loading="lazy"
+                          />
+                        )}
+                      </div>
                     )}
-                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
-                       <div className="bg-white/20 backdrop-blur-md p-3 rounded-full">
-                         <ArrowRight className="w-6 h-6 text-white" />
-                       </div>
-                    </div>
-                  </div>
-                  
-                  <div className="p-6 border-t border-slate-100">
-                    <span className="text-blue-600 text-[10px] font-black uppercase tracking-widest mb-2 block">{item.category}</span>
-                    <h3 className="font-bold text-slate-900 mb-2 leading-tight">{item.title}</h3>
-                    <p className="text-sm text-slate-500 mb-4 line-clamp-2">{item.description}</p>
                     
-                    <div className="flex items-center gap-4 pt-4 border-t border-slate-50">
-                      <button className="flex items-center gap-1 text-slate-600 hover:text-red-500 transition-colors">
-                        <Heart className="w-5 h-5" />
-                        <span className="text-xs font-bold">Like</span>
-                      </button>
-                      <button className="flex items-center gap-1 text-slate-600 hover:text-blue-500 transition-colors">
-                        <MessageCircle className="w-5 h-5" />
-                        <span className="text-xs font-bold">Comment</span>
-                      </button>
-                      <button className="flex items-center gap-1 text-slate-600 hover:text-green-500 transition-colors">
-                        <Share2 className="w-5 h-5" />
-                        <span className="text-xs font-bold">Share</span>
-                      </button>
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col justify-end p-8">
+                      <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <span className="inline-block px-3 py-1 bg-blue-600 text-white text-[10px] font-bold rounded-full mb-3 uppercase tracking-widest">
+                          {item.category}
+                        </span>
+                        <h3 className="text-white font-black text-2xl leading-tight mb-2">{item.title}</h3>
+                        <div className="flex items-center gap-4 text-white/60 text-sm">
+                          <span className="flex items-center gap-1"><Heart className="w-4 h-4" /> 24</span>
+                          <span className="flex items-center gap-1"><MessageCircle className="w-4 h-4" /> 12</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
           )}
-          
-          <div className="mt-20 text-center">
-            <p className="text-slate-400 font-medium italic">More stunning captures coming soon...</p>
-          </div>
         </div>
       </section>
 
       {/* CTA Section */}
       <section className="py-24 bg-slate-900 text-white">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-5xl font-black mb-6 tracking-tight">READY TO CAPTURE YOUR MOMENTS?</h2>
-          <p className="text-xl mb-12 text-slate-400 max-w-2xl mx-auto">
-            Whether it's a wedding, birthday, or naming ceremony, we bring professional excellence to every shoot.
+          <h2 className="text-5xl font-black mb-6 tracking-tighter">READY TO BOOK?</h2>
+          <p className="text-xl mb-10 text-slate-400 max-w-2xl mx-auto">
+            Let's capture your special moments with professional excellence and artistic flair.
           </p>
           <Link href="/contact">
-            <a className="bg-blue-600 hover:bg-blue-700 text-white px-12 py-5 rounded-2xl font-black transition-all hover:scale-105 inline-flex items-center gap-3 shadow-2xl shadow-blue-600/20">
-              BOOK A SESSION NOW
-              <ArrowRight className="w-6 h-6" />
+            <a className="bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 rounded-full font-black transition-all inline-flex items-center gap-3 uppercase tracking-widest text-sm">
+              Book a Session
+              <ArrowRight className="w-5 h-5" />
             </a>
           </Link>
         </div>
@@ -321,62 +328,94 @@ export default function Photography() {
       {/* Lightbox Modal */}
       {selectedItem && (
         <div
-          className="fixed inset-0 bg-slate-950/95 z-50 flex items-center justify-center p-4 md:p-8 backdrop-blur-sm"
+          className="fixed inset-0 bg-slate-950/95 z-50 flex items-center justify-center p-4 md:p-10"
           onClick={() => setSelectedItem(null)}
         >
           <div
-            className="relative max-w-6xl w-full max-h-[90vh] flex flex-col"
+            className="relative max-w-6xl w-full bg-white rounded-[40px] overflow-hidden shadow-2xl flex flex-col md:flex-row h-full max-h-[80vh]"
             onClick={(e) => e.stopPropagation()}
           >
             <button
               onClick={() => setSelectedItem(null)}
-              className="absolute -top-12 right-0 text-white hover:text-blue-400 transition-colors flex items-center gap-2 font-bold"
+              className="absolute top-6 right-6 text-slate-900 hover:text-blue-600 transition-colors z-10 bg-white/80 backdrop-blur p-2 rounded-full"
             >
-              CLOSE <X className="w-8 h-8" />
+              <X className="w-6 h-6" />
             </button>
             
-            <div className="bg-white rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row h-full">
-              <div className="md:w-2/3 bg-black flex items-center justify-center overflow-hidden">
-                {selectedItem.isExternal ? (
-                  <div className="w-full h-full aspect-video flex flex-col items-center justify-center p-12 text-center">
-                    {selectedItem.type === 'video' ? <Play className="w-20 h-20 text-blue-600 mb-6" /> : <X className="w-20 h-20 text-blue-600 mb-6 rotate-45" />}
-                    <h3 className="text-white text-2xl font-bold mb-4">View on Facebook</h3>
-                    <a 
-                      href={selectedItem.imageUrl} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-bold transition-all"
-                    >
-                      Open Post
-                    </a>
+            <div className="md:w-2/3 bg-slate-100 flex items-center justify-center overflow-hidden">
+              {selectedItem.isExternal ? (
+                <div className="w-full h-full flex flex-col items-center justify-center p-12 text-center">
+                  <div className="w-24 h-24 bg-blue-600 rounded-full flex items-center justify-center mb-8 shadow-xl shadow-blue-500/20">
+                    {selectedItem.type === 'video' ? <Play className="w-10 h-10 text-white fill-white" /> : <Share2 className="w-10 h-10 text-white" />}
                   </div>
+                  <h3 className="text-3xl font-black text-slate-900 mb-4 tracking-tight">{selectedItem.title}</h3>
+                  <p className="text-slate-500 mb-8 max-w-md">{selectedItem.description}</p>
+                  <a 
+                    href={selectedItem.imageUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full font-bold transition-all flex items-center gap-3"
+                  >
+                    VIEW ON FACEBOOK
+                    <ArrowRight className="w-5 h-5" />
+                  </a>
+                </div>
+              ) : (
+                selectedItem.type === 'video' ? (
+                  <video
+                    src={selectedItem.imageUrl}
+                    className="w-full h-full object-contain"
+                    controls
+                    autoPlay
+                  />
                 ) : (
                   <img
                     src={selectedItem.imageUrl}
                     alt={selectedItem.title}
                     className="w-full h-full object-contain"
                   />
-                )}
-              </div>
-              <div className="md:w-1/3 p-8 md:p-12 flex flex-col justify-center bg-white">
-                <span className="text-blue-600 text-sm font-black uppercase tracking-widest mb-4">{selectedItem.category}</span>
-                <h2 className="text-3xl font-black text-slate-900 mb-6 leading-tight">{selectedItem.title}</h2>
-                <p className="text-slate-600 text-lg leading-relaxed mb-8">{selectedItem.description}</p>
-                <div className="flex items-center gap-6 pt-6 border-t border-slate-100">
-                  <button className="flex items-center gap-2 text-slate-600 hover:text-red-500 transition-colors">
-                    <Heart className="w-6 h-6" />
-                    <span className="font-bold">Like</span>
-                  </button>
-                  <button className="flex items-center gap-2 text-slate-600 hover:text-blue-500 transition-colors">
-                    <MessageCircle className="w-6 h-6" />
-                    <span className="font-bold">Comment</span>
-                  </button>
-                  <button className="flex items-center gap-2 text-slate-600 hover:text-green-500 transition-colors">
-                    <Share2 className="w-6 h-6" />
-                    <span className="font-bold">Share</span>
-                  </button>
+                )
+              )}
+            </div>
+            
+            <div className="md:w-1/3 p-10 flex flex-col justify-between bg-white">
+              <div>
+                <span className="inline-block px-4 py-1.5 bg-blue-100 text-blue-600 text-xs font-black rounded-full mb-6 uppercase tracking-widest">
+                  {selectedItem.category}
+                </span>
+                <h2 className="text-4xl font-black text-slate-900 mb-6 tracking-tighter leading-none">{selectedItem.title}</h2>
+                <p className="text-slate-500 leading-relaxed font-medium mb-8">
+                  {selectedItem.description || "Professional photography coverage by KretivMay Concepts. Capturing every detail with precision and care."}
+                </p>
+                
+                <div className="space-y-4">
+                  <div className="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl">
+                    <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm">
+                      <Heart className="w-5 h-5 text-pink-500" />
+                    </div>
+                    <div>
+                      <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">Likes</p>
+                      <p className="text-slate-900 font-black">1,240</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl">
+                    <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm">
+                      <MessageCircle className="w-5 h-5 text-blue-500" />
+                    </div>
+                    <div>
+                      <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">Comments</p>
+                      <p className="text-slate-900 font-black">84</p>
+                    </div>
+                  </div>
                 </div>
               </div>
+              
+              <button 
+                onClick={() => setSelectedItem(null)}
+                className="w-full py-4 border-2 border-slate-100 hover:border-blue-600 hover:text-blue-600 text-slate-400 font-bold rounded-2xl transition-all uppercase tracking-widest text-xs mt-8"
+              >
+                Close Gallery
+              </button>
             </div>
           </div>
         </div>
