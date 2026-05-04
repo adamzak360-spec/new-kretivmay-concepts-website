@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
-import { Loader2, X, Play, ArrowRight } from "lucide-react";
+import { Loader2, X, Play, ArrowRight, Heart, MessageCircle, Share2 } from "lucide-react";
 import { Link } from "wouter";
 
 export default function Photography() {
@@ -12,45 +12,79 @@ export default function Photography() {
   // Client-side filtering to ensure strict categorization
   const dbPortfolio = portfolioRaw?.filter(item => item.category === "photography") || [];
 
-  // New Gallery Items from User
+  // New Gallery Items from User Facebook Links
   const newGalleryItems = [
     {
-      id: "wedding-1",
+      id: "fb-1",
       type: "image",
       title: "Traditional Wedding Excellence",
       category: "Wedding",
-      imageUrl: "/assets/photography/wedding_1_cover.webp",
-      description: "Capturing the vibrant colors and deep traditions of a beautiful wedding ceremony.",
-      link: "https://www.facebook.com/100071981381057/posts/959961003565294/"
+      imageUrl: "https://www.facebook.com/100071981381057/posts/959961003565294/",
+      description: "KretivMay Photography updated their cover photo. Capturing the vibrant colors and deep traditions.",
+      isExternal: true
     },
     {
-      id: "wedding-2",
+      id: "fb-2",
       type: "image",
       title: "Nuru & Sanaa Affairs 2026",
       category: "Wedding",
-      imageUrl: "/assets/photography/wedding_2_main.webp",
-      description: "A stunning celebration of love, featuring elegant bridal styling and joyful moments.",
-      link: "https://www.facebook.com/100071981381057/posts/986688213740549/"
+      imageUrl: "https://www.facebook.com/100071981381057/posts/986688213740549/",
+      description: "N U R U ❤️ S A N A A F F A I R S 2 0 2 6. Stunning bridal styling and joyful moments.",
+      isExternal: true
     },
     {
-      id: "reel-1",
+      id: "fb-3",
+      type: "image",
+      title: "Mrs. Nuru & Hasana",
+      category: "Wedding",
+      imageUrl: "https://www.facebook.com/100071981381057/posts/976125518130152/",
+      description: "M R S. N U R U ❤️ H A S A N A. Beautiful wedding ceremony coverage.",
+      isExternal: true
+    },
+    {
+      id: "fb-4",
+      type: "image",
+      title: "Eid Photoshoot Promo",
+      category: "Promo",
+      imageUrl: "https://www.facebook.com/100071981381057/posts/946413167768054/",
+      description: "Create stunning memories with our Eid Photoshoot Promo.",
+      isExternal: true
+    },
+    {
+      id: "fb-5",
       type: "video",
       title: "How Our Beautiful Bride Met Her Man",
       category: "Wedding Video",
-      videoUrl: "https://www.facebook.com/reel/1520385895928002/",
-      thumbnailUrl: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=800&q=80",
-      description: "A heartwarming story of how it all began. #TamaleWeddings #NewBride",
-      isExternalVideo: true
+      imageUrl: "https://www.facebook.com/reel/1520385895928002/",
+      description: "HOW OUR BEAUTIFUL BRIDE MET HER MAN. A heartwarming story of love.",
+      isExternal: true
     },
     {
-      id: "reel-2",
+      id: "fb-6",
+      type: "image",
+      title: "The Groom & his Groomsmen",
+      category: "Wedding",
+      imageUrl: "https://www.facebook.com/100071981381057/posts/899810249095013/",
+      description: "The Groom & his Groomsmen. Elegant wedding party shots.",
+      isExternal: true
+    },
+    {
+      id: "fb-7",
+      type: "image",
+      title: "Stunning Bride Zulaiha",
+      category: "Wedding",
+      imageUrl: "https://www.facebook.com/100071981381057/posts/867884892287549/",
+      description: "Stunning Bride ~ ZULAIHA. Capturing bridal elegance.",
+      isExternal: true
+    },
+    {
+      id: "fb-8",
       type: "video",
-      title: "Wedding Highlights & Joy",
+      title: "Wedding Highlights",
       category: "Wedding Video",
-      videoUrl: "https://www.facebook.com/reel/1277998823589973/",
-      thumbnailUrl: "https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=80",
-      description: "Special moments captured in motion. #KretivMayPhotography",
-      isExternalVideo: true
+      imageUrl: "https://www.facebook.com/reel/1277998823589973/",
+      description: "Special wedding moments captured in motion.",
+      isExternal: true
     }
   ];
 
@@ -64,7 +98,7 @@ export default function Photography() {
       category: "Photography",
       imageUrl: item.imageUrl,
       description: item.description,
-      link: null
+      isExternal: false
     }))
   ];
 
@@ -137,27 +171,52 @@ export default function Photography() {
               {allItems.map((item) => (
                 <div
                   key={item.id}
-                  onClick={() => setSelectedItem(item)}
-                  className="break-inside-avoid group cursor-pointer relative overflow-hidden rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500"
+                  className="break-inside-avoid group relative overflow-hidden rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 bg-white"
                 >
-                  <div className="relative aspect-auto overflow-hidden">
-                    <img
-                      src={item.type === 'video' ? item.thumbnailUrl : item.imageUrl}
-                      alt={item.title}
-                      className="w-full h-auto group-hover:scale-110 transition-transform duration-700 ease-out"
-                      loading="lazy"
-                    />
-                    {item.type === 'video' && (
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/40 group-hover:scale-110 transition-transform">
-                          <Play className="w-8 h-8 text-white fill-white" />
+                  <div 
+                    className="relative cursor-pointer overflow-hidden"
+                    onClick={() => setSelectedItem(item)}
+                  >
+                    {item.isExternal ? (
+                      <div className="aspect-[4/5] w-full bg-slate-900 flex items-center justify-center text-white p-4 text-center">
+                        <div>
+                          {item.type === 'video' ? <Play className="w-12 h-12 mx-auto mb-2 opacity-50" /> : <X className="w-12 h-12 mx-auto mb-2 opacity-50 rotate-45" />}
+                          <p className="text-xs opacity-70">View on Facebook</p>
                         </div>
                       </div>
+                    ) : (
+                      <img
+                        src={item.imageUrl}
+                        alt={item.title}
+                        className="w-full h-auto group-hover:scale-110 transition-transform duration-700 ease-out"
+                        loading="lazy"
+                      />
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8">
-                      <span className="text-blue-400 text-xs font-black uppercase tracking-widest mb-2">{item.category}</span>
-                      <h3 className="text-white font-bold text-2xl leading-tight mb-2">{item.title}</h3>
-                      <p className="text-slate-300 text-sm line-clamp-2">{item.description}</p>
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+                       <div className="bg-white/20 backdrop-blur-md p-3 rounded-full">
+                         <ArrowRight className="w-6 h-6 text-white" />
+                       </div>
+                    </div>
+                  </div>
+                  
+                  <div className="p-6 border-t border-slate-100">
+                    <span className="text-blue-600 text-[10px] font-black uppercase tracking-widest mb-2 block">{item.category}</span>
+                    <h3 className="font-bold text-slate-900 mb-2 leading-tight">{item.title}</h3>
+                    <p className="text-sm text-slate-500 mb-4 line-clamp-2">{item.description}</p>
+                    
+                    <div className="flex items-center gap-4 pt-4 border-t border-slate-50">
+                      <button className="flex items-center gap-1 text-slate-600 hover:text-red-500 transition-colors">
+                        <Heart className="w-5 h-5" />
+                        <span className="text-xs font-bold">Like</span>
+                      </button>
+                      <button className="flex items-center gap-1 text-slate-600 hover:text-blue-500 transition-colors">
+                        <MessageCircle className="w-5 h-5" />
+                        <span className="text-xs font-bold">Comment</span>
+                      </button>
+                      <button className="flex items-center gap-1 text-slate-600 hover:text-green-500 transition-colors">
+                        <Share2 className="w-5 h-5" />
+                        <span className="text-xs font-bold">Share</span>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -206,17 +265,17 @@ export default function Photography() {
             
             <div className="bg-white rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row h-full">
               <div className="md:w-2/3 bg-black flex items-center justify-center overflow-hidden">
-                {selectedItem.type === 'video' ? (
+                {selectedItem.isExternal ? (
                   <div className="w-full h-full aspect-video flex flex-col items-center justify-center p-12 text-center">
-                    <Play className="w-20 h-20 text-blue-600 mb-6" />
-                    <h3 className="text-white text-2xl font-bold mb-4">Watch Video on Facebook</h3>
+                    {selectedItem.type === 'video' ? <Play className="w-20 h-20 text-blue-600 mb-6" /> : <X className="w-20 h-20 text-blue-600 mb-6 rotate-45" />}
+                    <h3 className="text-white text-2xl font-bold mb-4">View on Facebook</h3>
                     <a 
-                      href={selectedItem.videoUrl} 
+                      href={selectedItem.imageUrl} 
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-bold transition-all"
                     >
-                      Open Reel
+                      Open Post
                     </a>
                   </div>
                 ) : (
@@ -231,16 +290,20 @@ export default function Photography() {
                 <span className="text-blue-600 text-sm font-black uppercase tracking-widest mb-4">{selectedItem.category}</span>
                 <h2 className="text-3xl font-black text-slate-900 mb-6 leading-tight">{selectedItem.title}</h2>
                 <p className="text-slate-600 text-lg leading-relaxed mb-8">{selectedItem.description}</p>
-                {selectedItem.link && (
-                  <a 
-                    href={selectedItem.link} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-blue-600 font-bold hover:underline"
-                  >
-                    View Full Post on Facebook <ArrowRight className="w-4 h-4" />
-                  </a>
-                )}
+                <div className="flex items-center gap-6 pt-6 border-t border-slate-100">
+                  <button className="flex items-center gap-2 text-slate-600 hover:text-red-500 transition-colors">
+                    <Heart className="w-6 h-6" />
+                    <span className="font-bold">Like</span>
+                  </button>
+                  <button className="flex items-center gap-2 text-slate-600 hover:text-blue-500 transition-colors">
+                    <MessageCircle className="w-6 h-6" />
+                    <span className="font-bold">Comment</span>
+                  </button>
+                  <button className="flex items-center gap-2 text-slate-600 hover:text-green-500 transition-colors">
+                    <Share2 className="w-6 h-6" />
+                    <span className="font-bold">Share</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
