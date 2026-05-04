@@ -104,18 +104,7 @@ export const FALLBACK_FEATURED_WORKS = [
     createdAt: new Date(),
     updatedAt: new Date()
   },
-  {
-    id: -104,
-    title: "Elegant Portrait Session",
-    description: "Professional studio portrait capturing traditional elegance and beauty.",
-    category: "photography" as const,
-    imageUrl: "/assets/portfolio/featured-portrait-1.jpg",
-    imageKey: "featured-portrait-1",
-    featured: true,
-    order: -104,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
+
   {
     id: -103,
     title: "NURU ❤️ SANA AFFAIRS 2026 - Bridal",
