@@ -81,12 +81,24 @@ export const FALLBACK_SERVICES = [
 
 export const FALLBACK_FEATURED_WORKS = [
   {
-    id: -104,
-    title: "NURU ❤️ SANA AFFAIRS 2026 - Portrait",
-    description: "Stunning bridal portrait from the Nuru & Sana wedding collection.",
+    id: -105,
+    title: "Stunning Studio Portrait",
+    description: "Professional studio session capturing beauty and elegance with high-end lighting.",
     category: "photography" as const,
-    imageUrl: "/assets/portfolio/nuru_sana_1.webp",
-    imageKey: "nuru-sana-1",
+    imageUrl: "/assets/portfolio/featured-portrait-2.jpg",
+    imageKey: "featured-portrait-2",
+    featured: true,
+    order: -105,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    id: -104,
+    title: "Elegant Portrait Session",
+    description: "Professional studio portrait capturing traditional elegance and beauty.",
+    category: "photography" as const,
+    imageUrl: "/assets/portfolio/featured-portrait-1.jpg",
+    imageKey: "featured-portrait-1",
     featured: true,
     order: -104,
     createdAt: new Date(),
@@ -129,54 +141,6 @@ export const FALLBACK_FEATURED_WORKS = [
     updatedAt: new Date()
   },
   {
-    id: -201,
-    title: "Traditional Bridal Look",
-    description: "Muny in a stunning traditional look. Makeup by Beauty Plus Makeover.",
-    category: "photography" as const,
-    imageUrl: "https://www.facebook.com/reel/1015961763691394/",
-    imageKey: "fb-reel-1",
-    featured: true,
-    order: -201,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  {
-    id: -202,
-    title: "Beauty In Simplicity",
-    description: "Hamdia showcasing beauty in simplicity. Makeup by Beauty Plus Makeover.",
-    category: "photography" as const,
-    imageUrl: "https://www.facebook.com/reel/723578130025160/",
-    imageKey: "fb-reel-2",
-    featured: true,
-    order: -202,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  {
-    id: -203,
-    title: "Weekend Bride Najat",
-    description: "Our beautiful weekend bride Najat. Makeup by Beauty Plus Makeover.",
-    category: "photography" as const,
-    imageUrl: "https://www.facebook.com/reel/1898178464045125/",
-    imageKey: "fb-reel-3",
-    featured: true,
-    order: -203,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  {
-    id: -204,
-    title: "Nuru Weds Asana Highlights",
-    description: "Wedding highlights of Nuru and Asana. #KretivMayPhotography",
-    category: "photography" as const,
-    imageUrl: "https://www.facebook.com/reel/1242733524291783/",
-    imageKey: "fb-reel-4",
-    featured: true,
-    order: -204,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  {
     id: -12,
     title: "Traditional Ceremony Coverage",
     description: "Professional coverage of traditional ceremonies and events.",
@@ -197,30 +161,6 @@ export const FALLBACK_FEATURED_WORKS = [
     imageKey: "facebook-photo-3",
     featured: true,
     order: -11,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  {
-    id: -10,
-    title: "New Featured Collection 1",
-    description: "New featured photography works.",
-    category: "photography" as const,
-    imageUrl: "/assets/portfolio/new-1.jpg",
-    imageKey: "new-1",
-    featured: true,
-    order: -10,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  {
-    id: -9,
-    title: "New Featured Collection 2",
-    description: "New featured photography works.",
-    category: "photography" as const,
-    imageUrl: "/assets/portfolio/new-3.jpg",
-    imageKey: "new-3",
-    featured: true,
-    order: -9,
     createdAt: new Date(),
     updatedAt: new Date()
   },
@@ -257,18 +197,6 @@ export const FALLBACK_FEATURED_WORKS = [
     imageKey: "featured-photo-shoot",
     featured: true,
     order: 0,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  {
-    id: 4,
-    title: "Event Photography",
-    description: "Event Photography project",
-    category: "photography" as const,
-    imageUrl: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=800&q=80",
-    imageKey: "fallback-work-4",
-    featured: true,
-    order: 4,
     createdAt: new Date(),
     updatedAt: new Date()
   }
