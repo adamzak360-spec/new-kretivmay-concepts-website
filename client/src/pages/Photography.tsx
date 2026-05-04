@@ -79,11 +79,83 @@ export default function Photography() {
     },
     {
       id: "fb-8",
+      type: "image",
+      title: "Traditional Elegance",
+      category: "Wedding",
+      imageUrl: "https://www.facebook.com/100071981381057/posts/826183773124328/",
+      description: "Beautiful traditional wedding photography capturing every detail.",
+      isExternal: true
+    },
+    {
+      id: "fb-9",
+      type: "image",
+      title: "Wedding Joy",
+      category: "Wedding",
+      imageUrl: "https://www.facebook.com/100071981381057/posts/823028893439816/",
+      description: "Celebrating love and happiness in every frame.",
+      isExternal: true
+    },
+    {
+      id: "fb-10",
+      type: "image",
+      title: "Traditional Ceremony",
+      category: "Wedding",
+      imageUrl: "https://www.facebook.com/100071981381057/posts/822666040142768/",
+      description: "Professional coverage of traditional wedding ceremonies.",
+      isExternal: true
+    },
+    {
+      id: "fb-11",
+      type: "image",
+      title: "Bridal Portraits",
+      category: "Wedding",
+      imageUrl: "https://www.facebook.com/100071981381057/posts/817224430686929/",
+      description: "Stunning bridal portraits that last a lifetime.",
+      isExternal: true
+    },
+    {
+      id: "fb-12",
+      type: "image",
+      title: "Event Highlights",
+      category: "Event",
+      imageUrl: "https://www.facebook.com/100071981381057/posts/808036021605770/",
+      description: "Capturing the best moments of your special events.",
+      isExternal: true
+    },
+    {
+      id: "fb-13",
+      type: "image",
+      title: "Wedding Celebration",
+      category: "Wedding",
+      imageUrl: "https://www.facebook.com/100071981381057/posts/807278801681492/",
+      description: "Joyful wedding celebrations captured with professional excellence.",
+      isExternal: true
+    },
+    {
+      id: "fb-14",
       type: "video",
-      title: "Wedding Highlights",
+      title: "Wedding Highlights Reel",
       category: "Wedding Video",
       imageUrl: "https://www.facebook.com/reel/1277998823589973/",
-      description: "Special wedding moments captured in motion.",
+      description: "A beautiful reel of wedding highlights and special moments.",
+      isExternal: true
+    },
+    {
+      id: "fb-15",
+      type: "image",
+      title: "Special Moments",
+      category: "Event",
+      imageUrl: "https://www.facebook.com/100071981381057/posts/799864979089541/",
+      description: "Every special moment deserves to be captured perfectly.",
+      isExternal: true
+    },
+    {
+      id: "fb-16",
+      type: "image",
+      title: "Traditional Elegance",
+      category: "Wedding",
+      imageUrl: "https://www.facebook.com/100071981381057/posts/778169094592463/",
+      description: "Capturing the elegance of traditional wedding ceremonies.",
       isExternal: true
     }
   ];
