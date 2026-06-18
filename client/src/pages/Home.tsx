@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
-import { ArrowRight, ThumbsUp, Share2, MessageCircle, X, Maximize2, Send, ShoppingBag, Zap, CheckCircle } from "lucide-react";
+import { ArrowRight, ThumbsUp, Share2, MessageCircle, X, Maximize2, Send, ShoppingBag, Zap, CheckCircle, Star } from "lucide-react";
 import { SHOP_CATEGORIES, FALLBACK_PRODUCTS, FALLBACK_TESTIMONIALS } from "@/lib/fallbacks";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
