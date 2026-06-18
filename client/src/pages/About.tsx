@@ -5,16 +5,16 @@ import { ArrowRight, CheckCircle } from "lucide-react";
 export default function About() {
   const { data: pageData } = trpc.pages.get.useQuery({ page: "about", section: "content" });
   const about = pageData?.[0]?.content as any || {
-    heroTitle: "About KretivMay Concepts",
-    heroSubtitle: "Transforming Ideas into Visual Excellence",
+    heroTitle: "About Blue Water Shopping Village",
+    heroSubtitle: "Your Trusted Local Shopping Destination",
     storyTitle: "Our Story",
-    storyContent: "KretivMay Concepts was founded with a vision to bring creative excellence to businesses in Tamale and beyond. What started as a small design studio has grown into a full-service creative agency specializing in graphic design, printing, branding, and digital marketing.\n\nWe believe that great design is more than just aesthetics—it's about creating meaningful connections between brands and their audiences. Our team of talented designers and creatives work tirelessly to deliver solutions that not only look beautiful but also drive results.",
-    mission: "To empower businesses through innovative and strategic creative solutions that elevate their brand presence, engage their audience, and drive sustainable growth in the digital and print landscape.",
-    vision: "To be the most trusted and innovative creative agency in Ghana, recognized for delivering exceptional design solutions that transform businesses and inspire audiences across all platforms.",
+    storyContent: "Blue Water Shopping Village is a modern shopping destination located in Malshegu, Tamale, opposite Star Oil Filling Station. We are committed to providing the Tamale community with a comprehensive shopping experience, offering quality products ranging from groceries and household essentials to fashion, electronics, beverages, and beauty products.\n\nOur mission is to be the go-to shopping destination for families and businesses in the region, delivering excellent customer service, competitive prices, and a wide variety of products all in one convenient location.",
+    mission: "To serve as the trusted shopping destination for the Tamale community by offering quality products, excellent customer service, and competitive prices in a modern, convenient shopping environment.",
+    vision: "To be the most preferred shopping destination in Tamale, known for our diverse product selection, customer-centric approach, and commitment to community satisfaction.",
     reasons: [
-      { title: "Creative Excellence", description: "Our team combines artistic vision with strategic thinking to create designs that stand out and deliver results." },
-      { title: "Comprehensive Services", description: "From graphic design to printing and digital marketing, we offer a full suite of creative services under one roof." },
-      { title: "Client-Centric Approach", description: "We take time to understand your business, goals, and audience to create solutions tailored to your needs." }
+      { title: "Quality Products", description: "We carefully select our products to ensure the highest quality standards for our customers." },
+      { title: "Convenient Location", description: "Located in Malshegu, opposite Star Oil Filling Station, we are easily accessible to the entire Tamale community." },
+      { title: "Excellent Service", description: "Our dedicated team is committed to providing friendly, professional service to every customer." }
     ]
   };
 

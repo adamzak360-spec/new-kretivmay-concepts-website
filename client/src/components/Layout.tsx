@@ -20,15 +20,15 @@ export default function Layout({ children }: LayoutProps) {
   // Fetch Site Settings from CMS
   const { data: dbSettings } = trpc.settings.get.useQuery("site_config");
   const settings = dbSettings ? JSON.parse(dbSettings) : {
-    siteName: "KretivMay",
-    phone: "+233 543 380 193",
-    email: "info@kretivmay.com",
-    address: "Shishegu Highways, Opp. EV Fuel Station, Tamale",
-    facebook: "https://www.facebook.com/KretivMayConcepts/",
-    instagram: "https://www.instagram.com/kretivmay_concepts/",
-    twitter: "https://www.tiktok.com/@kretivmayphotography",
-    whatsapp: "233543380193",
-    footerTagline: "Expert in Design, General Print, Branding & Social Media Marketing"
+    siteName: "Blue Water Shopping Village",
+    phone: "+233 XXX XXX XXXX",
+    email: "info@bluewatershoppingvillage.com",
+    address: "Malshegu, Opposite Star Oil Filling Station, Tamale, Ghana",
+    facebook: "https://www.facebook.com",
+    instagram: "https://www.instagram.com",
+    twitter: "https://www.twitter.com",
+    whatsapp: "233XXXXXXXXX",
+    footerTagline: "Your trusted local shopping destination for quality products and excellent service"
   };
 
   useEffect(() => {
@@ -52,10 +52,9 @@ export default function Layout({ children }: LayoutProps) {
 
   const navLinks = [
     { href: "/", label: "Home" },
+    { href: "/services", label: "Shop" },
+    { href: "/portfolio", label: "Categories" },
     { href: "/about", label: "About" },
-    { href: "/services", label: "Services" },
-    { href: "/portfolio", label: "Portfolio" },
-    { href: "/photography", label: "Photography" },
     { href: "/contact", label: "Contact" },
   ];
 
@@ -67,19 +66,15 @@ export default function Layout({ children }: LayoutProps) {
           {/* Logo */}
           <Link href="/">
             <a className="flex items-center gap-3 group">
-              <div className="relative w-12 h-12 overflow-hidden rounded-lg transition-transform group-hover:scale-105">
-                <img 
-                  src="/assets/logo_blue.png" 
-                  alt="KretivMay Logo" 
-                  className="w-full h-full object-contain"
-                />
+              <div className="relative w-12 h-12 overflow-hidden rounded-lg transition-transform group-hover:scale-105 bg-gradient-to-br from-blue-600 to-blue-400 flex items-center justify-center">
+                <span className="text-white font-bold text-lg">BW</span>
               </div>
               <div className="flex flex-col">
                 <span className="text-xl font-black bg-gradient-to-r from-blue-700 via-blue-500 to-blue-400 bg-clip-text text-transparent leading-none">
-                  KRETIVMAY
+                  BLUE WATER
                 </span>
                 <span className="text-[10px] font-bold text-slate-500 tracking-[0.2em] uppercase leading-none mt-1">
-                  Concepts & Photo
+                  Shopping Village
                 </span>
               </div>
             </a>
@@ -176,14 +171,10 @@ export default function Layout({ children }: LayoutProps) {
             {/* Brand */}
             <div className="flex flex-col gap-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 overflow-hidden rounded-lg">
-                  <img 
-                    src="/assets/logo_white.png" 
-                    alt="KretivMay Logo" 
-                    className="w-full h-full object-contain"
-                  />
+                <div className="w-10 h-10 overflow-hidden rounded-lg bg-gradient-to-br from-blue-600 to-blue-400 flex items-center justify-center">
+                  <span className="text-white font-bold">BW</span>
                 </div>
-                <h3 className="text-2xl font-black tracking-tighter">KRETIVMAY</h3>
+                <h3 className="text-2xl font-black tracking-tighter">BLUE WATER</h3>
               </div>
               <p className="text-slate-400 text-sm leading-relaxed">
                 {settings.footerTagline}
@@ -251,7 +242,7 @@ export default function Layout({ children }: LayoutProps) {
 
           <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
             <p className="text-sm text-slate-500 font-medium">
-              &copy; {new Date().getFullYear()} <span className="text-blue-500">KRETIVMAY CONCEPTS</span>. All rights reserved.
+              &copy; {new Date().getFullYear()} <span className="text-blue-500">BLUE WATER SHOPPING VILLAGE</span>. All rights reserved.
             </p>
             <div className="flex gap-6">
               {settings.facebook && (

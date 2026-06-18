@@ -25,16 +25,16 @@ export default function Home() {
   // CMS Content
   const { data: heroData } = trpc.pages.get.useQuery({ page: "home", section: "hero" });
   const hero = heroData?.[0]?.content as any || {
-    title: "Creative Design & Printing Solutions",
-    subtitle: "Elevate Your Brand with Professional Design, Printing, and Marketing Services",
-    ctaText: "View Portfolio",
-    ctaLink: "/portfolio",
-    secondaryCtaText: "Contact Us",
-    secondaryCtaLink: "/contact",
+    title: "Everything You Need, All in One Place.",
+    subtitle: "Shop quality groceries, household essentials, fashion, electronics, beverages, and everyday products from Blue Water Shopping Village in Malshegu, Tamale.",
+    ctaText: "Shop Now",
+    ctaLink: "/services",
+    secondaryCtaText: "Browse Categories",
+    secondaryCtaLink: "/portfolio",
     images: [
-      { url: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1200&h=600&fit=crop" },
+      { url: "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?w=1200&h=600&fit=crop" },
       { url: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=600&fit=crop" },
-      { url: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1200&h=600&fit=crop" }
+      { url: "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?w=1200&h=600&fit=crop" }
     ]
   };
 
