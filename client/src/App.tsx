@@ -6,6 +6,8 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import About from "./pages/About";
+import Shop from "./pages/Shop";
+import ProductDetail from "./pages/ProductDetail";
 import Services from "./pages/Services";
 import ServiceDetail from "./pages/ServiceDetail";
 import Portfolio from "./pages/Portfolio";
@@ -26,11 +28,16 @@ function Router() {
     <Switch>
       <Route path={"/"} component={Home} />
       <Route path={"/about"} component={About} />
-      <Route path={"/services"} component={Services} />
-      <Route path={"/services/:slug"} component={ServiceDetail} />
+      <Route path={"/services"} component={Shop} />
+      <Route path={"/shop/:slug"} component={ProductDetail} />
+      <Route path={"/categories"} component={Portfolio} />
       <Route path={"/portfolio"} component={Portfolio} />
       <Route path={"/photography"} component={Photography} />
       <Route path={"/contact"} component={Contact} />
+      
+      {/* Keep old service routes for backward compatibility or future use */}
+      <Route path={"/old-services"} component={Services} />
+      <Route path={"/services/:slug"} component={ProductDetail} />
       
       {/* Admin Routes */}
       <Route path={"/admin/login"}>

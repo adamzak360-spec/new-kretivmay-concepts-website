@@ -1,26 +1,19 @@
 import { useEffect, useState, useRef } from "react";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
-import { ArrowRight, ThumbsUp, Share2, MessageCircle, X, Maximize2, Send } from "lucide-react";
-import { FALLBACK_SERVICES, FALLBACK_FEATURED_WORKS, FALLBACK_TESTIMONIALS } from "@/lib/fallbacks";
+import { ArrowRight, ThumbsUp, Share2, MessageCircle, X, Maximize2, Send, ShoppingBag, Zap, CheckCircle } from "lucide-react";
+import { SHOP_CATEGORIES, FALLBACK_PRODUCTS, FALLBACK_TESTIMONIALS } from "@/lib/fallbacks";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isVideoPlaying, setIsVideoPlaying] = useState(true);
   
-  // Lightbox and Comments State
+  // Lightbox State
   const [selectedItem, setSelectedItem] = useState<any>(null);
-  const [commentingItem, setCommentingItem] = useState<any>(null);
-  const [newComment, setNewComment] = useState("");
-  const [userName, setUserName] = useState("");
-  
-  // Mock comments for the professional UI
-  const [mockComments, setMockComments] = useState<Record<string, any[]>>({});
 
   // CMS Content
   const { data: heroData } = trpc.pages.get.useQuery({ page: "home", section: "hero" });
@@ -30,7 +23,7 @@ export default function Home() {
     ctaText: "Shop Now",
     ctaLink: "/services",
     secondaryCtaText: "Browse Categories",
-    secondaryCtaLink: "/portfolio",
+    secondaryCtaLink: "/categories",
     images: [
       { url: "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?w=1200&h=600&fit=crop" },
       { url: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=600&fit=crop" },
@@ -46,55 +39,6 @@ export default function Home() {
     ...hero.images.map((img: any) => ({ type: 'image', url: img.url }))
   ];
 
-  // Use placeholderData to show fallbacks immediately
-  const { data: services = FALLBACK_SERVICES } = trpc.services.list.useQuery(undefined, {
-    placeholderData: FALLBACK_SERVICES,
-    retry: false
-  });
-  
-  const { data: featured = FALLBACK_FEATURED_WORKS } = trpc.portfolio.featured.useQuery(undefined, {
-    placeholderData: FALLBACK_FEATURED_WORKS,
-    retry: false
-  });
-
-  const [likes, setLikes] = useState<Record<string, number>>({});
-  const [isLiked, setIsLiked] = useState<Record<string, boolean>>({});
-
-  const handleLike = (id: string) => {
-    setIsLiked(prev => ({ ...prev, [id]: !prev[id] }));
-    setLikes(prev => ({
-      ...prev,
-      [id]: (prev[id] || Math.floor(Math.random() * 200) + 50) + (isLiked[id] ? -1 : 1)
-    }));
-  };
-
-  const handleShare = (title: string) => {
-    if (navigator.share) {
-      navigator.share({ title, url: window.location.href });
-    } else {
-      navigator.clipboard.writeText(window.location.href);
-      alert("Link copied to clipboard!");
-    }
-  };
-
-  const handleAddComment = (itemId: string) => {
-    if (!newComment.trim() || !userName.trim()) return;
-    
-    const comment = {
-      id: Date.now(),
-      user: userName,
-      text: newComment,
-      date: "Just now"
-    };
-    
-    setMockComments(prev => ({
-      ...prev,
-      [itemId]: [comment, ...(prev[itemId] || [])]
-    }));
-    
-    setNewComment("");
-  };
-  
   const { data: testimonials = FALLBACK_TESTIMONIALS } = trpc.testimonials.featured.useQuery(undefined, {
     placeholderData: FALLBACK_TESTIMONIALS,
     retry: false
@@ -124,10 +68,6 @@ export default function Home() {
 
   const handleVideoEnd = () => {
     setCurrentSlide((prev) => (prev + 1) % slideshowItems.length);
-  };
-
-  const isVideo = (url: string) => {
-    return url.includes(".mp4") || url.includes(".webm") || url.includes(".mov");
   };
 
   return (
@@ -217,318 +157,209 @@ export default function Home() {
             ))}
           </div>
         )}
+      </section>
 
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10">
-          <div className="animate-bounce">
-            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-            </svg>
+      {/* Featured Categories Section */}
+      <section className="py-24 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+            <div className="max-w-2xl">
+              <Badge className="bg-blue-50 text-blue-600 hover:bg-blue-100 border-none mb-4 px-4 py-1">
+                Browse by Category
+              </Badge>
+              <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-4">Popular Categories</h2>
+              <p className="text-xl text-slate-500">Explore our wide range of products across various departments.</p>
+            </div>
+            <Link href="/categories">
+              <a className="inline-flex items-center gap-2 text-blue-600 font-bold hover:gap-3 transition-all group">
+                View All Categories
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </a>
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {SHOP_CATEGORIES.slice(0, 8).map((category) => (
+              <Link key={category.slug} href={`/services?category=${category.slug}`}>
+                <a className="group relative bg-slate-50 rounded-3xl p-8 transition-all duration-500 hover:bg-blue-600 hover:shadow-2xl hover:-translate-y-2 overflow-hidden">
+                  <div className="relative z-10">
+                    <div className="text-5xl mb-6 group-hover:scale-110 transition-transform duration-500">{category.icon}</div>
+                    <h3 className="text-2xl font-bold text-slate-900 group-hover:text-white transition-colors mb-2">{category.name}</h3>
+                    <p className="text-slate-500 group-hover:text-blue-100 transition-colors text-sm leading-relaxed">
+                      {category.description}
+                    </p>
+                  </div>
+                  <div className="absolute -bottom-6 -right-6 text-slate-100 group-hover:text-blue-500/20 transition-colors duration-500">
+                    <ShoppingBag className="w-32 h-32" />
+                  </div>
+                </a>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Services Preview */}
-      <section className="py-24 bg-gradient-to-b from-slate-50 to-white">
+      {/* Featured Products Section */}
+      <section className="py-24 bg-slate-50">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-5xl md:text-6xl font-bold mb-6 text-slate-900">Our Services</h2>
-            <div className="flex justify-center mb-6">
-              <div className="h-1 w-20 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full"></div>
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+            <div className="max-w-2xl">
+              <Badge className="bg-blue-600 text-white hover:bg-blue-700 border-none mb-4 px-4 py-1">
+                Featured Items
+              </Badge>
+              <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-4">This Week's Highlights</h2>
+              <p className="text-xl text-slate-500">Hand-picked quality products at the best prices in Tamale.</p>
             </div>
-            <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-              Comprehensive creative solutions tailored to your business needs
-            </p>
+            <Link href="/services">
+              <a className="inline-flex items-center gap-2 px-8 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 hover:scale-105">
+                Go to Shop
+                <ArrowRight className="w-5 h-5" />
+              </a>
+            </Link>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services?.slice(0, 6).map((service) => (
-              <Link key={service.id} href={`/services/${service.slug}`}>
-                <a className="group h-full">
-                  <div className="h-full bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-slate-100 hover:border-blue-300 transform hover:-translate-y-2">
-                    <div className="mb-6 overflow-hidden rounded-xl aspect-video bg-gradient-to-br from-slate-100 to-slate-200">
-                      {service.bannerImageUrl ? (
-                        <img 
-                          src={service.bannerImageUrl} 
-                          alt={service.title}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-5xl group-hover:scale-125 transition-transform duration-300">
-                          {service.icon || "🎨"}
-                        </div>
-                      )}
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {FALLBACK_PRODUCTS.slice(0, 8).map((product) => (
+              <Link key={product.id} href={`/shop/${product.slug}`}>
+                <a className="group bg-white rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-500 border border-slate-100 overflow-hidden flex flex-col h-full hover:-translate-y-2">
+                  <div className="aspect-square relative overflow-hidden bg-slate-100">
+                    <img
+                      src={product.imageUrl}
+                      alt={product.title}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
+                    <div className="absolute top-4 left-4">
+                      <Badge className="bg-white/90 text-blue-600 hover:bg-white border-none shadow-sm backdrop-blur-sm">
+                        {SHOP_CATEGORIES.find(c => c.slug === product.category)?.name}
+                      </Badge>
                     </div>
-                    <h3 className="text-2xl font-bold mb-3 text-slate-900 group-hover:text-blue-600 transition-colors">{service.title}</h3>
-                    <p className="text-slate-600 text-base leading-relaxed line-clamp-3 mb-6">{service.description}</p>
-                    <div className="flex items-center gap-2 text-blue-600 font-semibold group-hover:gap-3 transition-all">
-                      Learn More
-                      <ArrowRight className="w-5 h-5" />
+                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <Button className="bg-white text-blue-600 hover:bg-blue-50 font-bold rounded-full px-6">
+                        View Details
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="p-6 flex flex-col flex-1">
+                    <h3 className="text-xl font-bold mb-2 text-slate-900 group-hover:text-blue-600 transition-colors">
+                      {product.title}
+                    </h3>
+                    <p className="text-slate-500 text-sm line-clamp-2 mb-4 flex-1">
+                      {product.description}
+                    </p>
+                    <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-50">
+                      <span className="text-2xl font-black text-blue-600">{product.price}</span>
+                      <div className="flex items-center gap-1 text-green-600 text-xs font-bold">
+                        <CheckCircle className="w-3 h-3" />
+                        In Stock
+                      </div>
                     </div>
                   </div>
                 </a>
               </Link>
             ))}
           </div>
-          
-          <div className="text-center mt-16">
-            <Link href="/services">
-              <a className="inline-flex items-center gap-2 px-10 py-4 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 transform">
-                View All Services
-                <ArrowRight className="w-5 h-5" />
-              </a>
-            </Link>
+        </div>
+      </section>
+
+      {/* Why Shop With Us Section */}
+      <section className="py-24 bg-blue-600 text-white overflow-hidden relative">
+        <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-96 h-96 bg-blue-500 rounded-full opacity-20 blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-96 h-96 bg-blue-400 rounded-full opacity-20 blur-3xl"></div>
+        
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-black mb-6">The Blue Water Experience</h2>
+            <p className="text-xl text-blue-100 max-w-2xl mx-auto">Why we are Tamale's preferred shopping destination.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            {[
+              { icon: <Zap className="w-10 h-10" />, title: "Quality Guaranteed", desc: "We source only the best products from trusted suppliers to ensure you get value for your money." },
+              { icon: <ShoppingBag className="w-10 h-10" />, title: "Wide Variety", desc: "From groceries to electronics, find everything you need in one convenient location." },
+              { icon: <CheckCircle className="w-10 h-10" />, title: "Excellent Service", desc: "Our friendly staff is always ready to assist you with a smile and professional care." }
+            ].map((feature, i) => (
+              <div key={i} className="bg-white/10 backdrop-blur-md p-10 rounded-3xl border border-white/20 hover:bg-white/20 transition-all duration-300">
+                <div className="bg-white text-blue-600 w-20 h-20 rounded-2xl flex items-center justify-center mb-8 shadow-xl">
+                  {feature.icon}
+                </div>
+                <h3 className="text-2xl font-bold mb-4">{feature.title}</h3>
+                <p className="text-blue-100 leading-relaxed">{feature.desc}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Featured Works */}
+      {/* Testimonials Section */}
       <section className="py-24 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-5xl md:text-6xl font-bold mb-6 text-slate-900">Featured Works</h2>
-            <div className="flex justify-center mb-6">
-              <div className="h-1 w-20 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full"></div>
-            </div>
-            <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-              Explore our latest projects and creative solutions
-            </p>
+            <Badge className="bg-blue-50 text-blue-600 hover:bg-blue-100 border-none mb-4 px-4 py-1">
+              Customer Love
+            </Badge>
+            <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-4">What Our Shoppers Say</h2>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-            {featured.map((item: any) => (
-              <div
-                key={item.id}
-                className="group relative overflow-hidden rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 bg-white border border-slate-100 flex flex-col transform hover:-translate-y-2"
-              >
-                {/* Image Container */}
-                <div className="relative bg-gradient-to-br from-slate-100 to-slate-200 overflow-hidden aspect-video flex items-center justify-center p-4">
-                  <img
-                    src={item.imageUrl}
-                    alt={item.title}
-                    className="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform duration-700"
-                    loading="lazy"
-                  />
-                  
-                  {/* View Full Image Button Overlay */}
-                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <button 
-                      onClick={() => setSelectedItem(item)}
-                      className="bg-white/90 hover:bg-white text-blue-600 px-6 py-3 rounded-full font-bold flex items-center gap-2 shadow-xl transform scale-90 group-hover:scale-100 transition-all duration-300"
-                    >
-                      <Maximize2 className="w-5 h-5" />
-                      View Full Image
-                    </button>
-                  </div>
-
-                  <div className="absolute top-6 right-6 bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-lg">
-                    {item.category}
-                  </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {testimonials.map((testimonial: any) => (
+              <div key={testimonial.id} className="bg-slate-50 p-10 rounded-3xl relative">
+                <div className="absolute -top-4 -left-4 text-blue-600/10">
+                  <MessageCircle className="w-24 h-24 fill-current" />
                 </div>
-                
-                <div className="p-8 flex flex-col flex-1">
-                  <h3 className="font-bold text-2xl text-slate-900 mb-3 group-hover:text-blue-600 transition-colors">{item.title}</h3>
-                  <p className="text-slate-600 text-base line-clamp-2 mb-8 flex-1 leading-relaxed">{item.description}</p>
-                  
-                  {/* Social Interactions */}
-                  <div className="pt-6 flex items-center justify-between border-t border-slate-200">
-                    <div className="flex gap-8">
-                      <button 
-                        onClick={() => handleLike(item.id.toString())}
-                        className={`flex items-center gap-2 transition-all hover:scale-110 font-semibold ${isLiked[item.id.toString()] ? "text-red-500" : "text-slate-500 hover:text-red-500"}`}
-                      >
-                        <ThumbsUp className={`w-5 h-5 ${isLiked[item.id.toString()] ? "fill-current" : ""}`} />
-                        <span className="text-sm">{likes[item.id.toString()] || Math.floor(Math.random() * 200) + 50}</span>
-                      </button>
-                      <button 
-                        onClick={() => setCommentingItem(item)}
-                        className="flex items-center gap-2 text-slate-500 hover:text-blue-500 transition-all hover:scale-110 font-semibold"
-                      >
-                        <MessageCircle className="w-5 h-5" />
-                        <span className="text-sm">{(mockComments[item.id.toString()]?.length || 0) + Math.floor(Math.random() * 30) + 5}</span>
-                      </button>
+                <div className="relative z-10">
+                  <div className="flex gap-1 text-yellow-400 mb-6">
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <Star key={i} className="w-4 h-4 fill-current" />
+                    ))}
+                  </div>
+                  <p className="text-slate-600 text-lg italic mb-8 leading-relaxed">"{testimonial.content}"</p>
+                  <div className="flex items-center gap-4">
+                    <img src={testimonial.imageUrl} alt={testimonial.clientName} className="w-14 h-14 rounded-full object-cover border-2 border-white shadow-md" />
+                    <div>
+                      <h4 className="font-bold text-slate-900">{testimonial.clientName}</h4>
+                      <p className="text-slate-500 text-sm">{testimonial.clientCompany}</p>
                     </div>
-                    <button 
-                      onClick={() => handleShare(item.title)}
-                      className="flex items-center gap-2 text-slate-500 hover:text-green-500 transition-all hover:scale-110 font-semibold"
-                    >
-                      <Share2 className="w-5 h-5" />
-                      <span className="text-sm">Share</span>
-                    </button>
                   </div>
                 </div>
               </div>
             ))}
           </div>
-          
-          <div className="text-center mt-16">
-            <Link href="/portfolio">
-              <a className="inline-flex items-center gap-2 px-10 py-4 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 transform">
-                View Full Portfolio
-                <ArrowRight className="w-5 h-5" />
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-24 bg-slate-900 text-white overflow-hidden relative">
+        <div className="container mx-auto px-4 text-center relative z-10">
+          <h2 className="text-4xl md:text-6xl font-black mb-8">Ready to start shopping?</h2>
+          <p className="text-xl text-slate-400 mb-12 max-w-2xl mx-auto">
+            Visit us today at Malshegu, Opposite Star Oil Filling Station, Tamale, or browse our products online.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-6 justify-center">
+            <Link href="/services">
+              <a className="bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 rounded-xl font-bold text-lg transition-all shadow-xl shadow-blue-900/20 hover:scale-105">
+                Browse Shop
+              </a>
+            </Link>
+            <Link href="/contact">
+              <a className="bg-white hover:bg-slate-100 text-slate-900 px-10 py-4 rounded-xl font-bold text-lg transition-all hover:scale-105">
+                Contact Us
               </a>
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Testimonials */}
-      {testimonials && testimonials.length > 0 && (
-        <section className="py-24 bg-gradient-to-b from-slate-50 to-white">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
-              <h2 className="text-5xl md:text-6xl font-bold mb-6 text-slate-900">What Our Clients Say</h2>
-              <div className="flex justify-center mb-6">
-                <div className="h-1 w-20 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full"></div>
-              </div>
-              <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-                Trusted by businesses across Ghana
-              </p>
+      {/* Lightbox Dialog */}
+      <Dialog open={!!selectedItem} onOpenChange={() => setSelectedItem(null)}>
+        <DialogContent className="max-w-4xl p-0 overflow-hidden bg-black border-none">
+          {selectedItem && (
+            <div className="relative aspect-video flex items-center justify-center">
+              <img src={selectedItem.imageUrl} alt={selectedItem.title} className="max-w-full max-h-full object-contain" />
+              <button onClick={() => setSelectedItem(null)} className="absolute top-4 right-4 bg-white/10 hover:bg-white/20 text-white p-2 rounded-full backdrop-blur-md transition-all">
+                <X className="w-6 h-6" />
+              </button>
             </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {testimonials.map((testimonial) => (
-                <div key={testimonial.id} className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-100 transform hover:-translate-y-2">
-                  <div className="flex items-center gap-4 mb-6">
-                    <img
-                      src={testimonial.imageUrl}
-                      alt={testimonial.clientName}
-                      className="w-14 h-14 rounded-full object-cover border-2 border-blue-200"
-                    />
-                    <div>
-                      <h4 className="font-bold text-slate-900 text-lg">{testimonial.clientName}</h4>
-                      <p className="text-sm text-slate-500">{testimonial.clientCompany}</p>
-                    </div>
-                  </div>
-                  <p className="text-slate-600 italic leading-relaxed mb-6">"{testimonial.content}"</p>
-                  <div className="flex text-yellow-400 gap-1">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <span key={i} className="text-xl">★</span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Lightbox Modal */}
-      {selectedItem && (
-        <div
-          className="fixed inset-0 bg-black/95 z-[100] flex items-center justify-center p-4 md:p-10 animate-in fade-in duration-300"
-          onClick={() => setSelectedItem(null)}
-        >
-          <button
-            onClick={() => setSelectedItem(null)}
-            className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors z-[110] bg-white/10 p-2 rounded-full backdrop-blur-md"
-            aria-label="Close modal"
-          >
-            <X className="w-8 h-8" />
-          </button>
-          
-          <div
-            className="relative max-w-6xl w-full max-h-full flex flex-col items-center justify-center"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {isVideo(selectedItem.imageUrl) ? (
-              <video
-                src={selectedItem.imageUrl}
-                className="max-w-full max-h-[80vh] rounded-lg shadow-2xl"
-                controls
-                autoPlay
-              />
-            ) : (
-              <img
-                src={selectedItem.imageUrl}
-                alt={selectedItem.title}
-                className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl"
-              />
-            )}
-            <div className="mt-6 text-center text-white max-w-2xl">
-              <h2 className="text-3xl font-bold mb-2">{selectedItem.title}</h2>
-              <p className="text-white/70 text-lg">{selectedItem.description}</p>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Comments Modal */}
-      <Dialog open={!!commentingItem} onOpenChange={(open) => !open && setCommentingItem(null)}>
-        <DialogContent className="sm:max-w-[500px] max-h-[85vh] flex flex-col p-0 overflow-hidden border-none shadow-2xl">
-          <DialogHeader className="p-6 bg-gradient-to-r from-blue-600 to-blue-700 text-white">
-            <DialogTitle className="text-2xl font-bold flex items-center gap-2">
-              <MessageCircle className="w-6 h-6" />
-              Comments
-            </DialogTitle>
-            <DialogDescription className="text-blue-100">
-              Share your thoughts on "{commentingItem?.title}"
-            </DialogDescription>
-          </DialogHeader>
-          
-          <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-slate-50">
-            {/* Existing Comments */}
-            <div className="space-y-4">
-              {(mockComments[commentingItem?.id?.toString()] || []).length === 0 && (
-                <div className="text-center py-10 text-slate-400 italic">
-                  No comments yet. Be the first to share your thoughts!
-                </div>
-              )}
-              
-              {(mockComments[commentingItem?.id?.toString()] || []).map((comment) => (
-                <div key={comment.id} className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 animate-in slide-in-from-bottom-2 duration-300">
-                  <div className="flex justify-between items-start mb-2">
-                    <span className="font-bold text-blue-600">{comment.user}</span>
-                    <span className="text-xs text-slate-400">{comment.date}</span>
-                  </div>
-                  <p className="text-slate-700 leading-relaxed">{comment.text}</p>
-                </div>
-              ))}
-              
-              {/* Static Mock Comments for UI feel */}
-              <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
-                <div className="flex justify-between items-start mb-2">
-                  <span className="font-bold text-blue-600">KretivMay Fan</span>
-                  <span className="text-xs text-slate-400">2 days ago</span>
-                </div>
-                <p className="text-slate-700 leading-relaxed">This is absolutely stunning! The attention to detail is incredible.</p>
-              </div>
-              <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
-                <div className="flex justify-between items-start mb-2">
-                  <span className="font-bold text-blue-600">Design Enthusiast</span>
-                  <span className="text-xs text-slate-400">1 week ago</span>
-                </div>
-                <p className="text-slate-700 leading-relaxed">Love the color palette used here. Very professional work!</p>
-              </div>
-            </div>
-          </div>
-          
-          {/* New Comment Form */}
-          <div className="p-6 bg-white border-t border-slate-100">
-            <div className="space-y-4">
-              <Input 
-                placeholder="Your Name" 
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-                className="border-slate-200 focus:border-blue-500 focus:ring-blue-500"
-              />
-              <div className="relative">
-                <Textarea 
-                  placeholder="Write a comment..." 
-                  value={newComment}
-                  onChange={(e) => setNewComment(e.target.value)}
-                  className="min-h-[100px] pr-12 border-slate-200 focus:border-blue-500 focus:ring-blue-500 resize-none"
-                />
-                <Button 
-                  size="icon"
-                  onClick={() => handleAddComment(commentingItem?.id?.toString())}
-                  disabled={!newComment.trim() || !userName.trim()}
-                  className="absolute bottom-3 right-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full h-10 w-10 shadow-lg transition-all hover:scale-110 disabled:opacity-50 disabled:hover:scale-100"
-                >
-                  <Send className="w-5 h-5" />
-                </Button>
-              </div>
-            </div>
-          </div>
+          )}
         </DialogContent>
       </Dialog>
     </div>
