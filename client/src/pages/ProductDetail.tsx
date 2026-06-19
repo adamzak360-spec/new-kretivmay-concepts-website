@@ -1,4 +1,6 @@
 import { useState, useMemo } from "react";
+import { useCart } from "@/contexts/CartContext";
+import { toast } from "sonner";
 import { useRoute, Link } from "wouter";
 import { ArrowLeft, ShoppingCart, CheckCircle, Info, Star, Package, ShieldCheck } from "lucide-react";
 import { FALLBACK_PRODUCTS, SHOP_CATEGORIES } from "@/lib/fallbacks";
@@ -15,6 +17,7 @@ export default function ProductDetail() {
   }, [slug]);
 
   const [quantity, setQuantity] = useState(1);
+  const { addItem } = useCart();
 
   if (!product) {
     return (
@@ -116,7 +119,23 @@ export default function ProductDetail() {
                     +
                   </button>
                 </div>
-                <Button className="flex-1 bg-blue-600 hover:bg-blue-700 h-12 text-lg font-bold gap-2 rounded-xl shadow-lg shadow-blue-200">
+                <Button 
+                  onClick={() => {
+                    // Extract numerical value from price string (e.g., "GH₵ 50.00" -> 50)
+                    const priceValue = parseFloat(product.price.replace(/[^\d.]/g, ''));
+                    addItem({
+                      id: product.id.toString(),
+                      title: product.title,
+                      price: product.price,
+                      priceValue: priceValue,
+                      quantity: quantity,
+                      imageUrl: product.imageUrl,
+                      slug: product.slug
+                    });
+                    toast.success(`${product.title} added to cart!`);
+                  }}
+                  className="flex-1 bg-blue-600 hover:bg-blue-700 h-12 text-lg font-bold gap-2 rounded-xl shadow-lg shadow-blue-200"
+                >
                   <ShoppingCart className="w-5 h-5" />
                   Add to Cart
                 </Button>

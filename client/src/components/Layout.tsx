@@ -1,8 +1,9 @@
 import { ReactNode, useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, X, Moon, Sun, ArrowUp, Facebook, Instagram, Twitter, LogIn, LayoutDashboard } from "lucide-react";
+import { Menu, X, Moon, Sun, ArrowUp, Facebook, Instagram, Twitter, LogIn, LayoutDashboard, ShoppingCart } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useAuth } from "@/_core/hooks/useAuth";
+import { useCart } from "@/contexts/CartContext";
 import { trpc } from "@/lib/trpc";
 import { getLoginUrl } from "@/const";
 
@@ -16,6 +17,7 @@ export default function Layout({ children }: LayoutProps) {
   const [location] = useLocation();
   // Theme toggle removed per user request
   const { user } = useAuth();
+  const { totalItems } = useCart();
 
   // Fetch Site Settings from CMS
   const { data: dbSettings } = trpc.settings.get.useQuery("site_config");
@@ -99,6 +101,17 @@ export default function Layout({ children }: LayoutProps) {
 
           {/* Right Actions */}
           <div className="flex items-center gap-4">
+            {/* Cart Link */}
+            <Link href="/checkout">
+              <a className="relative p-2 text-slate-600 hover:text-blue-600 transition-colors">
+                <ShoppingCart className="w-6 h-6" />
+                {totalItems > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-white">
+                    {totalItems}
+                  </span>
+                )}
+              </a>
+            </Link>
 
             {/* Admin/Login Link */}
             <div className="hidden md:block">

@@ -4,6 +4,7 @@ import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import { CartProvider } from "./contexts/CartContext";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Shop from "./pages/Shop";
@@ -13,6 +14,7 @@ import ServiceDetail from "./pages/ServiceDetail";
 import Portfolio from "./pages/Portfolio";
 import Photography from "./pages/Photography";
 import Contact from "./pages/Contact";
+import Checkout from "./pages/Checkout";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminPortfolio from "./pages/admin/Portfolio";
@@ -34,6 +36,7 @@ function Router() {
       <Route path={"/portfolio"} component={Portfolio} />
       <Route path={"/photography"} component={Photography} />
       <Route path={"/contact"} component={Contact} />
+      <Route path={"/checkout"} component={Checkout} />
       
       {/* Keep old service routes for backward compatibility or future use */}
       <Route path={"/old-services"} component={Services} />
@@ -73,12 +76,14 @@ function App() {
   return (
     <ErrorBoundary>
       <ThemeProvider defaultTheme="light">
-        <TooltipProvider>
-          <Toaster />
-          <Layout>
-            <Router />
-          </Layout>
-        </TooltipProvider>
+        <CartProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Layout>
+              <Router />
+            </Layout>
+          </TooltipProvider>
+        </CartProvider>
       </ThemeProvider>
     </ErrorBoundary>
   );
