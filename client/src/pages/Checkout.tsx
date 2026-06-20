@@ -23,7 +23,7 @@ import { toast } from "sonner";
 type CheckoutStep = "cart" | "info" | "review" | "confirmation";
 
 export default function Checkout() {
-  const { items, removeItem, updateQuantity, totalPrice, clearCart } = useCart();
+  const { items, removeItem, updateQuantity, totalPrice, totalItems, clearCart } = useCart();
   const [step, setStep] = useState<CheckoutStep>("cart");
   const [orderNumber, setOrderNumber] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
