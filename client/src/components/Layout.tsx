@@ -119,9 +119,9 @@ export default function Layout({ children }: LayoutProps) {
             </Link>
 
             {/* User Account / Login */}
-            <div className="hidden md:flex items-center gap-3">
+            <div className="hidden md:flex items-center gap-2">
               {user ? (
-                <div className="flex items-center gap-2">
+                <>
                   <Link href="/account">
                     <a className="flex items-center gap-2 text-sm font-bold text-blue-600 bg-blue-50 hover:bg-blue-100 px-4 py-2 rounded-full transition-all">
                       <User className="w-4 h-4" />
@@ -130,12 +130,12 @@ export default function Layout({ children }: LayoutProps) {
                   </Link>
                   <button 
                     onClick={handleLogout}
-                    className="p-2 text-slate-400 hover:text-red-600 transition-colors"
+                    className="p-2 text-slate-400 hover:text-red-600 transition-colors rounded-full hover:bg-red-50"
                     title="Sign Out"
                   >
                     <LogOut className="w-4 h-4" />
                   </button>
-                </div>
+                </>
               ) : (
                 <Link href="/auth">
                   <a className="flex items-center gap-2 text-sm font-bold text-blue-600 bg-blue-50 hover:bg-blue-100 px-5 py-2.5 rounded-full transition-all hover:scale-105">
@@ -144,11 +144,6 @@ export default function Layout({ children }: LayoutProps) {
                   </a>
                 </Link>
               )}
-              <Link href="/admin/dashboard">
-                <a className="text-xs font-bold text-slate-400 hover:text-blue-600 transition-colors">
-                  Admin
-                </a>
-              </Link>
             </div>
 
             {/* Mobile Menu Button */}
@@ -198,15 +193,15 @@ export default function Layout({ children }: LayoutProps) {
                         My Account
                       </a>
                     </Link>
-                    <Link href="/account">
-                      <a 
-                        className="flex items-center gap-3 text-base font-bold text-slate-600 px-4 py-2"
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        <Package className="w-5 h-5" />
-                        My Orders
-                      </a>
-                    </Link>
+                  <Link href="/account?tab=orders">
+                    <a 
+                      className="flex items-center gap-3 text-base font-bold text-slate-600 px-4 py-2"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <Package className="w-5 h-5" />
+                      My Orders
+                    </a>
+                  </Link>
                     <button 
                       onClick={() => { handleLogout(); setMobileMenuOpen(false); }}
                       className="flex items-center gap-3 text-base font-bold text-red-600 px-4 py-2 w-full text-left"

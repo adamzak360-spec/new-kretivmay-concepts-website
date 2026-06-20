@@ -5,6 +5,9 @@ import { publicProcedure, router, protectedProcedure } from "./_core/trpc";
 import { z } from "zod";
 import * as db from "./db";
 import { TRPCError } from "@trpc/server";
+import bcryptjs from "bcryptjs";
+
+const ONE_YEAR_MS = 365 * 24 * 60 * 60 * 1000;
 
 export const appRouter = router({
   system: systemRouter,
@@ -20,12 +23,15 @@ export const appRouter = router({
         const existing = await db.getUserByEmail(input.email);
         if (existing) throw new TRPCError({ code: "CONFLICT", message: "Email already exists" });
         
-        // In a real app, hash password here. Using placeholder as per phase instructions.
+        // Hash password using bcryptjs
+        const salt = await bcryptjs.genSalt(10);
+        const hashedPassword = await bcryptjs.hash(input.password, salt);
+        
         const openId = `local_${Math.random().toString(36).slice(2, 11)}`;
         await db.createUser({
           openId,
           email: input.email,
-          password: input.password, // TODO: Hash this
+          password: hashedPassword,
           name: input.name,
           loginMethod: "local",
         });
@@ -38,7 +44,13 @@ export const appRouter = router({
       }))
       .mutation(async ({ input, ctx }) => {
         const user = await db.getUserByEmail(input.email);
-        if (!user || user.password !== input.password) { // TODO: Compare hash
+        if (!user || !user.password) {
+          throw new TRPCError({ code: "UNAUTHORIZED", message: "Invalid email or password" });
+        }
+        
+        // Compare password hash
+        const isPasswordValid = await bcryptjs.compare(input.password, user.password);
+        if (!isPasswordValid) {
           throw new TRPCError({ code: "UNAUTHORIZED", message: "Invalid email or password" });
         }
         

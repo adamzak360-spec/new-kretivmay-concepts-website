@@ -2,7 +2,7 @@ import { useRoute, Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Loader2, ArrowLeft, Package, MapPin, Calendar, CreditCard } from "lucide-react";
+import { Loader2, ArrowLeft, Package, MapPin, Calendar, CreditCard, CheckCircle, Clock, Truck, AlertCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 export default function OrderDetails() {
@@ -34,11 +34,27 @@ export default function OrderDetails() {
   }
 
   const statusColors = {
-    pending: "bg-yellow-100 text-yellow-800",
-    processing: "bg-blue-100 text-blue-800",
-    shipped: "bg-purple-100 text-purple-800",
-    delivered: "bg-green-100 text-green-800",
-    cancelled: "bg-red-100 text-red-800",
+    pending: "bg-yellow-100 text-yellow-800 border-yellow-200",
+    processing: "bg-blue-100 text-blue-800 border-blue-200",
+    shipped: "bg-purple-100 text-purple-800 border-purple-200",
+    delivered: "bg-green-100 text-green-800 border-green-200",
+    cancelled: "bg-red-100 text-red-800 border-red-200",
+  };
+
+  const statusIcons = {
+    pending: <Clock className="h-4 w-4" />,
+    processing: <Package className="h-4 w-4" />,
+    shipped: <Truck className="h-4 w-4" />,
+    delivered: <CheckCircle className="h-4 w-4" />,
+    cancelled: <AlertCircle className="h-4 w-4" />,
+  };
+
+  const statusMessages = {
+    pending: "Your order is waiting to be processed",
+    processing: "Your order is being prepared for shipment",
+    shipped: "Your order is on its way",
+    delivered: "Your order has been delivered",
+    cancelled: "Your order has been cancelled",
   };
 
   return (
@@ -52,16 +68,17 @@ export default function OrderDetails() {
 
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
-          <div className="flex items-center gap-3 mb-2">
+          <div className="flex items-center gap-3 mb-2 flex-wrap">
             <h1 className="text-3xl font-bold">Order #{order.orderNumber}</h1>
-            <Badge className={statusColors[order.status as keyof typeof statusColors]}>
+            <Badge className={`${statusColors[order.status as keyof typeof statusColors]} border flex items-center gap-1`}>
+              {statusIcons[order.status as keyof typeof statusIcons]}
               {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
             </Badge>
           </div>
-          <div className="flex items-center text-slate-500 gap-4">
+          <div className="flex items-center text-slate-500 gap-4 flex-wrap">
             <span className="flex items-center gap-1">
               <Calendar className="h-4 w-4" />
-              {new Date(order.createdAt).toLocaleDateString()}
+              {new Date(order.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
             </span>
             <span className="flex items-center gap-1">
               <Package className="h-4 w-4" />
@@ -75,31 +92,50 @@ export default function OrderDetails() {
         </div>
       </div>
 
+      {/* Status Message */}
+      <Card className="mb-8 border-l-4 border-l-blue-600 bg-blue-50">
+        <CardContent className="pt-6">
+          <p className="text-sm text-slate-700">
+            {statusMessages[order.status as keyof typeof statusMessages]}
+          </p>
+        </CardContent>
+      </Card>
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
           <Card>
             <CardHeader>
               <CardTitle>Order Items</CardTitle>
+              <CardDescription>Items included in this order</CardDescription>
             </CardHeader>
             <CardContent className="p-0">
               <div className="divide-y">
-                {(order as any).items.map((item: any) => (
-                  <div key={item.id} className="flex gap-4 p-6">
-                    <div className="h-20 w-20 rounded-lg bg-slate-100 overflow-hidden flex-shrink-0">
-                      {item.imageUrl && (
-                        <img src={item.imageUrl} alt={item.title} className="h-full w-full object-cover" />
-                      )}
+                {(order as any).items && (order as any).items.length > 0 ? (
+                  (order as any).items.map((item: any) => (
+                    <div key={item.id} className="flex gap-4 p-6 hover:bg-slate-50 transition-colors">
+                      <div className="h-24 w-24 rounded-lg bg-slate-100 overflow-hidden flex-shrink-0 border border-slate-200">
+                        {item.imageUrl && (
+                          <img src={item.imageUrl} alt={item.title} className="h-full w-full object-cover" />
+                        )}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-bold text-lg mb-1">{item.title}</h4>
+                        <div className="flex items-center gap-4 text-sm text-slate-600">
+                          <span>Qty: <span className="font-medium">{item.quantity}</span></span>
+                          <span>Unit Price: <span className="font-medium">${(item.price / 100).toFixed(2)}</span></span>
+                        </div>
+                      </div>
+                      <div className="text-right flex-shrink-0">
+                        <p className="font-bold text-lg">${((item.price * item.quantity) / 100).toFixed(2)}</p>
+                        <p className="text-xs text-slate-500 mt-1">Total</p>
+                      </div>
                     </div>
-                    <div className="flex-1">
-                      <h4 className="font-bold text-lg">{item.title}</h4>
-                      <p className="text-slate-500">Quantity: {item.quantity}</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="font-bold">${(item.price / 100).toFixed(2)}</p>
-                      <p className="text-sm text-slate-500">Total: ${((item.price * item.quantity) / 100).toFixed(2)}</p>
-                    </div>
+                  ))
+                ) : (
+                  <div className="p-6 text-center text-slate-500">
+                    No items in this order
                   </div>
-                ))}
+                )}
               </div>
             </CardContent>
           </Card>
@@ -113,10 +149,16 @@ export default function OrderDetails() {
                 Shipping Address
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-1 text-slate-600">
-              <p className="font-medium text-slate-900">{order.shippingAddress}</p>
-              <p>{order.shippingCity}, {order.shippingState} {order.shippingZipCode}</p>
-              <p>{order.shippingCountry}</p>
+            <CardContent className="space-y-2 text-slate-600">
+              {order.shippingAddress ? (
+                <>
+                  <p className="font-medium text-slate-900">{order.shippingAddress}</p>
+                  <p>{order.shippingCity}{order.shippingState ? ', ' + order.shippingState : ''} {order.shippingZipCode}</p>
+                  {order.shippingCountry && <p>{order.shippingCountry}</p>}
+                </>
+              ) : (
+                <p className="text-slate-500">No shipping address provided</p>
+              )}
             </CardContent>
           </Card>
 
@@ -131,20 +173,38 @@ export default function OrderDetails() {
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
                   <span className="text-slate-500">Subtotal</span>
-                  <span>${(order.totalAmount / 100).toFixed(2)}</span>
+                  <span className="font-medium">${(order.totalAmount / 100).toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-slate-500">Shipping</span>
                   <span className="text-green-600 font-medium">Free</span>
                 </div>
-                <div className="border-t pt-2 flex justify-between font-bold text-lg">
+                <div className="flex justify-between text-sm">
+                  <span className="text-slate-500">Tax</span>
+                  <span className="font-medium">$0.00</span>
+                </div>
+                <div className="border-t pt-3 flex justify-between font-bold text-base">
                   <span>Total</span>
                   <span className="text-blue-600">${(order.totalAmount / 100).toFixed(2)}</span>
                 </div>
               </div>
-              <Badge variant="outline" className="w-full justify-center py-1 border-blue-200 text-blue-700 bg-blue-50">
-                Paid via Secure Checkout
+              <Badge variant="outline" className="w-full justify-center py-2 border-blue-200 text-blue-700 bg-blue-50 text-xs font-medium">
+                ✓ Paid via Secure Checkout
               </Badge>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">Need Help?</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              <p className="text-sm text-slate-600 mb-4">
+                If you have any questions about this order, please contact our support team.
+              </p>
+              <Link href="/contact">
+                <Button variant="outline" className="w-full">Contact Support</Button>
+              </Link>
             </CardContent>
           </Card>
         </div>
