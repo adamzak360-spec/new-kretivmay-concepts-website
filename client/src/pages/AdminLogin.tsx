@@ -2,37 +2,30 @@ import { useState } from "react";
 import { useLocation } from "wouter";
 import { Lock, Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
-
-const ADMIN_PASSWORD = "admin123"; // Simple password
+import { trpc } from "@/lib/trpc";
 
 export default function AdminLogin() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [, setLocation] = useLocation();
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-
-    // Simulate a small delay for better UX
-    await new Promise(resolve => setTimeout(resolve, 500));
-
-    if (password === ADMIN_PASSWORD) {
-      // Store auth token in localStorage
-      localStorage.setItem("adminAuth", "true");
-      localStorage.setItem("adminLoginTime", new Date().toISOString());
+  const loginMutation = trpc.adminAuth.login.useMutation({
+    onSuccess: () => {
       toast.success("Login successful!");
-      // Force a small delay then redirect
+      // Redirect to dashboard
       setTimeout(() => {
         window.location.href = "/admin/dashboard";
       }, 100);
-    } else {
-      toast.error("Invalid password");
+    },
+    onError: (error) => {
+      toast.error(error.message || "Invalid password");
       setPassword("");
-    }
+    },
+  });
 
-    setIsLoading(false);
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    loginMutation.mutate({ password });
   };
 
   return (
@@ -61,14 +54,14 @@ export default function AdminLogin() {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter admin password"
                   className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all"
-                  disabled={isLoading}
+                  disabled={loginMutation.isPending}
                   autoFocus
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-500 hover:text-slate-700 transition-colors"
-                  disabled={isLoading}
+                  disabled={loginMutation.isPending}
                 >
                   {showPassword ? (
                     <EyeOff className="w-5 h-5" />
@@ -81,10 +74,10 @@ export default function AdminLogin() {
 
             <button
               type="submit"
-              disabled={isLoading || !password}
+              disabled={loginMutation.isPending || !password}
               className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-slate-300 text-white font-semibold py-3 rounded-lg transition-colors"
             >
-              {isLoading ? "Logging in..." : "Login"}
+              {loginMutation.isPending ? "Logging in..." : "Login"}
             </button>
           </form>
 

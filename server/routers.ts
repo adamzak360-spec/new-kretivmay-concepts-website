@@ -11,6 +11,48 @@ const ONE_YEAR_MS = 365 * 24 * 60 * 60 * 1000;
 
 export const appRouter = router({
   system: systemRouter,
+  adminAuth: router({
+    login: publicProcedure
+      .input(z.object({ password: z.string() }))
+      .mutation(async ({ input, ctx }) => {
+        const adminPassword = process.env.ADMIN_PASSWORD || "admin123";
+        if (input.password !== adminPassword) {
+          throw new TRPCError({ code: "UNAUTHORIZED", message: "Invalid admin password" });
+        }
+        
+        // Create a temporary admin user if it doesn't exist
+        let adminUser = await db.getUserByEmail("admin@kretivmay.local");
+        if (!adminUser) {
+          const salt = await bcryptjs.genSalt(10);
+          const hashedPassword = await bcryptjs.hash(adminPassword, salt);
+          const openId = `admin_${Math.random().toString(36).slice(2, 11)}`;
+          await db.createUser({
+            openId,
+            email: "admin@kretivmay.local",
+            password: hashedPassword,
+            name: "Admin",
+            loginMethod: "admin",
+            role: "admin",
+          });
+          adminUser = await db.getUserByEmail("admin@kretivmay.local");
+        }
+        
+        if (!adminUser) {
+          throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Failed to create admin session" });
+        }
+        
+        // Create session token
+        const sessionToken = await (ctx as any).sdk.createSessionToken(adminUser.openId, {
+          name: adminUser.name || "Admin",
+          expiresInMs: ONE_YEAR_MS,
+        });
+        
+        const cookieOptions = getSessionCookieOptions((ctx as any).req);
+        (ctx as any).res.cookie(COOKIE_NAME, sessionToken, { ...cookieOptions, maxAge: ONE_YEAR_MS });
+        
+        return { success: true, user: adminUser };
+      }),
+  }),
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     signUp: publicProcedure
