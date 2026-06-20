@@ -1,6 +1,6 @@
 import { eq, and } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, InsertContactSubmission, users, portfolioItems, services, blogPosts, testimonials, contactSubmissions, siteSettings, pageContent, PageContent, InsertPageContent } from "../drizzle/schema";
+import { InsertUser, InsertContactSubmission, users, portfolioItems, services, blogPosts, testimonials, contactSubmissions, siteSettings, pageContent, PageContent, InsertPageContent, orders, orderItems, Order, InsertOrder, OrderItem, InsertOrderItem } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -87,6 +87,58 @@ export async function getUserByOpenId(openId: string) {
   const result = await db.select().from(users).where(eq(users.openId, openId)).limit(1);
 
   return result.length > 0 ? result[0] : undefined;
+}
+
+export async function getUserByEmail(email: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(users).where(eq(users.email, email)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function createUser(user: InsertUser) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.insert(users).values(user);
+}
+
+export async function updateUser(id: number, data: Partial<InsertUser>) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.update(users).set(data).where(eq(users.id, id));
+}
+
+// Order functions
+export async function getOrdersByUserId(userId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(orders).where(eq(orders.userId, userId)).orderBy(orders.createdAt);
+}
+
+export async function getOrderById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(orders).where(eq(orders.id, id)).limit(1);
+  if (result.length === 0) return null;
+  
+  const items = await db.select().from(orderItems).where(eq(orderItems.orderId, id));
+  return { ...result[0], items };
+}
+
+export async function createOrder(order: InsertOrder, items: InsertOrderItem[]) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  return await db.transaction(async (tx) => {
+    const [result] = await tx.insert(orders).values(order);
+    const orderId = (result as any).insertId;
+    
+    for (const item of items) {
+      await tx.insert(orderItems).values({ ...item, orderId });
+    }
+    
+    return orderId;
+  });
 }
 
 // Portfolio queries

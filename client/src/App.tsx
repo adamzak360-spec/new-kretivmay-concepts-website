@@ -15,6 +15,9 @@ import Portfolio from "./pages/Portfolio";
 import Photography from "./pages/Photography";
 import Contact from "./pages/Contact";
 import Checkout from "./pages/Checkout";
+import Auth from "./pages/Auth";
+import Account from "./pages/Account";
+import OrderDetails from "./pages/OrderDetails";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminPortfolio from "./pages/admin/Portfolio";
@@ -37,6 +40,9 @@ function Router() {
       <Route path={"/photography"} component={Photography} />
       <Route path={"/contact"} component={Contact} />
       <Route path={"/checkout"} component={Checkout} />
+      <Route path={"/auth"} component={Auth} />
+      <Route path={"/account"} component={Account} />
+      <Route path={"/account/orders/:id"} component={OrderDetails} />
       
       {/* Keep old service routes for backward compatibility or future use */}
       <Route path={"/old-services"} component={Services} />

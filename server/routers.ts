@@ -10,12 +10,80 @@ export const appRouter = router({
   system: systemRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
+    signUp: publicProcedure
+      .input(z.object({
+        email: z.string().email(),
+        password: z.string().min(6),
+        name: z.string().min(1),
+      }))
+      .mutation(async ({ input }) => {
+        const existing = await db.getUserByEmail(input.email);
+        if (existing) throw new TRPCError({ code: "CONFLICT", message: "Email already exists" });
+        
+        // In a real app, hash password here. Using placeholder as per phase instructions.
+        const openId = `local_${Math.random().toString(36).slice(2, 11)}`;
+        await db.createUser({
+          openId,
+          email: input.email,
+          password: input.password, // TODO: Hash this
+          name: input.name,
+          loginMethod: "local",
+        });
+        return { success: true };
+      }),
+    signIn: publicProcedure
+      .input(z.object({
+        email: z.string().email(),
+        password: z.string(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        const user = await db.getUserByEmail(input.email);
+        if (!user || user.password !== input.password) { // TODO: Compare hash
+          throw new TRPCError({ code: "UNAUTHORIZED", message: "Invalid email or password" });
+        }
+        
+        const sessionToken = await (ctx as any).sdk.createSessionToken(user.openId, {
+          name: user.name || "",
+          expiresInMs: ONE_YEAR_MS,
+        });
+
+        const cookieOptions = getSessionCookieOptions((ctx as any).req);
+        (ctx as any).res.cookie(COOKIE_NAME, sessionToken, { ...cookieOptions, maxAge: ONE_YEAR_MS });
+
+        return { success: true, user };
+      }),
     logout: publicProcedure.mutation(({ ctx }) => {
       const cookieOptions = getSessionCookieOptions((ctx as any).req);
       (ctx as any).res.clearCookie(COOKIE_NAME, { ...cookieOptions, maxAge: -1 });
       return {
         success: true,
       } as const;
+    }),
+    updateProfile: protectedProcedure
+      .input(z.object({
+        name: z.string().optional(),
+        phone: z.string().optional(),
+        email: z.string().email().optional(),
+        address: z.string().optional(),
+        city: z.string().optional(),
+        state: z.string().optional(),
+        zipCode: z.string().optional(),
+        country: z.string().optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        await db.updateUser(ctx.user.id, input);
+        return { success: true };
+      }),
+  }),
+
+  orders: router({
+    list: protectedProcedure.query(({ ctx }) => db.getOrdersByUserId(ctx.user.id)),
+    byId: protectedProcedure.input(z.number()).query(async ({ input, ctx }) => {
+      const order = await db.getOrderById(input);
+      if (!order || order.userId !== ctx.user.id) {
+        throw new TRPCError({ code: "NOT_FOUND" });
+      }
+      return order;
     }),
   }),
 

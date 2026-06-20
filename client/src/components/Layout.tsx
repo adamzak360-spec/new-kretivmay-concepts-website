@@ -1,6 +1,6 @@
 import { ReactNode, useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, X, Moon, Sun, ArrowUp, Facebook, Instagram, Twitter, LogIn, LayoutDashboard, ShoppingCart } from "lucide-react";
+import { Menu, X, Moon, Sun, ArrowUp, Facebook, Instagram, Twitter, LogIn, LayoutDashboard, ShoppingCart, User, Package, LogOut } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { useCart } from "@/contexts/CartContext";
@@ -16,8 +16,13 @@ export default function Layout({ children }: LayoutProps) {
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [location] = useLocation();
   // Theme toggle removed per user request
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const { totalItems } = useCart();
+
+  const handleLogout = async () => {
+    await logout();
+    window.location.href = "/";
+  };
 
   // Fetch Site Settings from CMS
   const { data: dbSettings } = trpc.settings.get.useQuery("site_config");
@@ -113,11 +118,34 @@ export default function Layout({ children }: LayoutProps) {
               </a>
             </Link>
 
-            {/* Admin/Login Link */}
-            <div className="hidden md:block">
+            {/* User Account / Login */}
+            <div className="hidden md:flex items-center gap-3">
+              {user ? (
+                <div className="flex items-center gap-2">
+                  <Link href="/account">
+                    <a className="flex items-center gap-2 text-sm font-bold text-blue-600 bg-blue-50 hover:bg-blue-100 px-4 py-2 rounded-full transition-all">
+                      <User className="w-4 h-4" />
+                      Account
+                    </a>
+                  </Link>
+                  <button 
+                    onClick={handleLogout}
+                    className="p-2 text-slate-400 hover:text-red-600 transition-colors"
+                    title="Sign Out"
+                  >
+                    <LogOut className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <Link href="/auth">
+                  <a className="flex items-center gap-2 text-sm font-bold text-blue-600 bg-blue-50 hover:bg-blue-100 px-5 py-2.5 rounded-full transition-all hover:scale-105">
+                    <LogIn className="w-4 h-4" />
+                    Sign In
+                  </a>
+                </Link>
+              )}
               <Link href="/admin/dashboard">
-                <a className="flex items-center gap-2 text-sm font-bold text-blue-600 bg-blue-50 hover:bg-blue-100 px-5 py-2.5 rounded-full transition-all hover:scale-105">
-                  <LogIn className="w-4 h-4" />
+                <a className="text-xs font-bold text-slate-400 hover:text-blue-600 transition-colors">
                   Admin
                 </a>
               </Link>
@@ -157,15 +185,54 @@ export default function Layout({ children }: LayoutProps) {
                 </Link>
               ))}
               
-              {/* Mobile Admin/Login Link */}
-              <div className="pt-4 border-t border-border">
+              {/* Mobile User/Admin Links */}
+              <div className="pt-4 border-t border-border space-y-2">
+                {user ? (
+                  <>
+                    <Link href="/account">
+                      <a 
+                        className="flex items-center gap-3 text-base font-bold text-blue-600 px-4 py-2"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        <User className="w-5 h-5" />
+                        My Account
+                      </a>
+                    </Link>
+                    <Link href="/account">
+                      <a 
+                        className="flex items-center gap-3 text-base font-bold text-slate-600 px-4 py-2"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        <Package className="w-5 h-5" />
+                        My Orders
+                      </a>
+                    </Link>
+                    <button 
+                      onClick={() => { handleLogout(); setMobileMenuOpen(false); }}
+                      className="flex items-center gap-3 text-base font-bold text-red-600 px-4 py-2 w-full text-left"
+                    >
+                      <LogOut className="w-5 h-5" />
+                      Sign Out
+                    </button>
+                  </>
+                ) : (
+                  <Link href="/auth">
+                    <a 
+                      className="flex items-center gap-3 text-base font-bold text-blue-600 px-4 py-2"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <LogIn className="w-5 h-5" />
+                      Sign In / Sign Up
+                    </a>
+                  </Link>
+                )}
                 <Link href="/admin/dashboard">
                   <a 
-                    className="flex items-center gap-2 text-base font-bold text-blue-600 px-4 py-2"
+                    className="flex items-center gap-3 text-sm font-medium text-slate-400 px-4 py-2"
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    <LogIn className="w-5 h-5" />
-                    Admin Login
+                    <LayoutDashboard className="w-4 h-4" />
+                    Admin Dashboard
                   </a>
                 </Link>
               </div>
