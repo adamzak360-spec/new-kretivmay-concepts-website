@@ -10,7 +10,12 @@ import {
   PlusCircle,
   ExternalLink,
   Upload,
-  Video
+  Video,
+  Package,
+  Layers,
+  ShoppingCart,
+  Users,
+  Warehouse
 } from "lucide-react";
 import { Link } from "wouter";
 
@@ -20,18 +25,19 @@ export default function AdminDashboard() {
   const { data: services } = trpc.services.list.useQuery();
   const { data: portfolio } = trpc.portfolio.list.useQuery();
   const { data: messages } = trpc.contact.list.useQuery();
+  const { data: adminStats } = trpc.admin.stats.useQuery();
 
   const stats = [
-    { label: "Services", value: services?.length || 0, icon: Briefcase, color: "bg-blue-500", path: "/admin/services" },
-    { label: "Portfolio", value: portfolio?.length || 0, icon: ImageIcon, color: "bg-purple-500", path: "/admin/portfolio" },
-    { label: "Photography", value: portfolio?.filter(p => p.category === 'photography').length || 0, icon: ImageIcon, color: "bg-pink-500", path: "/admin/photography" },
-    { label: "Messages", value: messages?.filter(m => !m.read).length || 0, icon: MessageSquare, color: "bg-orange-500", path: "/admin/messages", suffix: " unread" },
+    { label: "Total Products", value: adminStats?.totalProducts || 0, icon: Package, color: "bg-blue-500", path: "/admin/products" },
+    { label: "Active Categories", value: adminStats?.totalCategories || 0, icon: Layers, color: "bg-purple-500", path: "/admin/categories" },
+    { label: "Total Orders", value: adminStats?.totalOrders || 0, icon: ShoppingCart, color: "bg-green-500", path: "/admin/orders" },
+    { label: "Total Customers", value: adminStats?.totalUsers || 0, icon: Users, color: "bg-orange-500", path: "/admin/customers" },
   ];
 
   const quickActions = [
-    { label: "Add Portfolio Item", icon: PlusCircle, path: "/admin/portfolio" },
-    { label: "Add Service", icon: PlusCircle, path: "/admin/services" },
-    { label: "Add Photography", icon: PlusCircle, path: "/admin/photography" },
+    { label: "Add Product", icon: PlusCircle, path: "/admin/products" },
+    { label: "Add Category", icon: PlusCircle, path: "/admin/categories" },
+    { label: "Manage Inventory", icon: Warehouse, path: "/admin/inventory" },
     { label: "View Website", icon: ExternalLink, path: "/", external: true },
   ];
 

@@ -1,6 +1,6 @@
 import { eq, and } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, InsertContactSubmission, users, portfolioItems, services, blogPosts, testimonials, contactSubmissions, siteSettings, pageContent, PageContent, InsertPageContent, orders, orderItems, Order, InsertOrder, OrderItem, InsertOrderItem } from "../drizzle/schema";
+import { InsertUser, InsertContactSubmission, users, portfolioItems, services, blogPosts, testimonials, contactSubmissions, siteSettings, pageContent, PageContent, InsertPageContent, orders, orderItems, Order, InsertOrder, OrderItem, InsertOrderItem, products, categories, Product, InsertProduct, Category, InsertCategory } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -346,4 +346,104 @@ export async function upsertPageContent(data: InsertPageContent) {
   } else {
     return db.insert(pageContent).values(data);
   }
+}
+
+// Product functions
+export async function getProducts() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(products).orderBy(products.createdAt);
+}
+
+export async function getProductById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(products).where(eq(products.id, id)).limit(1);
+  return result[0] || null;
+}
+
+export async function createProduct(data: InsertProduct) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.insert(products).values(data);
+}
+
+export async function updateProduct(id: number, data: Partial<InsertProduct>) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.update(products).set(data).where(eq(products.id, id));
+}
+
+export async function deleteProduct(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.delete(products).where(eq(products.id, id));
+}
+
+// Category functions
+export async function getCategories() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(categories).orderBy(categories.order);
+}
+
+export async function createCategory(data: InsertCategory) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.insert(categories).values(data);
+}
+
+export async function updateCategory(id: number, data: Partial<InsertCategory>) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.update(categories).set(data).where(eq(categories.id, id));
+}
+
+export async function deleteCategory(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.delete(categories).where(eq(categories.id, id));
+}
+
+// Admin stats
+export async function getAdminStats() {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const [productCount] = await db.select({ count: products.id }).from(products);
+  const [categoryCount] = await db.select({ count: categories.id }).from(categories);
+  const [orderCount] = await db.select({ count: orders.id }).from(orders);
+  const [userCount] = await db.select({ count: users.id }).from(users);
+  
+  const recentOrders = await db.select().from(orders).orderBy(orders.createdAt).limit(5);
+  const lowStockItems = await db.select().from(products).where(eq(products.available, true)).limit(10); // Simple placeholder for low stock
+  
+  return {
+    totalProducts: productCount || 0,
+    totalCategories: categoryCount || 0,
+    totalOrders: orderCount || 0,
+    totalUsers: userCount || 0,
+    recentOrders,
+    lowStockItems,
+  };
+}
+
+// Order management (Admin)
+export async function getAllOrders() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(orders).orderBy(orders.createdAt);
+}
+
+export async function updateOrderStatus(id: number, status: any) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.update(orders).set({ status }).where(eq(orders.id, id));
+}
+
+// Customer management (Admin)
+export async function getAllCustomers() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(users).where(eq(users.role, "user")).orderBy(users.createdAt);
 }

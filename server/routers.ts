@@ -323,6 +323,124 @@ export const appRouter = router({
         return db.upsertPageContent(input);
       }),
   }),
+
+  // Admin Dashboard & Management
+  admin: router({
+    stats: protectedProcedure.query(({ ctx }) => {
+      if ((ctx as any).user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+      return db.getAdminStats();
+    }),
+    
+    // Products
+    products: router({
+      list: publicProcedure.query(() => db.getProducts()),
+      create: protectedProcedure
+        .input(z.object({
+          name: z.string().min(1),
+          slug: z.string().min(1),
+          description: z.string().optional(),
+          price: z.number(),
+          stock: z.number(),
+          categoryId: z.number().optional(),
+          imageUrl: z.string().optional(),
+          imageKey: z.string().optional(),
+          featured: z.boolean().optional(),
+          available: z.boolean().optional(),
+        }))
+        .mutation(({ input, ctx }) => {
+          if ((ctx as any).user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+          return db.createProduct(input as any);
+        }),
+      update: protectedProcedure
+        .input(z.object({
+          id: z.number(),
+          name: z.string().optional(),
+          slug: z.string().optional(),
+          description: z.string().optional(),
+          price: z.number().optional(),
+          stock: z.number().optional(),
+          categoryId: z.number().optional(),
+          imageUrl: z.string().optional(),
+          imageKey: z.string().optional(),
+          featured: z.boolean().optional(),
+          available: z.boolean().optional(),
+        }))
+        .mutation(({ input, ctx }) => {
+          if ((ctx as any).user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+          const { id, ...data } = input;
+          return db.updateProduct(id, data as any);
+        }),
+      delete: protectedProcedure
+        .input(z.number())
+        .mutation(({ input, ctx }) => {
+          if ((ctx as any).user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+          return db.deleteProduct(input);
+        }),
+    }),
+
+    // Categories
+    categories: router({
+      list: publicProcedure.query(() => db.getCategories()),
+      create: protectedProcedure
+        .input(z.object({
+          name: z.string().min(1),
+          slug: z.string().min(1),
+          description: z.string().optional(),
+          imageUrl: z.string().optional(),
+          imageKey: z.string().optional(),
+          icon: z.string().optional(),
+          order: z.number().optional(),
+        }))
+        .mutation(({ input, ctx }) => {
+          if ((ctx as any).user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+          return db.createCategory(input as any);
+        }),
+      update: protectedProcedure
+        .input(z.object({
+          id: z.number(),
+          name: z.string().optional(),
+          slug: z.string().optional(),
+          description: z.string().optional(),
+          imageUrl: z.string().optional(),
+          imageKey: z.string().optional(),
+          icon: z.string().optional(),
+          order: z.number().optional(),
+        }))
+        .mutation(({ input, ctx }) => {
+          if ((ctx as any).user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+          const { id, ...data } = input;
+          return db.updateCategory(id, data as any);
+        }),
+      delete: protectedProcedure
+        .input(z.number())
+        .mutation(({ input, ctx }) => {
+          if ((ctx as any).user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+          return db.deleteCategory(input);
+        }),
+    }),
+
+    // Orders
+    orders: router({
+      list: protectedProcedure.query(({ ctx }) => {
+        if ((ctx as any).user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+        return db.getAllOrders();
+      }),
+      updateStatus: protectedProcedure
+        .input(z.object({ id: z.number(), status: z.string() }))
+        .mutation(({ input, ctx }) => {
+          if ((ctx as any).user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+          return db.updateOrderStatus(input.id, input.status);
+        }),
+    }),
+
+    // Customers
+    customers: router({
+      list: protectedProcedure.query(({ ctx }) => {
+        if ((ctx as any).user?.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+        return db.getAllCustomers();
+      }),
+    }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

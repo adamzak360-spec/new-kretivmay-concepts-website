@@ -33,10 +33,20 @@ import {
   Briefcase, 
   Image as ImageIcon, 
   MessageSquare,
+  Package,
+  Layers,
+  ShoppingCart,
+  Users,
+  Warehouse
 } from "lucide-react";
 
 const menuItems = [
   { icon: LayoutDashboard, label: "Dashboard", path: "/admin/dashboard" },
+  { icon: Package, label: "Products", path: "/admin/products" },
+  { icon: Layers, label: "Categories", path: "/admin/categories" },
+  { icon: Warehouse, label: "Inventory", path: "/admin/inventory" },
+  { icon: ShoppingCart, label: "Orders", path: "/admin/orders" },
+  { icon: Users, label: "Customers", path: "/admin/customers" },
   { icon: Briefcase, label: "Services", path: "/admin/services" },
   { icon: ImageIcon, label: "Portfolio", path: "/admin/portfolio" },
   { icon: ImageIcon, label: "Photography", path: "/admin/photography" },

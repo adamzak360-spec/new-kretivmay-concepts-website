@@ -25,6 +25,11 @@ import AdminPhotography from "./pages/admin/Photography";
 import AdminServices from "./pages/admin/Services";
 import AdminMessages from "./pages/admin/Messages";
 import AdminSettings from "./pages/admin/Settings";
+import AdminProducts from "./pages/admin/Products";
+import AdminCategories from "./pages/admin/Categories";
+import AdminInventory from "./pages/admin/Inventory";
+import AdminOrders from "./pages/admin/Orders";
+import AdminCustomers from "./pages/admin/Customers";
 import Layout from "./components/Layout";
 import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
 
@@ -69,6 +74,21 @@ function Router() {
       </Route>
       <Route path={"/admin/settings"}>
         {() => <ProtectedAdminRoute><AdminSettings /></ProtectedAdminRoute>}
+      </Route>
+      <Route path={"/admin/products"}>
+        {() => <ProtectedAdminRoute><AdminProducts /></ProtectedAdminRoute>}
+      </Route>
+      <Route path={"/admin/categories"}>
+        {() => <ProtectedAdminRoute><AdminCategories /></ProtectedAdminRoute>}
+      </Route>
+      <Route path={"/admin/inventory"}>
+        {() => <ProtectedAdminRoute><AdminInventory /></ProtectedAdminRoute>}
+      </Route>
+      <Route path={"/admin/orders"}>
+        {() => <ProtectedAdminRoute><AdminOrders /></ProtectedAdminRoute>}
+      </Route>
+      <Route path={"/admin/customers"}>
+        {() => <ProtectedAdminRoute><AdminCustomers /></ProtectedAdminRoute>}
       </Route>
 
       <Route path={"/404"} component={NotFound} />
