@@ -56,7 +56,7 @@ export const appRouter = router({
           throw new TRPCError({ code: "UNAUTHORIZED", message: "Invalid email or password" });
         }
         
-        const sessionToken = await (ctx as any).sdk.createSessionToken(user.openId, {
+        const sessionToken = await ctx.sdk.createSessionToken(user.openId, {
           name: user.name || "",
           expiresInMs: ONE_YEAR_MS,
         });

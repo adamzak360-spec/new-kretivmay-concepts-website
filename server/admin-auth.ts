@@ -81,7 +81,7 @@ export const adminAuthRouter = router({
 
         // Create session token
         try {
-          const sessionToken = await (ctx as any).sdk.createSessionToken(
+          const sessionToken = await ctx.sdk.createSessionToken(
             adminUser.openId,
             {
               name: adminUser.name || "Admin",

@@ -284,6 +284,27 @@ class SDKServer {
         user = await db.getUserByOpenId(userInfo.openId);
       } catch (error) {
         console.error("[Auth] Failed to sync user from OAuth:", error);
+        // If it's a local admin session, we might not be able to sync from OAuth
+        if (session.openId.startsWith("admin_")) {
+          return {
+            id: 0, // Temporary ID
+            openId: session.openId,
+            name: session.name,
+            email: null,
+            password: null,
+            role: "admin",
+            loginMethod: "admin",
+            phone: null,
+            address: null,
+            city: null,
+            state: null,
+            zipCode: null,
+            country: null,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            lastSignedIn: new Date(),
+          } as User;
+        }
         throw ForbiddenError("Failed to sync user info");
       }
     }
