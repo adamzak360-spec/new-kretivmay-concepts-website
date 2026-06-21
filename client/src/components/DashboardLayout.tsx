@@ -37,7 +37,8 @@ import {
   Layers,
   ShoppingCart,
   Users,
-  Warehouse
+  Warehouse,
+  FolderOpen
 } from "lucide-react";
 
 const menuItems = [
@@ -51,6 +52,7 @@ const menuItems = [
   { icon: ImageIcon, label: "Portfolio", path: "/admin/portfolio" },
   { icon: ImageIcon, label: "Photography", path: "/admin/photography" },
   { icon: MessageSquare, label: "Messages", path: "/admin/messages" },
+  { icon: FolderOpen, label: "Media & Info", path: "/admin/media" },
   { icon: Settings, label: "Settings", path: "/admin/settings" },
 ];
 

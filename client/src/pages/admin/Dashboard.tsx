@@ -15,7 +15,8 @@ import {
   Layers,
   ShoppingCart,
   Users,
-  Warehouse
+  Warehouse,
+  FolderOpen
 } from "lucide-react";
 import { Link } from "wouter";
 
@@ -38,6 +39,7 @@ export default function AdminDashboard() {
     { label: "Add Product", icon: PlusCircle, path: "/admin/products" },
     { label: "Add Category", icon: PlusCircle, path: "/admin/categories" },
     { label: "Manage Inventory", icon: Warehouse, path: "/admin/inventory" },
+    { label: "Media & Info", icon: FolderOpen, path: "/admin/media" },
     { label: "View Website", icon: ExternalLink, path: "/", external: true },
   ];
 
