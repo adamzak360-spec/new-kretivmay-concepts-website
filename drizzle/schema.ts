@@ -134,7 +134,7 @@ export const uploads = mysqlTable("uploads", {
   key: varchar("key", { length: 255 }).notNull().unique(),
   fileName: varchar("fileName", { length: 255 }).notNull(),
   contentType: varchar("contentType", { length: 100 }).notNull(),
-  data: text("data").notNull(), // Base64 encoded file data
+  data: text("data", { length: "long" }).notNull(), // Base64 encoded file data
   size: int("size").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
