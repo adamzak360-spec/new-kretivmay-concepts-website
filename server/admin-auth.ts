@@ -13,6 +13,7 @@ export const adminAuthRouter = router({
     .input(z.object({ password: z.string() }))
     .mutation(async ({ input, ctx }) => {
       try {
+        console.log("[AdminAuth] Login attempt started");
         const adminPassword = process.env.ADMIN_PASSWORD || "admin123";
         
         if (input.password !== adminPassword) {
@@ -81,6 +82,7 @@ export const adminAuthRouter = router({
 
         // Create session token
         try {
+          console.log("[AdminAuth] Creating session for:", adminUser.openId);
           const sessionToken = await ctx.sdk.createSessionToken(
             adminUser.openId,
             {
@@ -90,11 +92,13 @@ export const adminAuthRouter = router({
           );
 
           const cookieOptions = getSessionCookieOptions((ctx as any).req);
+          console.log("[AdminAuth] Cookie options:", JSON.stringify(cookieOptions));
           (ctx as any).res.cookie(COOKIE_NAME, sessionToken, {
             ...cookieOptions,
             maxAge: ONE_YEAR_MS,
           });
 
+          console.log("[AdminAuth] Login successful");
           return { success: true, user: adminUser };
         } catch (tokenError) {
           console.error("Session token creation error:", tokenError);
